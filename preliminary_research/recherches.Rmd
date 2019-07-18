@@ -136,5 +136,72 @@ grid_numbers(grid)
 
 
 À présent que la grille de jeu est générée, il faut choisir quel outil utiliser pour l'afficher à l'utilisateur. 
+Idée 1 : utiliser des polygones dans une fenêtre leaflet.
+```{r}
+library(sp)
+Sr1 = Polygon(cbind(c(1,2,2,1,1),c(1,1,2,2,1)))
+Sr2 = Polygon(cbind(c(2,3,3,2,2),c(1,1,2,2,1)))
+Sr3 = Polygon(cbind(c(1,2,2,1,1),c(2,2,3,3,2)))
+Sr4 = Polygon(cbind(c(2,3,3,2,2),c(2,2,3,3,2)))
 
+Srs1 = Polygons(list(Sr1), "s1")
+Srs2 = Polygons(list(Sr2), "s2")
+Srs3 = Polygons(list(Sr3), "s3")
+Srs4 = Polygons(list(Sr4), "s4")
+SpP = SpatialPolygons(list(Srs1,Srs2,Srs3, Srs4), 1:4)
+
+SpDf <- SpatialPolygonsDataFrame(SpP, data=data.frame(ID=c(1,2,3,4),
+                                                      display = c("M", "?", "0", "1")), match.ID = F)
+
+library(leaflet)
+leaflet(options = leafletOptions(zoomControl = FALSE,
+                                 minZoom = 5, maxZoom = 5, dragging = FALSE)) %>% 
+  addPolygons(data=SpDf, label= as.character(SpDf$display),
+              labelOptions = labelOptions(
+                  noHide = T, 
+                  textOnly = T,
+                  textsize = "15px",
+                  direction = "center"
+                  ))
+```
+
+
+```{r}
+N = 9 # dimension of the grid
+
+x <- 1:N
+y <- 1:N
+library(purrr)
+calc <- function(i, j){
+    Polygon(cbind(c(i,i+1,i+1,i,i),
+                     c(j,j,j+1,j+1,j)))
+}
+combn <- as.data.frame(expand.grid(x,y))
+res <- map2(combn$Var1, combn$Var2, calc)
+
+res2 <- lapply(1:length(res), function(i){
+    Polygons(list(res[[i]]), paste0("Sr", i))
+})
+
+SpP = SpatialPolygons(res2, 1:length(res2))
+
+SpDf <- SpatialPolygonsDataFrame(
+    SpP, 
+    data=data.frame(
+        ID=1:length(res2),
+        display = paste0("case", 1:length(res2))), 
+    match.ID = F)
+
+leaflet(options = leafletOptions(zoomControl = FALSE,
+                                 minZoom = 6.2, maxZoom = 6.2, dragging = FALSE)) %>% 
+  addPolygons(data=SpDf, label= as.character(SpDf$display),
+              labelOptions = labelOptions(
+                  noHide = T, 
+                  textOnly = T,
+                  textsize = "15px",
+                  direction = "center"
+                  ))
+
+
+```
 
