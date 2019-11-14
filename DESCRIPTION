@@ -13,5 +13,6 @@ Imports:
     purrr,
     leaflet,
     shinyMobile,
-    emo
+    emo,
+    pkgload
 RoxygenNote: 7.0.0
