@@ -1,7 +1,10 @@
 Package: deminR
 Title: deminR
 Version: 0.0.0.9000
-Authors@R: person('AUTHOR_FIRST', 'AUTHOR_LAST', email = 'AUTHOR@MAIL.COM', role = c('cre', 'aut'))
+Authors@R: c(
+        person('Gabrielle', 'Devaux', email = 'AUTHOR@MAIL.COM', role = c('cre', 'aut')),
+        person('David', 'Granjon', email = 'dgranjon@ymail.com', role = c('cre', 'aut'))
+    )
 Description: Minesweeper game inside a Shiny app.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -13,7 +16,9 @@ Imports:
     purrr,
     leaflet,
     pkgload,
-    processx
+    processx,
+    shinyMobile,
+    emo
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo
