@@ -5,14 +5,13 @@
 [![CRAN status](https://www.r-pkg.org/badges/version/deminR)](https://CRAN.R-project.org/package=deminR)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
-The goal of deminR is to ...
 
 ## Installation
 
-You can install the released version of deminR from [CRAN](https://CRAN.R-project.org) with:
+You can install the devel version of deminR from [github](https://github.com/DivadNojnarg/deminR) with:
 
 ``` r
-install.packages("deminR")
+remotes::install_github("DivadNojnarg/deminR")
 ```
 
 ## Example
@@ -22,5 +21,6 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(deminR)
 ## basic example code
+run_app()
 ```
 
