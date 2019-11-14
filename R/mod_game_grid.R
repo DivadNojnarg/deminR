@@ -76,7 +76,7 @@ mod_game_grid_server <- function(input, output, session){
                                      maxZoom = 5.8,
                                      dragging = FALSE)) %>% 
       addPolygons(data = data, 
-                  label = as.character(data$display),
+                  label = data$display,
                   layerId = data$ID,
                   options = pathOptions(className = data$ID),
                   labelOptions = labelOptions(
@@ -115,7 +115,7 @@ mod_game_grid_server <- function(input, output, session){
       if(data$hide[i]){
         res = ifelse(data$flag[i], "|>"," ")
       } else{
-        res = ifelse(data$value[i] == -999, "Ø", data$value[i])
+        res = ifelse(data$value[i] == -999, emo::ji("bomb"),  as.character(data$value[i]))
       }
       return(res)
     })

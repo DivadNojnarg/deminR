@@ -11,5 +11,7 @@ Imports:
     golem,
     sp,
     purrr,
-    leaflet
-RoxygenNote: 6.1.1
+    leaflet,
+    shinyMobile,
+    emo
+RoxygenNote: 7.0.0

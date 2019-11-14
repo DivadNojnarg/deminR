@@ -6,10 +6,7 @@
 #' @param n_mines number of mines
 #' @param grid the grid
 #' 
-#' @return
 #' @export
-#'
-#' @examples
 grid_init <- function(N){
   return(matrix(data = 0, nrow = N, ncol = N))
 }
