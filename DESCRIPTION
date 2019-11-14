@@ -2,7 +2,7 @@ Package: deminR
 Title: deminR
 Version: 0.0.0.9000
 Authors@R: c(
-        person('Gabrielle', 'Devaux', email = 'AUTHOR@MAIL.COM', role = c('cre', 'aut')),
+        person('Gabrielle', 'Devaux', email = 'AUTHOR@MAIL.COM', role = 'aut'),
         person('David', 'Granjon', email = 'dgranjon@ymail.com', role = c('cre', 'aut'))
     )
 Description: Minesweeper game inside a Shiny app.
