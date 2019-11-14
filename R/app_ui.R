@@ -29,7 +29,7 @@ app_ui <- function() {
           position = "bottom",
           f7Link(
             label = "Github", 
-            src = "https://github.com/DivadNojnarg/shinyContest2020",
+            src = "https://github.com/DivadNojnarg/deminR",
             external = TRUE,
             icon = f7Icon("ant", fill = TRUE)
           )
