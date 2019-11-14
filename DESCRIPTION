@@ -12,10 +12,11 @@ Imports:
     sp,
     purrr,
     leaflet,
-    shinyMobile,
-    emo,
     pkgload,
     processx
+Remotes: 
+    RinteRface/shinyMobile,
+    hadley/emo
 RoxygenNote: 7.0.0
 Suggests: 
     testthat
