@@ -83,7 +83,7 @@ mod_game_grid_server <- function(input, output, session){
                     noHide = TRUE, 
                     textOnly = TRUE,
                     textsize = "15px",
-                    direction = "center",
+                    direction = "center"
                   ))
   })
   
@@ -92,15 +92,17 @@ mod_game_grid_server <- function(input, output, session){
     # when left click, reveal the case
     data$hide[data$ID == input$map_grid_shape_click$id] <- FALSE
     
-    
-
+    if(data$value[data$ID == input$map_grid_shape_click$id] == 0){
+      # data <- reveal_zeros(data, input$map_grid_shape_click$id)
+      data <- reveal_onclick(data, input$map_grid_shape_click$id)
+    }
     
     SPDF$data <- data
   })
   
   observeEvent(input$right_click, {
     data <- SPDF$data
-    # when left click, flag the case
+    # when right click, flag the case
     data$flag[data$ID == input$right_click$id] <- TRUE
     SPDF$data <- data
   })
@@ -111,14 +113,25 @@ mod_game_grid_server <- function(input, output, session){
     N <- nrow(data)
     data$display <- sapply(1:N, function(i){
       if(data$hide[i]){
-        res = ifelse(data$flag[i], "F"," ")
+        res = ifelse(data$flag[i], "|>"," ")
       } else{
-        res = ifelse(data$value[i] == -999, "B", data$value[i])
+        res = ifelse(data$value[i] == -999, "Ø", data$value[i])
       }
       return(res)
     })
     SPDF$data <- data
   })
+  
+  
+  # TODO : if all bomb cases are flagged, end of the game (win)
+  
+  
+  
+  
+  
+  # TODO : if a bomb case is revealed, reveal all bomb cases and end of the game (lose)
+  
+  
   
   
 }

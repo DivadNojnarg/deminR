@@ -65,7 +65,8 @@ grid_data <- function(grid, N){
     ID=paste0("case-",1:(N*N)),
     value = as.vector(grid),
     hide = TRUE,
-    flag = FALSE)
+    flag = FALSE,
+    stringsAsFactors = FALSE)
   dt$display <- sapply(1:(N*N), function(i){
     if(dt$hide[i]){ 
       res = " "
