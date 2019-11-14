@@ -14,5 +14,8 @@ Imports:
     leaflet,
     shinyMobile,
     emo,
-    pkgload
+    pkgload,
+    processx
 RoxygenNote: 7.0.0
+Suggests: 
+    testthat

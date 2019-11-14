@@ -6,3 +6,7 @@ dev_history.R
 $run_dev.*
 ^LICENSE\.md$
 ^app\.R$
+^\.travis\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
