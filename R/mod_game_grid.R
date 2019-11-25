@@ -113,7 +113,7 @@ mod_game_grid_server <- function(input, output, session){
     N <- nrow(data)
     data$display <- sapply(1:N, function(i){
       if(data$hide[i]){
-        res = ifelse(data$flag[i], "|>"," ")
+        res = ifelse(data$flag[i], emo::ji("triangular_flag_on_post")," ")
       } else{
         res = ifelse(data$value[i] == -999, emo::ji("bomb"),  as.character(data$value[i]))
       }
