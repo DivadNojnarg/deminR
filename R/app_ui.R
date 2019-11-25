@@ -35,6 +35,15 @@ app_ui <- function() {
           )
         ),
         # main content
+        f7Row(
+          f7Col(
+            "remaining bombs"
+          ),
+          f7Col(
+            mod_timer_ui("timer_ui_1")
+          )
+        ),
+  
         mod_game_grid_ui("game_grid_ui_1")
       )
     )

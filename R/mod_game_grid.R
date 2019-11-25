@@ -7,6 +7,7 @@
 #' @param input internal
 #' @param output internal
 #' @param session internal
+#' @param r cross module variable
 #'
 #' @rdname mod_game_grid
 #'
@@ -60,24 +61,20 @@ mod_game_grid_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_game_grid_server <- function(input, output, session){
+mod_game_grid_server <- function(input, output, session, r){
   ns <- session$ns
   
   # generate game grid
   SPDF <- reactiveValues(data = generate_spatial_grid(9,10))
   
-  # reactive to know when the game is lost or won
-  playing <- reactiveValues(play = "onload")
-  
-
   # generate the map of the polygon
-  # TODO : how to avoid the map to move when double click ?
   output$map_grid <- renderLeaflet({
     data <- SPDF$data
     leaflet(options = leafletOptions(zoomControl = FALSE,
                                      minZoom = 5.8,
                                      maxZoom = 5.8,
-                                     dragging = FALSE)) %>% 
+                                     dragging = FALSE,
+                                     doubleClickZoom= FALSE)) %>% 
       addPolygons(data = data, 
                   label = data$display,
                   layerId = data$ID,
@@ -95,7 +92,7 @@ mod_game_grid_server <- function(input, output, session){
   
   ### Actions after a left click on a case
   observeEvent(input$map_grid_shape_click, {
-    if(playing$play == "onload"){
+    if(r$mod_grid$playing  == "onload"){
       
       data <- SPDF$data
       ind <- data$ID == input$map_grid_shape_click$id
@@ -111,7 +108,7 @@ mod_game_grid_server <- function(input, output, session){
       # if it is a bomb, reveal all other bombs and stop the game
       if(data$value[ind] == -999){
         data$hide[data$value == -999] <- FALSE
-        playing$play <- "loose" 
+        r$mod_grid$playing  <- "loose" 
       }
       
       data$display[!data$hide] <- data$todisplay[!data$hide]
@@ -125,7 +122,7 @@ mod_game_grid_server <- function(input, output, session){
   
   ### Actions after en right click on a case
   observeEvent(input$right_click, {
-    if(playing$play == "onload"){
+    if(r$mod_grid$playing  == "onload"){
       data <- SPDF$data
       # when right click, flag or unflag the case
       ind <- data$ID == input$right_click$id
@@ -141,7 +138,11 @@ mod_game_grid_server <- function(input, output, session){
   # TODO : if all bomb cases are flagged, end of the game (win)
   
 
-  
+  observe({
+    if(any(!SPDF$data$hide)){
+      r$mod_grid$start  <- TRUE
+    }
+  })
   
 }
     
@@ -151,3 +152,16 @@ mod_game_grid_server <- function(input, output, session){
 ## To be copied in the server
 # callModule(mod_game_grid_server, "game_grid_ui_1")
 
+# library(shiny)
+# library(leaflet)
+# 
+# if (interactive()){
+#  ui <- fluidPage(
+#    mod_game_grid_ui("test")
+#  )
+#  server <- function(input, output, session) {
+#    callModule(mod_game_grid_server, "test")
+# 
+#  }
+#  shinyApp(ui, server)
+# }

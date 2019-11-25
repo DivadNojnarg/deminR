@@ -18,7 +18,8 @@ Imports:
     pkgload,
     processx,
     shinyMobile,
-    emo
+    emo,
+    lubridate
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo
