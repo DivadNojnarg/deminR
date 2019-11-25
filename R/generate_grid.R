@@ -63,14 +63,15 @@ grid_data <- function(grid, N){
     value = as.vector(grid),
     hide = TRUE,
     flag = FALSE,
+    color = '#0f3a4a',
+    fillcolor = '#0f3a4a',
+    todisplay = as.vector(grid),  # what should be displayed if clicked
+    display = " ", # actual display on the grid
     stringsAsFactors = FALSE)
-  dt$display <- sapply(1:(N*N), function(i){
-    if(dt$hide[i]){ 
-      res = " "
-    } else{
-      res = dt$value[i]
-    }
-  })
+  
+  dt$todisplay[dt$value == -999] = emo::ji("bomb")
+  dt$todisplay[dt$value == 0] = " "
+  
   return(dt)
 }
 

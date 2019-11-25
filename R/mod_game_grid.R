@@ -78,6 +78,8 @@ mod_game_grid_server <- function(input, output, session){
       addPolygons(data = data, 
                   label = data$display,
                   layerId = data$ID,
+                  color = data$color,
+                  fillColor = data$fillcolor,
                   options = pathOptions(className = data$ID),
                   labelOptions = labelOptions(
                     noHide = TRUE, 
@@ -87,41 +89,42 @@ mod_game_grid_server <- function(input, output, session){
                   ))
   })
   
+  
+  ### Actions after a left click on a case
   observeEvent(input$map_grid_shape_click, {
     data <- SPDF$data
+    ind <- data$ID == input$map_grid_shape_click$id
     # when left click, reveal the case
-    data$hide[data$ID == input$map_grid_shape_click$id] <- FALSE
+    data$hide[ind] <- FALSE
+    data$display[ind] <- data$todisplay[ind]
     
-    if(data$value[data$ID == input$map_grid_shape_click$id] == 0){
-      # data <- reveal_zeros(data, input$map_grid_shape_click$id)
+    # if it is a zero, reveal the neighbours
+    if(data$value[ind] == 0){
       data <- reveal_onclick(data, input$map_grid_shape_click$id)
     }
     
+    data$display[!data$hide] <- data$todisplay[!data$hide]
+    # data$color[!data$hide] <- '#d5e6f1'
+    data$fillcolor[!data$hide] <- '#d5e6f1'
+    
+    # if it is a bomb, reveal all other bombs and stop the game
+    
     SPDF$data <- data
   })
   
+  
+  ### Actions after en right click on a case
   observeEvent(input$right_click, {
     data <- SPDF$data
-    # when right click, flag the case
-    data$flag[data$ID == input$right_click$id] <- TRUE
+    # when right click, flag or unflag the case
+    ind <- data$ID == input$right_click$id
+    if(data$hide[ind]){ # an already revealed case cannot be flagged
+      data$flag[ind] <- !data$flag[ind]
+      data$display[ind] <- ifelse(data$flag[ind],emo::ji("triangular_flag_on_post"), " ")
+    }
     SPDF$data <- data
   })
  
-  # refresh the display at each change of the dataset
-  observe({
-    data <- SPDF$data
-    N <- nrow(data)
-    data$display <- sapply(1:N, function(i){
-      if(data$hide[i]){
-        res = ifelse(data$flag[i], emo::ji("triangular_flag_on_post")," ")
-      } else{
-        res = ifelse(data$value[i] == -999, emo::ji("bomb"),  as.character(data$value[i]))
-      }
-      return(res)
-    })
-    SPDF$data <- data
-  })
-  
   
   # TODO : if all bomb cases are flagged, end of the game (win)
   
