@@ -66,6 +66,9 @@ mod_game_grid_server <- function(input, output, session){
   # generate game grid
   SPDF <- reactiveValues(data = generate_spatial_grid(9,10))
   
+  # reactive to know when the game is lost or won
+  playing <- reactiveValues(play = "onload")
+  
 
   # generate the map of the polygon
   # TODO : how to avoid the map to move when double click ?
@@ -92,49 +95,52 @@ mod_game_grid_server <- function(input, output, session){
   
   ### Actions after a left click on a case
   observeEvent(input$map_grid_shape_click, {
-    data <- SPDF$data
-    ind <- data$ID == input$map_grid_shape_click$id
-    # when left click, reveal the case
-    data$hide[ind] <- FALSE
-    data$display[ind] <- data$todisplay[ind]
-    
-    # if it is a zero, reveal the neighbours
-    if(data$value[ind] == 0){
-      data <- reveal_onclick(data, input$map_grid_shape_click$id)
+    if(playing$play == "onload"){
+      
+      data <- SPDF$data
+      ind <- data$ID == input$map_grid_shape_click$id
+      # when left click, reveal the case
+      data$hide[ind] <- FALSE
+      data$display[ind] <- data$todisplay[ind]
+      
+      # if it is a zero, reveal the neighbours
+      if(data$value[ind] == 0){
+        data <- reveal_onclick(data, input$map_grid_shape_click$id)
+      }
+      
+      # if it is a bomb, reveal all other bombs and stop the game
+      if(data$value[ind] == -999){
+        data$hide[data$value == -999] <- FALSE
+        playing$play <- "loose" 
+      }
+      
+      data$display[!data$hide] <- data$todisplay[!data$hide]
+      # data$color[!data$hide] <- '#d5e6f1'
+      data$fillcolor[!data$hide] <- '#d5e6f1'
+      
+      SPDF$data <- data
     }
-    
-    data$display[!data$hide] <- data$todisplay[!data$hide]
-    # data$color[!data$hide] <- '#d5e6f1'
-    data$fillcolor[!data$hide] <- '#d5e6f1'
-    
-    # if it is a bomb, reveal all other bombs and stop the game
-    
-    SPDF$data <- data
   })
   
   
   ### Actions after en right click on a case
   observeEvent(input$right_click, {
-    data <- SPDF$data
-    # when right click, flag or unflag the case
-    ind <- data$ID == input$right_click$id
-    if(data$hide[ind]){ # an already revealed case cannot be flagged
-      data$flag[ind] <- !data$flag[ind]
-      data$display[ind] <- ifelse(data$flag[ind],emo::ji("triangular_flag_on_post"), " ")
+    if(playing$play == "onload"){
+      data <- SPDF$data
+      # when right click, flag or unflag the case
+      ind <- data$ID == input$right_click$id
+      if(data$hide[ind]){ # an already revealed case cannot be flagged
+        data$flag[ind] <- !data$flag[ind]
+        data$display[ind] <- ifelse(data$flag[ind],emo::ji("triangular_flag_on_post"), " ")
+      }
+      SPDF$data <- data
     }
-    SPDF$data <- data
   })
  
   
   # TODO : if all bomb cases are flagged, end of the game (win)
   
-  
-  
-  
-  
-  # TODO : if a bomb case is revealed, reveal all bomb cases and end of the game (lose)
-  
-  
+
   
   
 }
