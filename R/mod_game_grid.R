@@ -135,13 +135,26 @@ mod_game_grid_server <- function(input, output, session, r){
   })
  
   
-  # TODO : if all bomb cases are flagged, end of the game (win)
+  # If all bomb cases are hidden and all other cases are revealed, end of the game (win)
+  observe({
+    data <- SPDF$data
+    data_bombs <- data[data$value == -999,]
+    data_not_bombs <- data[data$value != -999,]
+    
+    if(all(!data_not_bombs$hide) & all(data_bombs$hide)){
+      r$mod_grid$playing  = "won"
+    }
+  })
   
-
+  # Start the timer when user first click on the grid
   observe({
     if(any(!SPDF$data$hide)){
       r$mod_grid$start  <- TRUE
     }
+  })
+  
+  observe({
+    r$mod_grid$data <- SPDF$data
   })
   
 }
