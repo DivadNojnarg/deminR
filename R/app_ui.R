@@ -37,7 +37,7 @@ app_ui <- function() {
         # main content
         f7Row(
           f7Col(
-            "remaining bombs"
+            mod_bomb_counter_ui("bomb_counter_ui_1")
           ),
           f7Col(
             mod_timer_ui("timer_ui_1")
