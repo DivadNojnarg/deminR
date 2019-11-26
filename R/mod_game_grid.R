@@ -65,14 +65,14 @@ mod_game_grid_server <- function(input, output, session, r){
   ns <- session$ns
   
   # generate game grid
-  SPDF <- reactiveValues(data = generate_spatial_grid(9,10))
+  SPDF <- reactiveValues(data = generate_spatial_grid(N = 16, n_mines = 40))
   
   # generate the map of the polygon
   output$map_grid <- renderLeaflet({
     data <- SPDF$data
     leaflet(options = leafletOptions(zoomControl = FALSE,
-                                     minZoom = 5.8,
-                                     maxZoom = 5.8,
+                                     minZoom = 5.1,
+                                     maxZoom = 5.1,
                                      dragging = FALSE,
                                      doubleClickZoom= FALSE)) %>% 
       addPolygons(data = data, 
@@ -102,7 +102,7 @@ mod_game_grid_server <- function(input, output, session, r){
       
       # if it is a zero, reveal the neighbours
       if(data$value[ind] == 0){
-        data <- reveal_onclick(data, input$map_grid_shape_click$id)
+        data <- reveal_onclick(data, input$map_grid_shape_click$id, N = 16)
       }
       
       # if it is a bomb, reveal all other bombs and stop the game
