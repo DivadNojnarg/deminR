@@ -63,16 +63,14 @@ mod_game_grid_ui <- function(id){
     
 mod_game_grid_server <- function(input, output, session, r){
   ns <- session$ns
-  
-  # generate game grid
-  SPDF <- reactiveValues(data = generate_spatial_grid(N = 16, n_mines = 40))
+
   
   # generate the map of the polygon
   output$map_grid <- renderLeaflet({
-    data <- SPDF$data
+    data <- r$mod_grid$data
     leaflet(options = leafletOptions(zoomControl = FALSE,
-                                     minZoom = 5.1,
-                                     maxZoom = 5.1,
+                                     minZoom = r$settings$Zoom,
+                                     maxZoom = r$settings$Zoom,
                                      dragging = FALSE,
                                      doubleClickZoom= FALSE)) %>% 
       addPolygons(data = data, 
@@ -94,7 +92,7 @@ mod_game_grid_server <- function(input, output, session, r){
   observeEvent(input$map_grid_shape_click, {
     if(r$mod_grid$playing  == "onload"){
       
-      data <- SPDF$data
+      data <- r$mod_grid$data
       ind <- data$ID == input$map_grid_shape_click$id
       # when left click, reveal the case
       data$hide[ind] <- FALSE
@@ -102,7 +100,7 @@ mod_game_grid_server <- function(input, output, session, r){
       
       # if it is a zero, reveal the neighbours
       if(data$value[ind] == 0){
-        data <- reveal_onclick(data, input$map_grid_shape_click$id, N = 16)
+        data <- reveal_onclick(data, input$map_grid_shape_click$id, N = r$settings$Size)
       }
       
       # if it is a bomb, reveal all other bombs and stop the game
@@ -115,7 +113,7 @@ mod_game_grid_server <- function(input, output, session, r){
       # data$color[!data$hide] <- '#d5e6f1'
       data$fillcolor[!data$hide] <- '#d5e6f1'
       
-      SPDF$data <- data
+      r$mod_grid$data<- data
     }
   })
   
@@ -123,21 +121,21 @@ mod_game_grid_server <- function(input, output, session, r){
   ### Actions after en right click on a case
   observeEvent(input$right_click, {
     if(r$mod_grid$playing  == "onload"){
-      data <- SPDF$data
+      data <- r$mod_grid$data
       # when right click, flag or unflag the case
       ind <- data$ID == input$right_click$id
       if(data$hide[ind]){ # an already revealed case cannot be flagged
         data$flag[ind] <- !data$flag[ind]
         data$display[ind] <- ifelse(data$flag[ind],emo::ji("triangular_flag_on_post"), " ")
       }
-      SPDF$data <- data
+      r$mod_grid$data<- data
     }
   })
  
   
-  # If all bomb cases are hidden and all other cases are revealed, end of the game (win)
+  ### If all bomb cases are hidden and all other cases are revealed, end of the game (win)
   observe({
-    data <- SPDF$data
+    data <- r$mod_grid$data
     data_bombs <- data[data$value == -999,]
     data_not_bombs <- data[data$value != -999,]
     
@@ -146,15 +144,11 @@ mod_game_grid_server <- function(input, output, session, r){
     }
   })
   
-  # Start the timer when user first click on the grid
+  ### Start the timer when user first click on the grid
   observe({
-    if(any(!SPDF$data$hide)){
+    if(any(!r$mod_grid$data$hide)){
       r$mod_grid$start  <- TRUE
     }
-  })
-  
-  observe({
-    r$mod_grid$data <- SPDF$data
   })
   
 }
@@ -164,17 +158,3 @@ mod_game_grid_server <- function(input, output, session, r){
     
 ## To be copied in the server
 # callModule(mod_game_grid_server, "game_grid_ui_1")
-
-# library(shiny)
-# library(leaflet)
-# 
-# if (interactive()){
-#  ui <- fluidPage(
-#    mod_game_grid_ui("test")
-#  )
-#  server <- function(input, output, session) {
-#    callModule(mod_game_grid_server, "test")
-# 
-#  }
-#  shinyApp(ui, server)
-# }

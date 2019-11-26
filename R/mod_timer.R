@@ -34,14 +34,17 @@ mod_timer_server <- function(input, output, session, r){
   # initialize timer activation
   active <- reactiveVal(FALSE)
   
+
   # activate the timer
   observeEvent(r$mod_grid$start, {
-    active(TRUE)
+    if(r$mod_grid$start){active(TRUE)} else{
+      active(FALSE)
+    }
   })
   
   # Output the timer
   output$timeleft <- renderUI({
-    HTML(paste("<p>", as.character(r$mod_timer$seconds/100), "s", "</p>"))
+    HTML(paste("<p>", format(r$mod_timer$seconds/100, nsmall = 2), "s", "</p>"))
   })
   
   # observer that invalidates every 0.01 second. If timer is active, increase by one.
@@ -49,7 +52,7 @@ mod_timer_server <- function(input, output, session, r){
     invalidateLater(10, session)
     isolate({
       if (active() & r$mod_grid$playing == "onload") {
-        r$mod_timer$seconds <- r$mod_timer$seconds +1
+        r$mod_timer$seconds <- r$mod_timer$seconds + 1
       }
     })
   })

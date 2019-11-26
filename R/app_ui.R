@@ -34,17 +34,32 @@ app_ui <- function() {
             icon = f7Icon("ant", fill = TRUE)
           )
         ),
+        
+        # Choose difficulty
+        
+        f7Select(
+          inputId = "level",
+          label = "Choose diffuculty",
+          choices = difficulty$Level
+        ),
+        
         # main content
         f7Row(
           f7Col(
             mod_bomb_counter_ui("bomb_counter_ui_1")
           ),
           f7Col(
+            f7Button(inputId = "reload", label = "Reload")
+          ),
+          f7Col(
             mod_timer_ui("timer_ui_1")
           )
         ),
   
-        mod_game_grid_ui("game_grid_ui_1")
+        mod_game_grid_ui("game_grid_ui_1"),
+        f7Row(
+          ""
+        )
       )
     )
   )
