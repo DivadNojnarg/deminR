@@ -41,12 +41,12 @@ mod_timer_server <- function(input, output, session, r){
   
   # Output the timer
   output$timeleft <- renderUI({
-    HTML(paste("<p>", seconds_to_period(r$mod_timer$seconds), "</p>"))
+    HTML(paste("<p>", as.character(r$mod_timer$seconds/100), "s", "</p>"))
   })
   
-  # observer that invalidates every second. If timer is active, increase by one.
+  # observer that invalidates every 0.01 second. If timer is active, increase by one.
   observe({
-    invalidateLater(1000, session)
+    invalidateLater(10, session)
     isolate({
       if (active() & r$mod_grid$playing == "onload") {
         r$mod_timer$seconds <- r$mod_timer$seconds +1
