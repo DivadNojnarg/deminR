@@ -22,10 +22,12 @@ Imports:
     lubridate,
     ethercalc,
     readr,
-    shinyjs
+    shinyjs,
+    dplyr,
+    DT
 Remotes: 
     RinteRface/shinyMobile,
-    hadley/emo
+    hadley/emo,
     hrbrmstr/ethercalc
 RoxygenNote: 7.0.0
 Suggests: 

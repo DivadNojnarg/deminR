@@ -15,9 +15,10 @@
 #' @importFrom shiny NS tagList 
 #' @importFrom shinyMobile f7Row f7Col
 #' @importFrom ethercalc ec_edit ec_read
-#' @importFrom dplyr select mutate filter arrange
+#' @importFrom dplyr select_at mutate_at filter_at arrange_at vars
 #' @importFrom readr cols col_character
 #' @importFrom shinyjs click
+#' @importFrom utils read.table
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -89,10 +90,11 @@ mod_display_scores_server <- function(input, output, session, r){
   output$score_ <- DT::renderDataTable({
     if(!is.null(score_table$table)){
       score_table$table %>%
-        filter(Difficulty == r$settings$Level) %>%
-        select(Date, Nickname, Score) %>%
-        mutate(Date = gsub("_", "-", Date)) %>%
-        arrange(Score)
+        # filter_at(vars("Difficulty"), ~ . == r$settings$Level) %>%
+        filter_at(vars("Difficulty"), ~ . == "Beginner") %>%
+        select_at(vars("Date", "Nickname", "Score")) %>%
+        mutate_at(vars("Date"), list(~gsub("_", "-", .))) %>%
+        arrange_at(vars("Score"))
     } else{
       data.frame(Score = "No data available")
     }

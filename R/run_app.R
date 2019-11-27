@@ -1,5 +1,9 @@
 #' Run the Shiny Application
-#'
+#' 
+#' @param usecase usecase
+#' @param ec_host ethercalc host
+#' @param ec_room ethercalc room
+#' 
 #' @export
 #' @importFrom shiny shinyApp
 #' @importFrom golem with_golem_options
