@@ -9,4 +9,5 @@ golem::detach_all_attached()
 golem::document_and_reload()
 
 # Run the application
-deminR::run_app()
+deminR::run_app(usecase = "online", ec_host = "https://ethercalc.org", ec_room = "v6p3ec82vl5b")
+# deminR::run_app(usecase = "local")

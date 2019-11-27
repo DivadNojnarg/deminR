@@ -19,10 +19,14 @@ Imports:
     processx,
     shinyMobile,
     emo,
-    lubridate
+    lubridate,
+    ethercalc,
+    readr,
+    shinyjs
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo
+    hrbrmstr/ethercalc
 RoxygenNote: 7.0.0
 Suggests: 
     testthat

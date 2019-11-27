@@ -1,0 +1,6 @@
+Nickname;Difficulty;Score;Date
+Init;Beginner;3600.01;2019_11_26
+Init;Intermediate;3600.01;2019_11_26
+Init;Advanced;3600.01;2019_11_26
+Init;Advanced;3601.01;2019_11_26
+

@@ -15,7 +15,7 @@ app_server <- function(input, output, session) {
     r$settings <- difficulty[difficulty$Level == input$level,]
   })
 
-  ### Reset parameters when the user changes the deifficulty or clicks on reload button
+  ### Reset parameters when the user changes the difficulty or clicks on reload button
   observeEvent({
     r$settings
     input$reload
@@ -44,5 +44,10 @@ app_server <- function(input, output, session) {
              id = "bomb_counter_ui_1",
              session = session,
              r = r)
-
+  ### Score module
+  callModule(mod_display_scores_server, 
+             id = "display_scores_ui_1",
+             session = session,
+             r = r)
+  
   }

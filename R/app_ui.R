@@ -3,6 +3,7 @@ app_ui <- function() {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
+    shinyjs::useShinyjs(),
     # List the first level UI elements here 
     f7Page(
       title = "deminR",
@@ -35,12 +36,22 @@ app_ui <- function() {
           )
         ),
         
-        # Choose difficulty
-        
-        f7Select(
-          inputId = "level",
-          label = "Choose diffuculty",
-          choices = difficulty$Level
+       
+        f7Row(
+          f7Col(
+            " "
+          ),
+          f7Col(
+            # Choose difficulty
+            f7Select(
+              inputId = "level",
+              label = "Choose diffuculty",
+              choices = difficulty$Level
+            )
+          ),
+          f7Col(
+            " "
+          )
         ),
         
         # main content
@@ -55,11 +66,20 @@ app_ui <- function() {
             mod_timer_ui("timer_ui_1")
           )
         ),
-  
-        mod_game_grid_ui("game_grid_ui_1"),
         f7Row(
-          ""
-        )
+          f7Col(
+            " "
+          ),
+          f7Col(
+            mod_game_grid_ui("game_grid_ui_1")
+          ),
+          f7Col(
+            " "
+          )
+        ),
+        
+        mod_display_scores_ui("display_scores_ui_1")
+        
       )
     )
   )
