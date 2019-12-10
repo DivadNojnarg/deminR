@@ -17,6 +17,8 @@ mod_display_scores_server(input, output, session, r)
 \item{output}{internal}
 
 \item{session}{internal}
+
+\item{r}{cross module variable}
 }
 \description{
 A shiny Module.
