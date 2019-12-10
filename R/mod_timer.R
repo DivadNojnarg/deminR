@@ -44,7 +44,7 @@ mod_timer_server <- function(input, output, session, r){
   
   # Output the timer
   output$timeleft <- renderUI({
-    HTML(paste("<p>", format(r$mod_timer$seconds/100, nsmall = 2), "s", "</p>"))
+    HTML(paste("<h2>",format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
   })
   
   # observer that invalidates every 0.01 second. If timer is active, increase by one.

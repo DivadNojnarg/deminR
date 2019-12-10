@@ -33,7 +33,7 @@ mod_bomb_counter_server <- function(input, output, session, r){
   output$bombs <- renderUI({
     res <- r$mod_grid$data
     n_b <- sum(res$value == -999)
-    HTML(paste(n_b - sum(res$flag)))
+    HTML(paste("<h2>",n_b - sum(res$flag & res$hide)),"</h2>")
   })
   
 }
