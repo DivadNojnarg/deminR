@@ -1,6 +1,22 @@
 #' @import shiny
+#' @importFrom shinyMobile f7Dialog
 app_server <- function(input, output, session) {
 
+  
+  # Dialog for mineSweepeR rules
+  observeEvent(input$help,{
+    f7Dialog(
+      inputId = "prompt",
+      title = "Minesweeper rules",
+      type = "prompt",
+      text = "Some text about the minesweeper rules.",
+      session = session
+    )
+  })
+  
+  output$res <- renderUI(f7BlockTitle(title = input$prompt, size = "large"))
+  
+  
   ### reactiveValues to communicate between all modules
   # 'strategie du petit r'
   r <- reactiveValues(

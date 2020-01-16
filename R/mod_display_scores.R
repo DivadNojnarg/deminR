@@ -29,6 +29,9 @@ mod_display_scores_ui <- function(id){
         ""
       ),
       f7Col(
+        uiOutput(ns("victory")),
+        uiOutput(ns("failure")),
+        tags$br(),
         f7Text(inputId = ns("nickname"), label = "Nickname"),
         uiOutput(ns("nickname_warning")),
         tags$br(),
@@ -91,6 +94,7 @@ mod_display_scores_server <- function(input, output, session, r){
 
   })
   
+  # click so the table is loaded at the launch of the app and doesn't cause the "ajax problem error" or smthg
   observe({
     shinyjs::click("refresh")
   })
@@ -110,16 +114,36 @@ mod_display_scores_server <- function(input, output, session, r){
   # Display the score saving only if the game is won
   observe({
     if(r$mod_grid$playing == "won"){
+      shinyjs::show("victory")
       shinyjs::show("nickname")
       shinyjs::show("save")
       shinyjs::enable("save")
+      shinyjs::hide("failure")
     }
-    if(r$mod_grid$playing %in% c("loose", "onload")){
+    if(r$mod_grid$playing == "onload"){
       shinyjs::hide("nickname")
+      shinyjs::hide("victory")
       shinyjs::hide("save")
+      shinyjs::hide("failure")
     }
+    if(r$mod_grid$playing == "loose"){
+      shinyjs::hide("nickname")
+      shinyjs::hide("victory")
+      shinyjs::hide("save")
+      shinyjs::show("failure")
+    }
+    
+    
   })
   
+  
+  output$victory <- renderUI({
+    "Well played !"
+  })
+  
+  output$failure <- renderUI({
+    "Try again ..."
+  })
   
   observeEvent(input$save, {
     if(valid_nickname(input$nickname)){

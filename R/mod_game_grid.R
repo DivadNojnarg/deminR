@@ -103,15 +103,17 @@ mod_game_grid_server <- function(input, output, session, r){
         data <- reveal_onclick(data, input$map_grid_shape_click$id, N = r$settings$Size)
       }
       
+      data$display[!data$hide] <- data$todisplay[!data$hide]
+      data$fillcolor[!data$hide] <- '#d5e6f1'
+      
       # if it is a bomb, reveal all other bombs and stop the game
       if(data$value[ind] == -999){
         data$hide[data$value == -999] <- FALSE
+        data$display[!data$hide] <- data$todisplay[!data$hide]
+        data$fillcolor[!data$hide] <- '#d5e6f1'
+        data$fillcolor[ind] <- "#b00000"
         r$mod_grid$playing  <- "loose" 
       }
-      
-      data$display[!data$hide] <- data$todisplay[!data$hide]
-      # data$color[!data$hide] <- '#d5e6f1'
-      data$fillcolor[!data$hide] <- '#d5e6f1'
       
       r$mod_grid$data<- data
     }

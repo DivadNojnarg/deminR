@@ -42,6 +42,10 @@ app_ui <- function() {
             " "
           ),
           f7Col(
+            # Game rules
+            f7Button(inputId = "help", "Help"),
+            uiOutput("res"),
+            
             # Choose difficulty
             f7Select(
               inputId = "level",
