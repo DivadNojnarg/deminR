@@ -19,7 +19,7 @@
 #' @importFrom dplyr select_at mutate_at filter_at arrange_at vars
 #' @importFrom readr cols col_character
 #' @importFrom shinyjs click hide show enable disable
-#' @importFrom utils read.table
+#' @importFrom utils read.table write.table
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
