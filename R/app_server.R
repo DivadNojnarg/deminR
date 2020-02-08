@@ -7,7 +7,8 @@ app_server <- function(input, output, session) {
   r <- reactiveValues(
     mod_grid = reactiveValues(playing = "onload", start = FALSE),
     mod_timer = reactiveValues(),
-    mod_bomb = reactiveValues()
+    mod_bomb = reactiveValues(),
+    mod_welcome = reactiveValues(firstVisit = TRUE)
   )
 
   ### The user chooses a difficutlty and it determines several parameters :
@@ -28,6 +29,12 @@ app_server <- function(input, output, session) {
     # generate game grid
     r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
   })
+  
+  # welcome module
+  callModule(mod_welcome_server, "welcome_ui_1", r = r)
+  
+  ### Help module
+  callModule(mod_help_server, "help_ui_1")
   
   ### Grid module
   callModule(mod_game_grid_server, 
@@ -50,8 +57,5 @@ app_server <- function(input, output, session) {
              id = "display_scores_ui_1",
              session = session,
              r = r)
-  
-  ### Help module
-  callModule(mod_help_server, "help_ui_1")
   
   }
