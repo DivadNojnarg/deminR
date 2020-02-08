@@ -66,4 +66,7 @@ app_server <- function(input, output, session) {
              session = session,
              r = r)
   
+  ### Help module
+  callModule(mod_help_server, "help_ui_1")
+  
   }

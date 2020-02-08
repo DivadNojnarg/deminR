@@ -29,6 +29,6 @@ Remotes:
     RinteRface/shinyMobile,
     hadley/emo,
     hrbrmstr/ethercalc
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.2
 Suggests: 
     testthat

@@ -10,8 +10,8 @@ app_ui <- function() {
       init = f7Init(
         skin = "auto",
         theme = "dark",
-        filled = TRUE,
-        color = "orange",
+        filled = FALSE,
+        color = "pink",
         tapHold = TRUE,
         iosTouchRipple = TRUE,
         iosCenterTitle = TRUE,
@@ -24,8 +24,11 @@ app_ui <- function() {
         navbar = f7Navbar(
           title = "deminR",
           hairline = FALSE,
-          shadow = TRUE
+          shadow = TRUE,
+          bigger = TRUE,
+          left_panel = TRUE
         ),
+        panels = mod_help_ui("help_ui_1"),
         toolbar = f7Toolbar(
           position = "bottom",
           f7Link(

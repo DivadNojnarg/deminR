@@ -1,7 +1,7 @@
 
 # deminR
 
-[![Travis build status](https://travis-ci.org/DivadNojnarg/shinyContest2020.svg?branch=master)](https://travis-ci.org/DivadNojnarg/shinyContest2020)
+[![Travis Build Status](https://travis-ci.org/DivadNojnarg/deminR.svg?branch=master)](https://travis-ci.org/DivadNojnarg/deminR)
 [![CRAN status](https://www.r-pkg.org/badges/version/deminR)](https://CRAN.R-project.org/package=deminR)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
