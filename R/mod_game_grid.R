@@ -1,5 +1,5 @@
 # Module UI
-  
+
 #' @title   mod_game_grid_ui and mod_game_grid_server
 #' @description  A shiny Module.
 #'
@@ -54,16 +54,16 @@ mod_game_grid_ui <- function(id){
     )
   )
 }
-    
+
 # Module Server
-    
+
 #' @rdname mod_game_grid
 #' @export
 #' @keywords internal
-    
+
 mod_game_grid_server <- function(input, output, session, r){
   ns <- session$ns
-
+  
   
   # generate the map of the polygon
   output$map_grid <- renderLeaflet({
@@ -133,7 +133,7 @@ mod_game_grid_server <- function(input, output, session, r){
       r$mod_grid$data<- data
     }
   })
- 
+  
   
   ### If all bomb cases are hidden and all other cases are revealed, end of the game (win)
   observe({
@@ -153,10 +153,16 @@ mod_game_grid_server <- function(input, output, session, r){
     }
   })
   
+  
+  observeEvent(r$mod_welcome$firstVisit, {
+    shinyjs::hide(selector = ".leaflet-control-attribution")
+    shinyjs::addCssClass(id = "map_grid", class = "darkleaflet")
+  })
+  
 }
-    
+
 ## To be copied in the UI
 # mod_game_grid_ui("game_grid_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_game_grid_server, "game_grid_ui_1")
