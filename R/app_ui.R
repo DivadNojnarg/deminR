@@ -8,14 +8,14 @@ app_ui <- function() {
     f7Page(
       title = "deminR",
       init = f7Init(
-        skin = "md",
-        theme = "light",
+        skin = "auto",
+        theme = "dark",
         filled = TRUE,
-        color = NULL,
+        color = "orange",
         tapHold = TRUE,
-        iosTouchRipple = FALSE,
+        iosTouchRipple = TRUE,
         iosCenterTitle = TRUE,
-        iosTranslucentBars = FALSE,
+        iosTranslucentBars = TRUE,
         hideNavOnPageScroll = TRUE,
         hideTabsOnPageScroll = FALSE,
         serviceWorker = NULL
