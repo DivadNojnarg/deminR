@@ -20,7 +20,7 @@ app_ui <- function() {
         hideTabsOnPageScroll = FALSE,
         serviceWorker = NULL
       ),
-      f7SingleLayout(
+      f7TabLayout(
         navbar = f7Navbar(
           title = "deminR",
           hairline = FALSE,
@@ -28,7 +28,7 @@ app_ui <- function() {
           bigger = TRUE,
           left_panel = TRUE
         ),
-        panels = mod_help_ui("help_ui_1"),
+        panels = mod_help_ui("help_ui_1")[[1]],
         toolbar = f7Toolbar(
           position = "bottom",
           f7Link(
@@ -39,54 +39,59 @@ app_ui <- function() {
           )
         ),
         
-       
-        f7Row(
-          f7Col(
-            " "
-          ),
-          f7Col(
-            # Game rules
-            f7Button(inputId = "help", "Help"),
-            uiOutput("res"),
+        f7Tabs(
+          id = "tabset",
+          swipeable = TRUE,
+          animated = FALSE,
+          .items = mod_help_ui("help_ui_1")[[2]],
+          f7Tab(
+            tabName = "main",
+            active = TRUE,
+            icon = NULL,
+            f7Row(
+              f7Col(
+                " "
+              ),
+              f7Col(
+                # Choose difficulty
+                f7Select(
+                  inputId = "level",
+                  label = "Choose diffuculty",
+                  choices = difficulty$Level
+                )
+              ),
+              f7Col(
+                " "
+              )
+            ),
             
-            # Choose difficulty
-            f7Select(
-              inputId = "level",
-              label = "Choose diffuculty",
-              choices = difficulty$Level
-            )
-          ),
-          f7Col(
-            " "
+            # main content
+            f7Row(
+              f7Col(
+                mod_bomb_counter_ui("bomb_counter_ui_1")
+              ),
+              f7Col(
+                f7Button(inputId = "reload", label = "Reload")
+              ),
+              f7Col(
+                mod_timer_ui("timer_ui_1")
+              )
+            ),
+            f7Row(
+              f7Col(
+                " "
+              ),
+              f7Col(
+                mod_game_grid_ui("game_grid_ui_1")
+              ),
+              f7Col(
+                " "
+              )
+            ),
+            
+            mod_display_scores_ui("display_scores_ui_1")
           )
-        ),
-        
-        # main content
-        f7Row(
-          f7Col(
-            mod_bomb_counter_ui("bomb_counter_ui_1")
-          ),
-          f7Col(
-            f7Button(inputId = "reload", label = "Reload")
-          ),
-          f7Col(
-            mod_timer_ui("timer_ui_1")
-          )
-        ),
-        f7Row(
-          f7Col(
-            " "
-          ),
-          f7Col(
-            mod_game_grid_ui("game_grid_ui_1")
-          ),
-          f7Col(
-            " "
-          )
-        ),
-        
-        mod_display_scores_ui("display_scores_ui_1")
-        
+        )
       )
     )
   )
@@ -98,7 +103,7 @@ golem_add_external_resources <- function(){
   addResourcePath(
     'www', system.file('app/www', package = 'deminR')
   )
- 
+  
   tags$head(
     golem::activate_js(),
     # Add here all the external resources
