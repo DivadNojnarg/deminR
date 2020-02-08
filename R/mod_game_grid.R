@@ -72,7 +72,8 @@ mod_game_grid_server <- function(input, output, session, r){
                                      minZoom = r$settings$Zoom,
                                      maxZoom = r$settings$Zoom,
                                      dragging = FALSE,
-                                     doubleClickZoom= FALSE)) %>% 
+                                     doubleClickZoom = FALSE,
+                                     attributionControl = FALSE)) %>% 
       addPolygons(data = data, 
                   label = data$display,
                   layerId = data$ID,
@@ -155,7 +156,6 @@ mod_game_grid_server <- function(input, output, session, r){
   
   
   observeEvent(r$mod_welcome$firstVisit, {
-    shinyjs::hide(selector = ".leaflet-control-attribution")
     shinyjs::addCssClass(id = "map_grid", class = "darkleaflet")
   })
   
