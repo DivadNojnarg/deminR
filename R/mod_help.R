@@ -29,6 +29,10 @@ mod_help_ui <- function(id){
     "tab-link"
   )
   
+  # Part of the UI goes in the left panel
+  # The button goes in the tabbar. We access each part
+  # with mod_help_ui(id)[[1]] and mod_help_ui(id)[[2]],
+  # respectively
   tagList(
     f7Panel(
       inputId = ns("help_panel"),
