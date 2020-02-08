@@ -33,7 +33,6 @@ mod_game_params_ui <- function(id){
   tagList(
     f7Sheet(
       id = ns("game_params_sheet"),
-      label = "Game Parameters",
       orientation = "top",
       swipeToClose = TRUE,
       swipeToStep = TRUE,
@@ -77,6 +76,7 @@ mod_game_params_server <- function(input, output, session, r){
     r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
   })
   
+  # Open the sheet when click on the tabbar button
   observeEvent(input$toggle_params_sheet, {
     updateF7Sheet(inputId = "game_params_sheet", session = session)
   })
