@@ -10,31 +10,15 @@ app_server <- function(input, output, session) {
     mod_bomb = reactiveValues(),
     mod_welcome = reactiveValues(firstVisit = TRUE)
   )
-
-  ### The user chooses a difficutlty and it determines several parameters :
-  # size of the grid, number of mines, leaflet zoom level
-  observe({
-    r$settings <- difficulty[difficulty$Level == input$level,]
-  })
-
-  ### Reset parameters when the user changes the difficulty or clicks on reload button
-  observeEvent({
-    r$settings
-    input$reload
-    1
-    },{
-    r$mod_timer$seconds <- 0 # reset timer
-    r$mod_grid$playing <- "onload" # reset current playing status
-    r$mod_grid$start  <- FALSE # reset game started
-    # generate game grid
-    r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
-  })
   
   # welcome module
   callModule(mod_welcome_server, "welcome_ui_1", r = r)
   
   ### Help module
   callModule(mod_help_server, "help_ui_1")
+  
+  ### Params 
+  callModule(mod_game_params_server, "game_params_ui_1", r = r)
   
   ### Grid module
   callModule(mod_game_grid_server, 

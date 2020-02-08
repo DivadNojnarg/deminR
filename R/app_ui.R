@@ -43,27 +43,16 @@ app_ui <- function() {
           id = "tabset",
           swipeable = TRUE,
           animated = FALSE,
-          .items = mod_help_ui("help_ui_1")[[2]],
+          .items = tagList(
+            mod_game_params_ui("game_params_ui_1")[[2]],
+            mod_help_ui("help_ui_1")[[2]]
+          ),
           f7Tab(
             tabName = "main",
             active = TRUE,
             icon = NULL,
-            f7Row(
-              f7Col(
-                " "
-              ),
-              f7Col(
-                # Choose difficulty
-                f7Select(
-                  inputId = "level",
-                  label = "Choose diffuculty",
-                  choices = difficulty$Level
-                )
-              ),
-              f7Col(
-                " "
-              )
-            ),
+            
+            mod_game_params_ui("game_params_ui_1")[[1]],
             
             # main content
             f7Row(
