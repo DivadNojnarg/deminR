@@ -17,36 +17,50 @@
 mod_game_params_ui <- function(id){
   ns <- NS(id)
   
-  # customized action button to render well
-  # in the tabbar
-  toggle_sheet_bttn <- f7Button(
-    inputId = ns("toggle_params_sheet"),
+  # custom reload button
+  reload_bttn <- f7Button(
+    inputId = ns("reload"), 
     fill = FALSE,
-    label = "Params"#icon("circle_grid_hex")
+    label = f7Icon("autorenew")
   )
   
-  toggle_sheet_bttn[[2]]$attribs$class <- paste(
-    toggle_sheet_bttn[[2]]$attribs$class,
-    "tab-link"
+  reload_bttn[[2]]$name <- "a"
+  reload_bttn[[2]]$attribs$type <- NULL
+  reload_bttn[[2]]$attribs$class <- "tab-link sheet-open f7-action-button"
+  reload_bttn[[2]]$children <- NULL
+  reload_bttn[[2]] <- tagAppendChildren(
+    reload_bttn[[2]], 
+    f7Icon("refresh_outline"),
+    span(class = "tabbar-label", "Reload")
   )
   
-  tagList(
-    f7Sheet(
-      id = ns("game_params_sheet"),
-      orientation = "top",
-      swipeToClose = TRUE,
-      swipeToStep = TRUE,
-      backdrop = TRUE,
-      f7BlockTitle(title = "Select a difficulty", size = "large"),
-      f7Radio(
-        inputId = ns("level"),
-        label = "Choose difficulty",
-        choices = difficulty$Level,
-        selected = difficulty$Level[1]
-      )
-    ),
-    toggle_sheet_bttn
+  
+  sheetTag <- f7Sheet(
+    id = ns("game_params_sheet"),
+    orientation = "top",
+    swipeToClose = TRUE,
+    swipeToStep = TRUE,
+    backdrop = TRUE,
+    f7BlockTitle(title = "Select a difficulty", size = "large"),
+    f7Radio(
+      inputId = ns("level"),
+      label = "Choose difficulty",
+      choices = difficulty$Level,
+      selected = difficulty$Level[1]
+    )
   )
+  
+  # customize the button (BTW, this should be added in shinyMobile...)
+  sheetTag[[3]]$attribs$class <- "tab-link sheet-open"
+  sheetTag[[3]]$children <- NULL
+  sheetTag[[3]] <- tagAppendChildren(
+    sheetTag[[3]], 
+    f7Icon("settings_outline"),
+    span(class = "tabbar-label", "Settings")
+  )
+  
+  tagList(reload_bttn, sheetTag)
+  
 }
     
 # Module Server

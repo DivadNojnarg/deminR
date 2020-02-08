@@ -1,19 +1,5 @@
 #' @import shiny shinyMobile
 app_ui <- function() {
-  
-  # custom reload button
-  reload_bttn <- f7Button(
-    inputId = "reload", 
-    fill = FALSE,
-    label = "Reload"
-  )
-  
-  reload_bttn[[2]]$attribs$class <- paste(
-    reload_bttn[[2]]$attribs$class,
-    "tab-link"
-  )
-  
-  
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
@@ -22,7 +8,7 @@ app_ui <- function() {
     f7Page(
       title = "deminR",
       init = f7Init(
-        skin = "auto",
+        skin = "md",
         theme = "dark",
         filled = FALSE,
         color = "pink",
@@ -58,23 +44,23 @@ app_ui <- function() {
           swipeable = TRUE,
           animated = FALSE,
           .items = tagList(
-            reload_bttn,
-            mod_game_params_ui("game_params_ui_1")[[2]],
+            mod_game_params_ui("game_params_ui_1"),
             mod_help_ui("help_ui_1")[[2]]
           ),
           f7Tab(
             tabName = "main",
             active = TRUE,
-            icon = NULL,
-            
-            # the sheet content (must be here in the main tab)
-            mod_game_params_ui("game_params_ui_1")[[1]],
+            icon = f7Icon("home"),
             # main content
             f7Flex(
               mod_bomb_counter_ui("bomb_counter_ui_1"),
               mod_timer_ui("timer_ui_1")
             ),
-            mod_game_grid_ui("game_grid_ui_1"),
+            mod_game_grid_ui("game_grid_ui_1")
+          ),
+          f7Tab(
+            tabName = "scores",
+            icon = f7Icon("thumb_up"), 
             mod_display_scores_ui("display_scores_ui_1")
           )
         )

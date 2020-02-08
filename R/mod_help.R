@@ -24,9 +24,14 @@ mod_help_ui <- function(id){
     label = "Help"
   )
   
-  help_bttn[[2]]$attribs$class <- paste(
-    help_bttn[[2]]$attribs$class,
-    "tab-link"
+  help_bttn[[2]]$name <- "a"
+  help_bttn[[2]]$attribs$type <- NULL
+  help_bttn[[2]]$attribs$class <- "tab-link sheet-open f7-action-button"
+  help_bttn[[2]]$children <- NULL
+  help_bttn[[2]] <- tagAppendChildren(
+    help_bttn[[2]], 
+    f7Icon("help_outline"),
+    span(class = "tabbar-label", "Help")
   )
   
   # Part of the UI goes in the left panel
