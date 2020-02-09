@@ -3,7 +3,7 @@ app_ui <- function() {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-    inlineCSS(list(.darkleaflet = "background-color: #121212")),
+    shinyjs::inlineCSS(list(.darkleaflet = "background-color: #121212")),
     shinyjs::useShinyjs(),
     # List the first level UI elements here 
     f7Page(
