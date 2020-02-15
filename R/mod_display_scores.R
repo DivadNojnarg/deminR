@@ -1,5 +1,5 @@
 # Module UI
-  
+
 #' @title   mod_display_scores_ui and mod_display_scores_server
 #' @description  A shiny Module.
 #'
@@ -25,46 +25,26 @@ mod_display_scores_ui <- function(id){
   tagList(
     
     f7Row(
-      f7Col(
-        ""
-      ),
-      f7Col(
-        uiOutput(ns("victory")),
-        uiOutput(ns("failure")),
-        tags$br(),
-        f7Text(inputId = ns("nickname"), label = "Nickname"),
-        uiOutput(ns("nickname_warning")),
-        tags$br(),
-        f7Button(inputId = ns("save"), label = "Save"),
-        tags$br(),
-        f7Button(inputId = ns("refresh"), label = "Refresh scores")
-      ),
-      f7Col(
-        ""
-      )
+      uiOutput(ns("victory")),
+      uiOutput(ns("failure")),
+      tags$br(),
+      f7Text(inputId = ns("nickname"), label = "Nickname"),
+      uiOutput(ns("nickname_warning")),
+      tags$br(),
+      f7Button(inputId = ns("save"), label = "Save"),
+      tags$br(),
+      f7Button(inputId = ns("refresh"), label = "Refresh scores")
     ),
-    
-    
-    f7Row(
-      f7Col(
-        ""
-      ),
-      f7Col(
-        DT::dataTableOutput(ns("score_"))
-      ),
-      f7Col(
-        ""
-      )
-    ),
+    DT::dataTableOutput(ns("score_"))
   )
 }
-    
+
 # Module Server
-    
+
 #' @rdname mod_display_scores
 #' @export
 #' @keywords internal
-    
+
 mod_display_scores_server <- function(input, output, session, r){
   ns <- session$ns
   
@@ -74,24 +54,30 @@ mod_display_scores_server <- function(input, output, session, r){
   observeEvent(input$refresh, {
     # invalidateLater(100)
     if(golem::get_golem_options("usecase") == "online"){
-      score_table$table <- data.frame(ec_read(room = golem::get_golem_options("ec_room"), 
-                                              ec_host = golem::get_golem_options("ec_host"),
-                                              col_type = readr::cols(
-                                                Nickname = col_character(),
-                                                Difficulty = col_character(),
-                                                Score = col_character(),
-                                                Date = col_character()
-                                              )),
-                                      stringsAsFactors = FALSE)
+      score_table$table <- data.frame(
+        ec_read(
+          room = golem::get_golem_options("ec_room"), 
+          ec_host = golem::get_golem_options("ec_host"),
+          col_type = readr::cols(
+            Nickname = col_character(),
+            Difficulty = col_character(),
+            Score = col_character(),
+            Date = col_character()
+          )
+        ),
+        stringsAsFactors = FALSE
+      )
     }
     
     if(golem::get_golem_options("usecase") == "local"){
-      score_table$table <- read.table("inst/app/www/scores.txt",
-                                      header = TRUE,
-                                      sep = ";",
-                                      stringsAsFactors = FALSE)
+      score_table$table <- read.table(
+        "inst/app/www/scores.txt",
+        header = TRUE,
+        sep = ";",
+        stringsAsFactors = FALSE
+      )
     }
-
+    
   })
   
   # click so the table is loaded at the launch of the app and doesn't cause the "ajax problem error" or smthg
@@ -105,12 +91,26 @@ mod_display_scores_server <- function(input, output, session, r){
         filter_at(vars("Difficulty"), ~ . == r$settings$Level) %>%
         select_at(vars("Date", "Nickname", "Score")) %>%
         mutate_at(vars("Date"), list(~gsub("_", "-", .))) %>%
-        arrange_at(vars("Score"))
+        arrange_at(vars("Score")) %>%
+        DT::datatable(
+          rownames = FALSE,
+          selection = "none",
+          options = list(
+            columnDefs = list(
+              list(className = 'dt-center', targets = 0:2)
+            )
+          )
+        ) %>%
+        DT::formatStyle(
+          columns = c("Date", "Nickname", "Score"), 
+          target = "cell", 
+          backgroundColor = "#1b1b1d"
+        )
     } else{
       data.frame(Score = "No data available")
     }
   })
-
+  
   # Display the score saving only if the game is won
   observe({
     if(r$mod_grid$playing == "won"){
@@ -150,17 +150,21 @@ mod_display_scores_server <- function(input, output, session, r){
       # insert into base
       shinyjs::disable(id = "save") # avoid several clicks
       
-      line <- data.frame(Nickname = input$nickname,
-                         Difficulty = r$settings$Level,
-                         Score = r$mod_timer$seconds/100,
-                         Date = paste(format(Sys.Date(), "%Y"),
-                                      format(Sys.Date(), "%m"),
-                                      format(Sys.Date(), "%d"), 
-                                      sep = "_"),
-                         stringsAsFactors = FALSE)
+      line <- data.frame(
+        Nickname = input$nickname,
+        Difficulty = r$settings$Level,
+        Score = r$mod_timer$seconds/100,
+        Date = paste(
+          format(Sys.Date(), "%Y"),
+          format(Sys.Date(), "%m"),
+          format(Sys.Date(), "%d"), 
+          sep = "_"
+        ),
+        stringsAsFactors = FALSE
+      )
       
       if(golem::get_golem_options("usecase") == "online"){
-                ec_append(line, 
+        ec_append(line, 
                   room = golem::get_golem_options("ec_room"),
                   ec_host = golem::get_golem_options("ec_host"))
       }
@@ -195,12 +199,12 @@ mod_display_scores_server <- function(input, output, session, r){
              color:red;")
     )
   })
-
+  
 }
-    
+
 ## To be copied in the UI
 # mod_display_scores_ui("display_scores_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_display_scores_server, "display_scores_ui_1")
 #  
