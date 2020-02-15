@@ -26,7 +26,7 @@ mod_game_params_ui <- function(id){
   
   reload_bttn[[2]]$name <- "a"
   reload_bttn[[2]]$attribs$type <- NULL
-  reload_bttn[[2]]$attribs$class <- "tab-link sheet-open f7-action-button"
+  reload_bttn[[2]]$attribs$class <- "tab-link f7-action-button"
   reload_bttn[[2]]$children <- NULL
   reload_bttn[[2]] <- tagAppendChildren(
     reload_bttn[[2]], 
@@ -50,16 +50,14 @@ mod_game_params_ui <- function(id){
     )
   )
   
-  # customize the button (BTW, this should be added in shinyMobile...)
-  sheetTag[[3]]$attribs$class <- "tab-link sheet-open"
-  sheetTag[[3]]$children <- NULL
-  sheetTag[[3]] <- tagAppendChildren(
-    sheetTag[[3]], 
-    f7Icon("settings_outline"),
-    span(class = "tabbar-label", "Settings")
+  sheetTrigger <- f7TabLink(
+    `data-sheet` = paste0("#", ns("game_params_sheet")),
+    class = "sheet-open",
+    icon = f7Icon("settings_outline"),
+    label = "Settings"
   )
   
-  tagList(reload_bttn, sheetTag)
+  tagList(reload_bttn, sheetTag, sheetTrigger)
   
 }
     
