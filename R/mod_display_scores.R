@@ -138,11 +138,11 @@ mod_display_scores_server <- function(input, output, session, r){
   
   
   output$victory <- renderUI({
-    "Well played !"
+    f7Card("Well played !")
   })
   
   output$failure <- renderUI({
-    "Try again ..."
+    f7Card("Try again ...")
   })
   
   observeEvent(input$save, {
@@ -189,7 +189,7 @@ mod_display_scores_server <- function(input, output, session, r){
   })
   
   output$nickname_warning <- renderUI({
-    tagList(
+    f7Card(
       tags$div(str$warning, style = "white-space: pre-wrap; 
              word-break: keep-all; 
              padding:0px;margin:0px; 

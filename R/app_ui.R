@@ -1,10 +1,12 @@
 #' @import shiny shinyMobile
+#' @importFrom sever use_sever
 app_ui <- function() {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     shinyjs::inlineCSS(list(.darkleaflet = "background-color: #121212")),
     shinyjs::useShinyjs(),
+    use_sever(),
     # List the first level UI elements here 
     f7Page(
       title = "deminR",
@@ -78,10 +80,25 @@ golem_add_external_resources <- function(){
   )
   
   tags$head(
-    golem::activate_js()
+    golem::activate_js(),
     # Add here all the external resources
     # If you have a custom.css in the inst/app/www
     # Or for example, you can add shinyalert::useShinyalert() here
     #tags$link(rel="stylesheet", type="text/css", href="www/custom.css")
+    shiny::tags$link(rel = "apple-touch-icon", href = "www/icons/apple-touch-icon.png"),
+    shiny::tags$link(rel = "icon", href = "www/icons/favicon.png"),
+    shiny::tags$link(rel = "manifest", href = "www/manifest.json"),
+    
+    # Splatshscreen for IOS must be in a www folder
+    shiny::tags$link(href = "www/splashscreens/iphone5_splash.png", media = "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
+    shiny::tags$link(href = "www/splashscreens/iphone6_splash.png", media = "(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
+    shiny::tags$link(href = "www/splashscreens/iphoneplus_splash.png", media = "(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)", rel = "apple-touch-startup-image"),
+    shiny::tags$link(href = "www/splashscreens/iphonex_splash.png", media = "(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)", rel = "apple-touch-startup-image"),
+    shiny::tags$link(href = "www/splashscreens/iphonexr_splash.png", media = "(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
+    shiny::tags$link(href = "www/splashscreens/iphonexsmax_splash.png", media = "(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)", rel = "apple-touch-startup-image"),
+    shiny::tags$link(href = "www/splashscreens/ipad_splash.png", media = "(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
+    shiny::tags$link(href = "www/splashscreens/ipadpro1_splash.png", media = "(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
+    shiny::tags$link(href = "www/splashscreens/ipadpro3_splash.png", media = "(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
+    shiny::tags$link(href = "www/splashscreens/ipadpro2_splash.png", media = "(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image")
   )
 }

@@ -1,7 +1,10 @@
 #' @import shiny
 #' @importFrom shinyMobile f7Dialog
+#' @importFrom sever sever
 app_server <- function(input, output, session) {
   
+  # custom disconnect screen
+  sever()
   ### reactiveValues to communicate between all modules
   # 'strategie du petit r'
   r <- reactiveValues(
@@ -37,9 +40,9 @@ app_server <- function(input, output, session) {
              session = session,
              r = r)
   ### Score module
-  callModule(mod_display_scores_server, 
-             id = "display_scores_ui_1",
-             session = session,
-             r = r)
+  #callModule(mod_display_scores_server, 
+  #           id = "display_scores_ui_1",
+  #           session = session,
+  #           r = r)
   
   }

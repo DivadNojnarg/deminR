@@ -50,6 +50,19 @@ mod_game_grid_ui <- function(id){
           });", 
         ns("map_grid"),
         ns("right_click")
+      ),
+      sprintf(
+        "// for mobiles shinyMobile handles long press
+        $('#%s').on('taphold', function (e) {
+          // prevent contextmenu display
+          e.preventDefault();
+          // get class name
+          var id = $(e.currentTarget).attr('class').match(/case-\\d+/)[0];
+          var right_click = {'count':Math.random(), 'id':id};
+          Shiny.setInputValue('%s', right_click);
+        });",
+        ns("map_grid"),
+        ns("right_click")
       )
     )
   )
