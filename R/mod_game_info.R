@@ -37,11 +37,11 @@ mod_game_info_server <- function(input, output, session, r){
     f7Badge(
       "Difficulty",
       color = switch (r$settings$Level,
-                      "Beginner" = "teal",
-                      "Intermediate" = "deeporange",
-                      "Advanced" = "red"
+        "Beginner" = "teal",
+        "Intermediate" = "deeporange",
+        "Advanced" = "red"
       )
-    )
+    ) 
   })
   
   output$infos <- renderUI({
@@ -51,12 +51,16 @@ mod_game_info_server <- function(input, output, session, r){
       f7Col(
         f7Card(
           HTML(paste("<h2>",n_b - sum(res$flag & res$hide)),"</h2>") 
-        ) %>% f7Align("center")
+        ) %>% 
+          f7Align("center") %>% 
+          f7Skeleton()
       ),
       f7Col(
         f7Card(
           HTML(paste("<h2>",format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
-        ) %>% f7Align("center")
+        ) %>% 
+          f7Align("center") %>% 
+          f7Skeleton()
       )
     ) %>% f7Margin()
     
