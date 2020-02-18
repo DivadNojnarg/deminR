@@ -23,16 +23,12 @@
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
-    
-    f7Row(
-      f7Text(inputId = ns("nickname"), label = "Nickname"),
-      uiOutput(ns("nickname_warning")),
-      tags$br(),
+    f7Text(inputId = ns("nickname"), label = "Nickname"),
+    DT::dataTableOutput(ns("score_")),
+    f7Flex(
       f7Button(inputId = ns("save"), label = "Save"),
-      tags$br(),
       f7Button(inputId = ns("refresh"), label = "Refresh scores")
-    ),
-    DT::dataTableOutput(ns("score_"))
+    )
   )
 }
 
@@ -123,8 +119,6 @@ mod_display_scores_server <- function(input, output, session, r){
       shinyjs::hide("nickname")
       shinyjs::hide("save")
     }
-    
-    
   })
   
   
@@ -152,35 +146,27 @@ mod_display_scores_server <- function(input, output, session, r){
                   ec_host = golem::get_golem_options("ec_host"))
       }
       if(golem::get_golem_options("usecase") == "local"){
-        write.table(line,
-                    file = "inst/app/www/scores.txt",
-                    append = TRUE,
-                    quote = FALSE,
-                    sep = ";",
-                    row.names = FALSE,
-                    col.names = FALSE)
+        write.table(
+          line,
+          file = "inst/app/www/scores.txt",
+          append = TRUE,
+          quote = FALSE,
+          sep = ";",
+          row.names = FALSE,
+          col.names = FALSE
+        )
       }
       # wait to make sure the changes are done
       invalidateLater(1000)
       shinyjs::click(id = "refresh")
-      str$warning <- " "
     } else {
       # if invalid nickname, display a message saying to enter a valid nickname
-      str$warning <- "You nickname must be between 2 and 20 alphanumeric characters"
+      f7Dialog(
+        title = "Invalid input!",
+        text = "You nickname must be between 2 and 20 alphanumeric characters",
+        type = "alert"
+      )
     }
-    
-  })
-  
-  output$nickname_warning <- renderUI({
-    f7Card(
-      tags$div(str$warning, style = "white-space: pre-wrap; 
-             word-break: keep-all; 
-             padding:0px;margin:0px; 
-             margin-right:10px; 
-             font-size:80%; 
-             font-style:italic;
-             color:red;")
-    )
   })
   
 }
