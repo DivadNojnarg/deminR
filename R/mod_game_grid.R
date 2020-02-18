@@ -172,6 +172,8 @@ mod_game_grid_server <- function(input, output, session, r){
     shinyjs::addCssClass(id = "map_grid", class = "darkleaflet")
   })
   
+  return(reactive(input$map_grid_shape_click))
+  
 }
 
 ## To be copied in the UI

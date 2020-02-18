@@ -1,5 +1,5 @@
 # Module UI
-  
+
 #' @title   mod_game_info_ui and mod_game_info_server
 #' @description  A shiny Module.
 #'
@@ -14,6 +14,7 @@
 #' @keywords internal
 #' @export 
 #' @importFrom shiny NS tagList 
+#' @importFrom lubridate today
 mod_game_info_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -22,13 +23,13 @@ mod_game_info_ui <- function(id){
   )
   
 }
-    
+
 # Module Server
-    
+
 #' @rdname mod_game_info
 #' @export
 #' @keywords internal
-    
+
 mod_game_info_server <- function(input, output, session, r){
   ns <- session$ns
   
@@ -36,9 +37,9 @@ mod_game_info_server <- function(input, output, session, r){
     f7Badge(
       "Difficulty",
       color = switch (r$settings$Level,
-        "Beginner" = "teal",
-        "Intermediate" = "deeporange",
-        "Advanced" = "red"
+                      "Beginner" = "teal",
+                      "Intermediate" = "deeporange",
+                      "Advanced" = "red"
       )
     )
   })
@@ -81,11 +82,28 @@ mod_game_info_server <- function(input, output, session, r){
       }
     })
   })
+  
+  # Feedback on game status. We wait for the timer to be ok.
+  observeEvent(r$mod_grid$playing, {
+    if (r$mod_grid$playing != "onload") {
+      f7Notif(
+        text = if (r$mod_grid$playing == "loose") {
+          "Ouuups. You fucked up!"
+        } else if (r$mod_grid$playing == "won") {
+          "Hey! You're a winner!"
+        },
+        icon = f7Icon("bolt_fill"),
+        title = "Woooop!",
+        titleRightText = lubridate::today()
+      ) 
+    }
+  })
+  
 }
-    
+
 ## To be copied in the UI
 # mod_game_info_ui("game_info_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_game_info_server, "game_info_ui_1")
- 
+

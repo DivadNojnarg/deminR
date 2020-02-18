@@ -25,9 +25,6 @@ mod_display_scores_ui <- function(id){
   tagList(
     
     f7Row(
-      uiOutput(ns("victory")),
-      uiOutput(ns("failure")),
-      tags$br(),
       f7Text(inputId = ns("nickname"), label = "Nickname"),
       uiOutput(ns("nickname_warning")),
       tags$br(),
@@ -136,14 +133,6 @@ mod_display_scores_server <- function(input, output, session, r){
     
   })
   
-  
-  output$victory <- renderUI({
-    f7Card("Well played !")
-  })
-  
-  output$failure <- renderUI({
-    f7Card("Try again ...")
-  })
   
   observeEvent(input$save, {
     if(valid_nickname(input$nickname)){

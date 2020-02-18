@@ -27,9 +27,11 @@ app_ui <- function() {
           shadow = TRUE,
           bigger = FALSE,
           transparent = TRUE,
-          left_panel = TRUE
+          left_panel = TRUE,
+          subNavbar = f7SubNavbar(mod_game_info_ui("game_info_ui_1")[[1]])
         ),
         panels = mod_help_ui("help_ui_1")[[1]],
+        toolbar = mod_share_ui("share_ui_1")[[1]],
         f7Tabs(
           id = "tabset",
           swipeable = TRUE,
@@ -43,8 +45,9 @@ app_ui <- function() {
             active = TRUE,
             icon = f7Icon("home"),
             # main content
-            mod_game_info_ui("game_info_ui_1"),
-            mod_game_grid_ui("game_grid_ui_1")
+            mod_game_info_ui("game_info_ui_1")[[2]],
+            mod_game_grid_ui("game_grid_ui_1"),
+            mod_share_ui("share_ui_1")[[2]]
           ),
           f7Tab(
             tabName = "scores",
