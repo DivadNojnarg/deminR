@@ -1,6 +1,6 @@
 # Module UI
   
-#' @title   mod_timer_ui and mod_timer_server
+#' @title   mod_game_info_ui and mod_game_info_server
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
@@ -9,44 +9,48 @@
 #' @param session internal
 #' @param r cross module variable
 #'
-#' @rdname mod_timer
+#' @rdname mod_game_info
 #'
 #' @keywords internal
 #' @export 
-#' @importFrom shiny NS tagList invalidateLater
-#' @importFrom lubridate seconds_to_period
-mod_timer_ui <- function(id){
+#' @importFrom shiny NS tagList 
+mod_game_info_ui <- function(id){
   ns <- NS(id)
-  tagList(
-    htmlOutput(ns("timeleft"))
-  )
+  uiOutput(ns('infos'))
 }
     
 # Module Server
     
-#' @rdname mod_timer
+#' @rdname mod_game_info
 #' @export
 #' @keywords internal
     
-mod_timer_server <- function(input, output, session, r){
+mod_game_info_server <- function(input, output, session, r){
   ns <- session$ns
+  
+  output$infos <- renderUI({
+    res <- r$mod_grid$data
+    n_b <- sum(res$value == -999)
+    f7Flex(
+      f7Card(
+        HTML(paste("<h2>",n_b - sum(res$flag & res$hide)),"</h2>") 
+      ),
+      f7Card(
+        HTML(paste("<h2>",format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
+      ) %>% f7Align("center")
+    )
+    
+  })
   
   # initialize timer activation
   active <- reactiveVal(FALSE)
   
-
+  
   # activate the timer
   observeEvent(r$mod_grid$start, {
     if(r$mod_grid$start){active(TRUE)} else{
       active(FALSE)
     }
-  })
-  
-  # Output the timer
-  output$timeleft <- renderUI({
-    f7Card(
-      HTML(paste("<h2>",format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
-    )
   })
   
   # observer that invalidates every 0.01 second. If timer is active, increase by one.
@@ -61,20 +65,8 @@ mod_timer_server <- function(input, output, session, r){
 }
     
 ## To be copied in the UI
-# mod_timer_ui("timer_ui_1")
+# mod_game_info_ui("game_info_ui_1")
     
 ## To be copied in the server
-# callModule(mod_timer_server, "timer_ui_1")
-
-# library(shiny)
-# library(lubridate)
-# if (interactive()){
-#  ui <- fluidPage(
-#    mod_timer_ui("test")
-#  )
-#  server <- function(input, output, session) {
-#    callModule(mod_timer_server, "test")
-# 
-#  }
-#  shinyApp(ui, server)
-# }
+# callModule(mod_game_info_server, "game_info_ui_1")
+ 

@@ -43,10 +43,7 @@ app_ui <- function() {
             active = TRUE,
             icon = f7Icon("home"),
             # main content
-            f7Flex(
-              mod_bomb_counter_ui("bomb_counter_ui_1"),
-              mod_timer_ui("timer_ui_1")
-            ),
+            mod_game_info_ui("game_info_ui_1"),
             mod_game_grid_ui("game_grid_ui_1")
           ),
           f7Tab(

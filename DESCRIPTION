@@ -25,7 +25,8 @@ Imports:
     shinyjs,
     dplyr,
     DT,
-    sever
+    sever,
+    magrittr
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo,
