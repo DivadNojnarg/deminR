@@ -12,10 +12,10 @@ app_server <- function(input, output, session) {
     mod_timer = reactiveValues(),
     mod_bomb = reactiveValues(),
     mod_welcome = reactiveValues(firstVisit = TRUE),
-    mod_click = reactiveValues(counter = 0)
+    click = reactiveValues(counter = 0)
   )
   
-  observe(print(r$mod_click$counter))
+  observe(print(r$click$counter))
   
   # welcome module
   callModule(mod_welcome_server, "welcome_ui_1", r = r)
@@ -26,7 +26,7 @@ app_server <- function(input, output, session) {
   ### Grid module (count the number of clicks)
   clickOnGrid <- callModule(mod_game_grid_server, id = "game_grid_ui_1", session = session, r = r)
   observeEvent(clickOnGrid(), {
-    r$mod_click$counter <- r$mod_click$counter + 1
+    r$click$counter <- r$click$counter + 1
   })
   ### Timer module + bomb counter
   callModule(mod_game_info_server, "game_info_ui_1", session = session, r = r)
