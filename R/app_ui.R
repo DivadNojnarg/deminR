@@ -4,9 +4,6 @@ app_ui <- function() {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-    shinyjs::inlineCSS(list(.darkleaflet = "background-color: #121212")),
-    shinyjs::useShinyjs(),
-    use_sever(),
     # List the first level UI elements here 
     f7Page(
       title = "deminR",
@@ -28,20 +25,11 @@ app_ui <- function() {
           title = "deminR",
           hairline = FALSE,
           shadow = TRUE,
-          bigger = TRUE,
+          bigger = FALSE,
+          transparent = TRUE,
           left_panel = TRUE
         ),
         panels = mod_help_ui("help_ui_1")[[1]],
-        toolbar = f7Toolbar(
-          position = "bottom",
-          f7Link(
-            label = "Github", 
-            src = "https://github.com/DivadNojnarg/deminR",
-            external = TRUE,
-            icon = f7Icon("ant", fill = TRUE)
-          )
-        ),
-        
         f7Tabs(
           id = "tabset",
           swipeable = TRUE,
@@ -99,6 +87,10 @@ golem_add_external_resources <- function(){
     shiny::tags$link(href = "www/splashscreens/ipad_splash.png", media = "(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
     shiny::tags$link(href = "www/splashscreens/ipadpro1_splash.png", media = "(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
     shiny::tags$link(href = "www/splashscreens/ipadpro3_splash.png", media = "(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
-    shiny::tags$link(href = "www/splashscreens/ipadpro2_splash.png", media = "(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image")
+    shiny::tags$link(href = "www/splashscreens/ipadpro2_splash.png", media = "(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)", rel = "apple-touch-startup-image"),
+    
+    shinyjs::inlineCSS(list(.darkleaflet = "background-color: #121212")),
+    shinyjs::useShinyjs(),
+    use_sever()
   )
 }

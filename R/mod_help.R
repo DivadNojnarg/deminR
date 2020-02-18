@@ -46,7 +46,13 @@ mod_help_ui <- function(id){
       theme = "dark",
       effect = "cover",
       resizable = FALSE,
-      "Some stuff about the deminer..."
+      "Some stuff about the deminer...",
+      f7Link(
+        label = "Github", 
+        src = "https://github.com/DivadNojnarg/deminR",
+        external = TRUE,
+        icon = f7Icon("ant")
+      )
     ),
     help_bttn
   )
