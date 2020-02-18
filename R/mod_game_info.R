@@ -16,7 +16,11 @@
 #' @importFrom shiny NS tagList 
 mod_game_info_ui <- function(id){
   ns <- NS(id)
-  uiOutput(ns('infos'))
+  tagList(
+    uiOutput(ns("difficultyBadge")),
+    uiOutput(ns('infos'))
+  )
+  
 }
     
 # Module Server
@@ -27,6 +31,17 @@ mod_game_info_ui <- function(id){
     
 mod_game_info_server <- function(input, output, session, r){
   ns <- session$ns
+  
+  output$difficultyBadge <- renderUI({
+    f7Badge(
+      "Difficulty",
+      color = switch (r$settings$Level,
+        "Beginner" = "teal",
+        "Intermediate" = "deeporange",
+        "Advanced" = "red"
+      )
+    )
+  })
   
   output$infos <- renderUI({
     res <- r$mod_grid$data
