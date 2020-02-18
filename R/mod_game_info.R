@@ -31,14 +31,18 @@ mod_game_info_server <- function(input, output, session, r){
   output$infos <- renderUI({
     res <- r$mod_grid$data
     n_b <- sum(res$value == -999)
-    f7Flex(
-      f7Card(
-        HTML(paste("<h2>",n_b - sum(res$flag & res$hide)),"</h2>") 
+    f7Row(
+      f7Col(
+        f7Card(
+          HTML(paste("<h2>",n_b - sum(res$flag & res$hide)),"</h2>") 
+        ) %>% f7Align("center")
       ),
-      f7Card(
-        HTML(paste("<h2>",format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
-      ) %>% f7Align("center")
-    )
+      f7Col(
+        f7Card(
+          HTML(paste("<h2>",format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
+        ) %>% f7Align("center")
+      )
+    ) %>% f7Margin()
     
   })
   
