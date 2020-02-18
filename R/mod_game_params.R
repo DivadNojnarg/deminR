@@ -37,7 +37,7 @@ mod_game_params_ui <- function(id){
   
   sheetTag <- f7Sheet(
     id = ns("game_params_sheet"),
-    orientation = "top",
+    orientation = "bottom",
     swipeToClose = TRUE,
     swipeToStep = TRUE,
     backdrop = TRUE,
