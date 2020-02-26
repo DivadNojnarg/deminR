@@ -24,18 +24,14 @@ app_server <- function(input, output, session) {
   ### Params 
   callModule(mod_game_params_server, "game_params_ui_1", r = r)
   ### Grid module (count the number of clicks)
-  clickOnGrid <- callModule(mod_game_grid_server, id = "game_grid_ui_1", session = session, r = r)
+  clickOnGrid <- callModule(mod_game_grid_server, id = "game_grid_ui_1", r = r)
   observeEvent(clickOnGrid(), {
     r$click$counter <- r$click$counter + 1
   })
   ### Timer module + bomb counter
-  callModule(mod_game_info_server, "game_info_ui_1", session = session, r = r)
+  callModule(mod_game_info_server, "game_info_ui_1", r = r)
   ### Score module
-  callModule(mod_display_scores_server, 
-             id = "display_scores_ui_1",
-             session = session,
-             r = r)
+  callModule(mod_display_scores_server, id = "display_scores_ui_1", r = r)
   # share module
-  callModule(mod_share_server, "share_ui_1", session = session, r = r)
-  
-  }
+  callModule(mod_share_server, "share_ui_1", r = r)
+}
