@@ -33,10 +33,18 @@
 mod_game_grid_ui <- function(id){
   ns <- NS(id)
   tagList(
-    
+    # grid for game
     leafletOutput(ns("map_grid")),
-    
+    # disable mobile browser default "long-tap" actions
+    tags$style(
+      "-moz-user-select: none;
+       -webkit-user-select: none;
+       user-select: none;
+      "
+    ),
+    # set up custom input
     tags$script(
+      # right click on desktop
       sprintf(
         "$(function(){
             $('#%s').on('contextmenu', 'path', function (e) {
@@ -51,12 +59,19 @@ mod_game_grid_ui <- function(id){
         ns("map_grid"),
         ns("right_click")
       ),
+      # long press for mobiles
       sprintf(
-        "$('#%s').on('taphold', function () {
-          app.dialog.alert('Tap hold fired!');
+        "$(function() {
+          $('#%s').on('taphold', function () {
+            app.dialog.alert('Tap hold fired!');
+            var id = $(e.currentTarget).attr('class').match(/case-\\d+/)[0];
+            var right_click = {'count':Math.random(), 'id':id};
+            Shiny.setInputValue('%s', right_click);
+          });
         });
         ",
-        ns("map_grid")
+        ns("map_grid"),
+        ns("right_click")
       )
     )
   )
