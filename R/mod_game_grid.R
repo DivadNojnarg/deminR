@@ -32,14 +32,28 @@
 
 mod_game_grid_ui <- function(id){
   ns <- NS(id)
+  
   tagList(
     # grid for game
     leafletOutput(ns("map_grid")),
     # disable mobile browser default "long-tap" actions
+    tags$script(
+      sprintf(
+        "$(function() {
+          $('#%s').addClass('disable-select swiper-no-swiping');
+        });
+        ",
+        ns("map_grid")
+      )
+    ),
     tags$style(
-      "-moz-user-select: none;
-       -webkit-user-select: none;
-       user-select: none;
+      ".disable-select {
+        user-select: none; /* supported by Chrome and Opera */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+      }
       "
     ),
     # set up custom input
