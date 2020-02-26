@@ -55,7 +55,7 @@ mod_game_info_server <- function(input, output, session, r){
       ),
       f7Col(
         f7Card(
-          HTML(paste("<h2>Time: ",format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
+          HTML(paste("<h2>Time: ", round(r$mod_timer$seconds/100, 1), "s","</h2>"))
         ) %>% f7Align("center") 
       )
     ) %>% f7Margin()
