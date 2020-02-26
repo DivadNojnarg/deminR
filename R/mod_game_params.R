@@ -41,7 +41,7 @@ mod_game_params_ui <- function(id){
     swipeToClose = TRUE,
     swipeToStep = TRUE,
     backdrop = TRUE,
-    f7BlockTitle(title = "Select a difficulty", size = "large"),
+    f7BlockTitle(title = "Game Options", size = "large"),
     f7Radio(
       inputId = ns("level"),
       label = "Choose difficulty",
