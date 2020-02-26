@@ -41,7 +41,7 @@ mod_game_info_server <- function(input, output, session, r){
         "Intermediate" = "deeporange",
         "Advanced" = "red"
       )
-    ) 
+    ) %>% f7Shadow(24, hover = TRUE)
   })
   
   output$infos <- renderUI({
@@ -50,13 +50,17 @@ mod_game_info_server <- function(input, output, session, r){
     rowTag <- f7Row(
       f7Col(
         f7Card(
-          HTML(paste("<h2>", f7Icon("burst"), ": ", n_b - sum(res$flag & res$hide)),"</h2>") 
-        ) %>% f7Align("center") 
+          HTML(paste("<h2>", f7Icon("burn"), ": ", n_b - sum(res$flag & res$hide)),"</h2>") 
+        ) %>% 
+          f7Align("center") %>%
+          f7Shadow(24, hover = TRUE)
       ),
       f7Col(
         f7Card(
           HTML(paste("<h2>", f7Icon("timer"), ": ", format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
-        ) %>% f7Align("center") 
+        ) %>% 
+          f7Align("center") %>%
+          f7Shadow(24, hover = TRUE)
       )
     ) %>% f7Margin()
     
