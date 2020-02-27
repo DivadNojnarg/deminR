@@ -23,19 +23,8 @@
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
-    tags$script(
-      "$(function() {
-      $(.dataTables_info, .paginate_button, .dataTables_length').css('color', 'white');
-      });
-      "
-    ),
     f7Text(inputId = ns("nickname"), label = "Nickname"),
-    f7Block(
-      class = "swiper-no-swiping",
-      strong = TRUE, 
-      inset = TRUE, 
-      DT::dataTableOutput(ns("score_"))
-    ),
+    uiOutput(ns("scoresList")),
     f7Flex(
       f7Button(inputId = ns("save"), label = "Save"),
       f7Button(inputId = ns("refresh"), label = "Refresh scores")
@@ -84,36 +73,53 @@ mod_display_scores_server <- function(input, output, session, r){
     
   })
   
-  # click so the table is loaded at the launch of the app and doesn't cause the "ajax problem error" or smthg
+  # click so the table is loaded at the launch of the app 
+  # and doesn't cause the "ajax problem error" or smthg
   observe({
     shinyjs::click("refresh")
   })
   
-  output$score_ <- DT::renderDataTable({
-    if(!is.null(score_table$table)){
-      score_table$table %>%
-        filter_at(vars("Difficulty"), ~ . == r$settings$Level) %>%
-        select_at(vars("Date", "Nickname", "Score")) %>%
-        mutate_at(vars("Date"), list(~gsub("_", "-", .))) %>%
-        arrange_at(vars("Score")) %>%
-        DT::datatable(
-          rownames = FALSE,
-          selection = "none",
-          options = list(
-            dom = 't',
-            columnDefs = list(
-              list(className = 'dt-center', targets = 0:2)
-            )
-          )
-        ) %>%
-        DT::formatStyle(
-          columns = c("Date", "Nickname", "Score"), 
-          target = "cell", 
-          backgroundColor = "#1b1b1d"
+  output$scoresList <- renderUI({
+    
+    req(score_table$table)
+    
+    randImgId <- sample(1:9, 1)
+    browser()
+    files <- list.files("avatars")
+    file <- files[randImgId]
+    
+    # prepare data
+    scores <- score_table$table %>%
+      filter_at(vars("Difficulty"), ~ . == r$settings$Level) %>%
+      select_at(vars("Date", "Nickname", "Score")) %>%
+      mutate_at(vars("Date"), list(~gsub("_", "-", .))) %>%
+      arrange_at(vars("Score"))
+    
+    # generate list items
+    f7List(
+      mode = "media",
+      inset = TRUE,
+      class = "swiper-no-swiping",
+      lapply(seq_along(nrow(scores)), function(i) {
+        temp <- scores %>% dplyr::slice(i)
+        f7ListItem(
+          title = temp$Nickname,
+          subtitle = r$settings$Level,
+          temp$Score,
+          media = tags$img(src = paste0("avatars", file)),
+          right = temp$Date
         )
-    } else{
-      data.frame(Score = "No data available")
-    }
+      })
+    )
+  })
+  
+  # alert if no scores in the table
+  observeEvent(score_table$table, {
+    if (is.null(score_table$table))
+      f7Dialog(
+        type = "alert",
+        "No score to show!"
+      )
   })
   
   # Display the score saving only if the game is won
