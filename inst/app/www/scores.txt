@@ -3,3 +3,6 @@ Init;Beginner;3600.01;2019_11_26
 Init;Intermediate;3600.01;2019_11_26
 Init;Advanced;3600.01;2019_11_26
 Init;Advanced;3601.01;2019_11_26
+ddddd;Beginner;0;2020_02_27
+David;Beginner;0;2020_02_27
+wwkkw;Beginner;0;2020_02_27

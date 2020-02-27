@@ -27,6 +27,12 @@ mod_display_scores_ui <- function(id){
     f7Flex(
       f7Button(inputId = ns("save"), label = "Save"),
       f7Button(inputId = ns("refresh"), label = "Refresh scores")
+    ),
+    uiOutput(ns("searchBarTrigger")),
+    f7Searchbar(
+      id = ns("searchScore"), 
+      expandable = TRUE,
+      placeholder = "Search in scores"
     )
   )
 }
@@ -43,7 +49,22 @@ mod_display_scores_server <- function(input, output, session, r){
   score_table <- reactiveValues()
   str <- reactiveValues(warning = " ")
   
-  observe(print(r$mod_grid$playing))
+  observe({
+    print(r$mod_grid$playing)
+    print(golem::get_golem_options("usecase"))
+    print(score_table$table)
+  })
+  
+  # click so the table is loaded at the launch of the app
+  observe({
+    shinyjs::click("refresh")
+  })
+  
+  # hide searchbar if input tabs is not score
+  output$searchBarTrigger <- renderUI({
+    req(r$currentTab$val == "scores")
+    f7SearchbarTrigger(targetId = ns("searchScore"))
+  })
   
   observeEvent(input$refresh, {
     # invalidateLater(100)
@@ -74,21 +95,13 @@ mod_display_scores_server <- function(input, output, session, r){
     
   })
   
-  # click so the table is loaded at the launch of the app 
-  # and doesn't cause the "ajax problem error" or smthg
-  observe({
-    shinyjs::click("refresh")
-  })
-  
   output$scoresList <- renderUI({
     
     req(score_table$table)
     
     randImgId <- sample(1:9, 1)
-    #browser()
     files <- list.files("avatars")
     file <- files[randImgId]
-    
     # prepare data
     scores <- score_table$table %>%
       filter_at(vars("Difficulty"), ~ . == r$settings$Level) %>%
@@ -97,23 +110,30 @@ mod_display_scores_server <- function(input, output, session, r){
       arrange_at(vars("Score"))
     
     # generate list items
-    f7List(
-      mode = "media",
-      inset = TRUE,
-      class = "swiper-no-swiping",
-      lapply(seq_along(nrow(scores)), function(i) {
-        temp <- scores %>% dplyr::slice(i)
-        f7ListItem(
-          title = temp$Nickname,
-          subtitle = r$settings$Level,
-          temp$Score,
-          media = tags$img(src = paste0("avatars", file)),
-          right = temp$Date
-        )
-      })
+    tagList(
+      f7BlockTitle(title = "Scores"),
+      f7List(
+        mode = "media",
+        inset = TRUE,
+        class = "swiper-no-swiping",
+        lapply(seq_len(nrow(scores)), function(i) {
+          temp <- scores %>% dplyr::slice(i)
+          f7ListItem(
+            title = temp$Nickname,
+            subtitle = r$settings$Level,
+            temp$Score,
+            media = tags$img(src = paste0("avatars", file)),
+            right = temp$Date
+          )
+        })
+      ) %>% f7Found(),
+      f7Block(
+        p("Nothing found")
+      ) %>% f7NotFound()
     )
   })
   
+  # inform user that scores are successfully loaded
   observe({
     req(score_table$table)
     print(r$currentTab$val)
@@ -137,7 +157,7 @@ mod_display_scores_server <- function(input, output, session, r){
   
   # Display the score saving only if the game is won
   observe({
-    if(r$mod_grid$playing == "onload"){
+    if(r$mod_grid$playing == "won"){
       f7Dialog(
         type = "prompt",
         inputId = ns("nickname"),
@@ -146,10 +166,10 @@ mod_display_scores_server <- function(input, output, session, r){
       shinyjs::show("save")
       shinyjs::enable("save")
     }
-    if(r$mod_grid$playing == "onload"){
-      shinyjs::hide("nickname")
-      shinyjs::hide("save")
-    }
+    #if(r$mod_grid$playing == "onload"){
+    #  shinyjs::hide("nickname")
+    #  shinyjs::hide("save")
+    #}
     if(r$mod_grid$playing == "loose"){
       shinyjs::hide("nickname")
       shinyjs::hide("save")
