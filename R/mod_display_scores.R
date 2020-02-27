@@ -23,16 +23,19 @@
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
-    uiOutput(ns("scoresList")),
+    uiOutput(ns("scoresList"), class = "list"),
     f7Flex(
       f7Button(inputId = ns("save"), label = "Save"),
       f7Button(inputId = ns("refresh"), label = "Refresh scores")
     ),
-    uiOutput(ns("searchBarTrigger")),
-    f7Searchbar(
-      id = ns("searchScore"), 
-      expandable = TRUE,
-      placeholder = "Search in scores"
+    div(
+      id = ns("searchbar"),
+      f7SearchbarTrigger(targetId = ns("searchScore")),
+      f7Searchbar(
+        id = ns("searchScore"), 
+        expandable = TRUE,
+        placeholder = "Search in scores"
+      )
     )
   )
 }
@@ -61,9 +64,17 @@ mod_display_scores_server <- function(input, output, session, r){
   })
   
   # hide searchbar if input tabs is not score
-  output$searchBarTrigger <- renderUI({
-    req(r$currentTab$val == "scores")
-    f7SearchbarTrigger(targetId = ns("searchScore"))
+  observeEvent(r$currentTab$val, {
+    shinyjs::toggle(id = "searchbar", condition = (r$currentTab$val == "scores"))
+    
+    # for some reason the searchbar backdrop is added just in the tabset panel body,
+    # which screws up all the tab navigation. Thus we need to conditionally remove it
+    shinyjs::runjs(
+      "$(function() {
+        $('.searchbar-backdrop').remove();
+      });
+      "
+    )
   })
   
   observeEvent(input$refresh, {
@@ -111,7 +122,7 @@ mod_display_scores_server <- function(input, output, session, r){
     
     # generate list items
     tagList(
-      f7BlockTitle(title = "Scores"),
+      f7BlockTitle(title = "Scores", size = "large"),
       f7List(
         mode = "media",
         inset = TRUE,

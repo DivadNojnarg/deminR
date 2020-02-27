@@ -28,10 +28,9 @@ app_ui <- function() {
           bigger = FALSE,
           transparent = TRUE,
           left_panel = TRUE,
-          mod_display_scores_ui("display_scores_ui_1")[[3]],
           subNavbar = f7SubNavbar(
             mod_game_info_ui("game_info_ui_1")[[1]],
-            mod_display_scores_ui("display_scores_ui_1")[[4]]
+            mod_display_scores_ui("display_scores_ui_1")[[3]]
           )
         ),
         panels = mod_help_ui("help_ui_1")[[1]],
