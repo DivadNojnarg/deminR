@@ -51,14 +51,14 @@ mod_share_server <- function(input, output, session, r){
         href=glue(value = r$mod_timer$seconds/100, "https://twitter.com/intent/tweet?text=mineSweeper%20score:%20{value}%20"),
         `data-size`="large",
         onclick = paste0("Shiny.setInputValue(", ns("shareTwitter"), ", true)"),
-        f7Icon("logo_twitter"))
+        f7Icon("logo_twitter", old = TRUE))
       #morph = TRUE,
       #morphTarget = ".toolbar"
     )
   })
   
-  observe(print(input$shareTwitter))
-  observe(print(input$shareMenu))
+  #observe(print(input$shareTwitter))
+  #observe(print(input$shareMenu))
 }
     
 ## To be copied in the UI

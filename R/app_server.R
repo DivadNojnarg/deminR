@@ -15,8 +15,6 @@ app_server <- function(input, output, session) {
     click = reactiveValues(counter = 0)
   )
   
-  observe(print(r$click$counter))
-  
   # welcome module
   callModule(mod_welcome_server, "welcome_ui_1", r = r)
   ### Help module

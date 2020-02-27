@@ -30,7 +30,7 @@ mod_help_ui <- function(id){
   help_bttn[[2]]$children <- NULL
   help_bttn[[2]] <- tagAppendChildren(
     help_bttn[[2]], 
-    f7Icon("help_outline"),
+    f7Icon("help_outline", old = TRUE),
     span(class = "tabbar-label", "Help")
   )
   
@@ -51,7 +51,7 @@ mod_help_ui <- function(id){
         label = "Github", 
         src = "https://github.com/DivadNojnarg/deminR",
         external = TRUE,
-        icon = f7Icon("ant")
+        icon = f7Icon("ant", old = TRUE)
       )
     ),
     help_bttn

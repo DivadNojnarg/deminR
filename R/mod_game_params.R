@@ -21,7 +21,7 @@ mod_game_params_ui <- function(id){
   reload_bttn <- f7Button(
     inputId = ns("reload"), 
     fill = FALSE,
-    label = f7Icon("autorenew")
+    label = f7Icon("autorenew", old = TRUE)
   )
   
   reload_bttn[[2]]$name <- "a"
@@ -30,7 +30,7 @@ mod_game_params_ui <- function(id){
   reload_bttn[[2]]$children <- NULL
   reload_bttn[[2]] <- tagAppendChildren(
     reload_bttn[[2]], 
-    f7Icon("refresh_outline"),
+    f7Icon("refresh_outline", old = TRUE),
     span(class = "tabbar-label", "Reload")
   )
   
@@ -50,14 +50,11 @@ mod_game_params_ui <- function(id){
     )
   )
   
-  sheetTrigger <- f7TabLink(
-    `data-sheet` = paste0("#", ns("game_params_sheet")),
-    class = "sheet-open",
-    icon = f7Icon("settings_outline"),
-    label = "Settings"
+  tagList(
+    reload_bttn, 
+    sheetTag, 
+    uiOutput(ns("sheetTrigger"))
   )
-  
-  tagList(reload_bttn, sheetTag, sheetTrigger)
   
 }
     
@@ -88,10 +85,18 @@ mod_game_params_server <- function(input, output, session, r){
     r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
   })
   
-  # Open the sheet when click on the tabbar button
-  observeEvent(input$toggle_params_sheet, {
-    updateF7Sheet(inputId = "game_params_sheet", session = session)
+  # sheet trigger. Only works if the timer is 0 (meaning that the game is not running).
+  output$sheetTrigger <- renderUI({
+    f7TabLink(
+      id = ns("sheet_toggle"),
+      `data-sheet` =  paste0("#", ns("game_params_sheet")),
+      class = if (r$mod_timer$seconds == 0) "sheet-open",
+      icon = f7Icon("settings_outline", old = TRUE),
+      label = "Settings",
+      style = if (r$mod_timer$seconds != 0) "display: none;"
+    )
   })
+  
 }
     
 ## To be copied in the UI

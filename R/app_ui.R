@@ -43,7 +43,7 @@ app_ui <- function() {
           f7Tab(
             tabName = "main",
             active = TRUE,
-            icon = f7Icon("home"),
+            icon = f7Icon("home", old = TRUE),
             # main content
             mod_game_info_ui("game_info_ui_1")[[2]],
             mod_game_grid_ui("game_grid_ui_1"),
@@ -51,7 +51,7 @@ app_ui <- function() {
           ),
           f7Tab(
             tabName = "scores",
-            icon = f7Icon("thumb_up"), 
+            icon = f7Icon("thumb_up", old = TRUE), 
             mod_display_scores_ui("display_scores_ui_1")
           )
         )

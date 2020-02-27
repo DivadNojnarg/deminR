@@ -50,14 +50,14 @@ mod_game_info_server <- function(input, output, session, r){
     rowTag <- f7Row(
       f7Col(
         f7Card(
-          HTML(paste("<h2>", f7Icon("burn"), ": ", n_b - sum(res$flag & res$hide)),"</h2>") 
+          HTML(paste("<h2>", f7Icon("burn", old = TRUE), ": ", n_b - sum(res$flag & res$hide)),"</h2>") 
         ) %>% 
           f7Align("center") %>%
           f7Shadow(24, hover = TRUE)
       ),
       f7Col(
         f7Card(
-          HTML(paste("<h2>", f7Icon("timer"), ": ", format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
+          HTML(paste("<h2>", f7Icon("timer", old = TRUE), ": ", format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
         ) %>% 
           f7Align("center") %>%
           f7Shadow(24, hover = TRUE)
@@ -106,7 +106,7 @@ mod_game_info_server <- function(input, output, session, r){
         } else if (r$mod_grid$playing == "won") {
           "Hey! You're a winner!"
         },
-        icon = f7Icon("bolt_fill"),
+        icon = f7Icon("bolt_fill", old = TRUE),
         title = "Woooop!",
         titleRightText = lubridate::today()
       ) 
