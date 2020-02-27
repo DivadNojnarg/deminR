@@ -90,7 +90,7 @@ mod_game_params_server <- function(input, output, session, r){
     f7TabLink(
       id = ns("sheet_toggle"),
       `data-sheet` =  paste0("#", ns("game_params_sheet")),
-      class = if (r$mod_timer$seconds == 0) "sheet-open",
+      class = "sheet-open",
       icon = f7Icon("settings_outline", old = TRUE),
       label = "Settings",
       style = if (r$mod_timer$seconds != 0) "display: none;"
