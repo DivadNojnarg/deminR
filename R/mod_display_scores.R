@@ -23,8 +23,19 @@
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
+    tags$script(
+      "$(function() {
+      $(.dataTables_info, .paginate_button, .dataTables_length').css('color', 'white');
+      });
+      "
+    ),
     f7Text(inputId = ns("nickname"), label = "Nickname"),
-    DT::dataTableOutput(ns("score_")),
+    f7Block(
+      class = "swiper-no-swiping",
+      strong = TRUE, 
+      inset = TRUE, 
+      DT::dataTableOutput(ns("score_"))
+    ),
     f7Flex(
       f7Button(inputId = ns("save"), label = "Save"),
       f7Button(inputId = ns("refresh"), label = "Refresh scores")
@@ -89,6 +100,7 @@ mod_display_scores_server <- function(input, output, session, r){
           rownames = FALSE,
           selection = "none",
           options = list(
+            dom = 't',
             columnDefs = list(
               list(className = 'dt-center', targets = 0:2)
             )

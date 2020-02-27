@@ -72,7 +72,7 @@ golem_add_external_resources <- function(){
     # Add here all the external resources
     # If you have a custom.css in the inst/app/www
     # Or for example, you can add shinyalert::useShinyalert() here
-    #tags$link(rel="stylesheet", type="text/css", href="www/custom.css")
+    #tags$link(rel="stylesheet", type="text/css", href="www/custom.css"),
     shiny::tags$link(rel = "apple-touch-icon", href = "www/icons/apple-touch-icon.png"),
     shiny::tags$link(rel = "icon", href = "www/icons/favicon.png"),
     shiny::tags$link(rel = "manifest", href = "www/manifest.json"),
