@@ -23,7 +23,6 @@
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
-    f7Text(inputId = ns("nickname"), label = "Nickname"),
     uiOutput(ns("scoresList")),
     f7Flex(
       f7Button(inputId = ns("save"), label = "Save"),
@@ -43,6 +42,8 @@ mod_display_scores_server <- function(input, output, session, r){
   
   score_table <- reactiveValues()
   str <- reactiveValues(warning = " ")
+  
+  observe(print(r$mod_grid$playing))
   
   observeEvent(input$refresh, {
     # invalidateLater(100)
@@ -84,7 +85,7 @@ mod_display_scores_server <- function(input, output, session, r){
     req(score_table$table)
     
     randImgId <- sample(1:9, 1)
-    browser()
+    #browser()
     files <- list.files("avatars")
     file <- files[randImgId]
     
@@ -113,6 +114,18 @@ mod_display_scores_server <- function(input, output, session, r){
     )
   })
   
+  observe({
+    req(score_table$table)
+    print(r$currentTab$val)
+    req(r$currentTab$val == "scores")
+    f7Toast(
+      session, 
+      text = "Score successfully loaded!",
+      position = "bottom",
+      closeButtonColor = NULL
+    )
+  })
+  
   # alert if no scores in the table
   observeEvent(score_table$table, {
     if (is.null(score_table$table))
@@ -124,8 +137,12 @@ mod_display_scores_server <- function(input, output, session, r){
   
   # Display the score saving only if the game is won
   observe({
-    if(r$mod_grid$playing == "won"){
-      shinyjs::show("nickname")
+    if(r$mod_grid$playing == "onload"){
+      f7Dialog(
+        type = "prompt",
+        inputId = ns("nickname"),
+        text = "Enter your nickname"
+      )
       shinyjs::show("save")
       shinyjs::enable("save")
     }
@@ -138,7 +155,6 @@ mod_display_scores_server <- function(input, output, session, r){
       shinyjs::hide("save")
     }
   })
-  
   
   observeEvent(input$save, {
     if(valid_nickname(input$nickname)){

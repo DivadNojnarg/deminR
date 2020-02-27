@@ -12,8 +12,15 @@ app_server <- function(input, output, session) {
     mod_timer = reactiveValues(),
     mod_bomb = reactiveValues(),
     mod_welcome = reactiveValues(firstVisit = TRUE),
-    click = reactiveValues(counter = 0)
+    click = reactiveValues(counter = 0),
+    currentTab = reactiveValues(val = NULL)
   )
+  
+  # needed to get the value of the currently selected tabs
+  # between modules
+  observe({
+    r$currentTab$val <- input$tabset
+  })
   
   # welcome module
   callModule(mod_welcome_server, "welcome_ui_1", r = r)
