@@ -26,8 +26,7 @@ mod_display_scores_ui <- function(id){
     uiOutput(ns("scoresList"), class = "list"),
     f7Segment(
       container = "row",
-      f7Button(inputId = ns("save"), label = "Save"),
-      f7Button(inputId = ns("refresh"), label = "Refresh scores")
+      f7Button(inputId = ns("save"), label = "Save")
     ),
     div(
       id = ns("searchbar"),
@@ -54,14 +53,20 @@ mod_display_scores_server <- function(input, output, session, r){
   str <- reactiveValues(warning = " ")
   
   observe({
-    print(r$mod_grid$playing)
-    print(golem::get_golem_options("usecase"))
-    print(score_table$table)
+    #print(r$mod_grid$playing)
+    #print(golem::get_golem_options("usecase"))
+    print(r$mod_scores$refresh)
+    print(r$mod_scores$firstVisit)
   })
   
-  # click so the table is loaded at the launch of the app
+  # Trigger refresh when app start so that score are displayed
+  # This event occurs once. Then the user will need to click on
+  # the refresh button
   observe({
-    shinyjs::click("refresh")
+    if (r$mod_welcome$firstVisit) {
+      r$mod_scores$refresh <- TRUE 
+      r$mod_welcome$firstVisit <- FALSE
+    }
   })
   
   # hide searchbar if input tabs is not score
@@ -69,8 +74,10 @@ mod_display_scores_server <- function(input, output, session, r){
     shinyjs::toggle(id = "searchbar", condition = (r$currentTab$val == "scores"))
   })
   
-  observeEvent(input$refresh, {
+  observeEvent(r$mod_scores$refresh, {
     # invalidateLater(100)
+    req(r$mod_scores$refresh)
+    
     if(golem::get_golem_options("usecase") == "online"){
       score_table$table <- data.frame(
         ec_read(
@@ -95,8 +102,7 @@ mod_display_scores_server <- function(input, output, session, r){
         stringsAsFactors = FALSE
       )
     }
-    
-  })
+  }, priority = 100)
   
   output$scoresList <- renderUI({
     
@@ -139,14 +145,21 @@ mod_display_scores_server <- function(input, output, session, r){
   # inform user that scores are successfully loaded
   observe({
     req(score_table$table)
-    print(r$currentTab$val)
     req(r$currentTab$val == "scores")
+    req(r$mod_scores$refresh)
     f7Toast(
       session, 
-      text = "Score successfully loaded!",
+      text = if (r$mod_scores$refresh) {
+        "Score successfully updated!"
+      } else {
+        "Score successfully loaded!"
+      },
       position = "bottom",
       closeButtonColor = NULL
     )
+    # set refresh back to FALSE so that the parameter module may 
+    # change its value again and trigger this observe event!
+    r$mod_scores$refresh <- FALSE
   })
   
   # alert if no scores in the table

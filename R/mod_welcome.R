@@ -34,7 +34,6 @@ mod_welcome_server <- function(input, output, session, r){
       type = "alert",
       session = session
     )
-    r$mod_welcome$firstVisit <- FALSE
   })
 }
     

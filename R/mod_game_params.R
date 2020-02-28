@@ -83,28 +83,46 @@ mod_game_params_server <- function(input, output, session, r){
   })
   
   # sheet trigger. Only works if the timer is 0 (meaning that the game is not running).
+  # Change refresh data reactiveValues status to send back to the 
+  # display score module.
   observeEvent(input$action1_button, {
     if (input$action1_button == 3) {
       updateF7Sheet(inputId = "game_params_sheet", session = session)
+    } else if (input$action1_button == 2) {
+      r$mod_scores$refresh <- TRUE
     }
   })
   
   
   # trigger action sheet when click on options button
   observeEvent(input$options, {
-    f7ActionSheet(
-      grid = TRUE,
-      id = ns("action1"),
-      icons = list(
-        f7Icon("refresh_outline", old = TRUE), 
-        f7Icon("cloud_download", old = TRUE), 
-        f7Icon("settings_outline", old = TRUE) # games param triggers modal sheet
-      ),
-      buttons = data.frame(
-        text = c('Reset Game', 'Refresh Data', 'Parameters'),
-        color = c(NA, NA, NA)
+    
+    buttons <- if (r$mod_timer$seconds == 0) {
+      list(
+        list(
+          text = "Reset Game",
+          icon = f7Icon("refresh_outline", old = TRUE)
+        ),
+        list(
+          text = "Refresh Data",
+          icon = f7Icon("cloud_download", old = FALSE)
+        ),
+        list(
+          text = "Parameters",
+          icon = f7Icon("settings_outline", old = TRUE)
+        )
       )
-    )
+    } else {
+      list(
+        list(
+          text = "Reset Game",
+          icon = f7Icon("refresh_outline", old = TRUE)
+        )
+      )
+    }
+    
+    sheetProps <- list(grid = TRUE, id = ns("action1"), buttons = buttons)
+    do.call(f7ActionSheet, sheetProps)
   })
   
 }
