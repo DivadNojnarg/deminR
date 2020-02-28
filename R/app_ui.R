@@ -54,7 +54,7 @@ app_ui <- function() {
           ),
           f7Tab(
             tabName = "scores",
-            icon = f7Icon("thumb_up", old = TRUE), 
+            icon = f7Icon("list_number", old = FALSE), 
             mod_display_scores_ui("display_scores_ui_1")[c(1, 2)]
           )
         )
