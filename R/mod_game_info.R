@@ -102,7 +102,11 @@ mod_game_info_server <- function(input, output, session, r){
     if (r$mod_grid$playing != "onload") {
       f7Notif(
         text = if (r$mod_grid$playing == "loose") {
-          "Ouuups. You fucked up!"
+          if (r$click$counter == 1) {
+            "Oh Boy!! This is so unfortunate :). Life is unfair"
+          } else {
+            "Ouuups. You fucked up!"
+          }
         } else if (r$mod_grid$playing == "won") {
           "Hey! You're a winner!"
         },
