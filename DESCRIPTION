@@ -31,7 +31,7 @@ Imports:
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo,
-    hrbrmstr/ethercalc
+    hrbrmstr/ethercalc,
     JohnCoene/sever
 RoxygenNote: 7.0.2
 Suggests: 
