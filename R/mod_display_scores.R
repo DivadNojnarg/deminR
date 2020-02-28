@@ -24,7 +24,8 @@ mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
     uiOutput(ns("scoresList"), class = "list"),
-    f7Flex(
+    f7Segment(
+      container = "row",
       f7Button(inputId = ns("save"), label = "Save"),
       f7Button(inputId = ns("refresh"), label = "Refresh scores")
     ),
@@ -66,15 +67,6 @@ mod_display_scores_server <- function(input, output, session, r){
   # hide searchbar if input tabs is not score
   observeEvent(r$currentTab$val, {
     shinyjs::toggle(id = "searchbar", condition = (r$currentTab$val == "scores"))
-    
-    # for some reason the searchbar backdrop is added just in the tabset panel body,
-    # which screws up all the tab navigation. Thus we need to conditionally remove it
-    shinyjs::runjs(
-      "$(function() {
-        $('.searchbar-backdrop').remove();
-      });
-      "
-    )
   })
   
   observeEvent(input$refresh, {
@@ -177,12 +169,10 @@ mod_display_scores_server <- function(input, output, session, r){
       shinyjs::show("save")
       shinyjs::enable("save")
     }
-    #if(r$mod_grid$playing == "onload"){
-    #  shinyjs::hide("nickname")
-    #  shinyjs::hide("save")
-    #}
+    if(r$mod_grid$playing == "onload"){
+      shinyjs::hide("save")
+    }
     if(r$mod_grid$playing == "loose"){
-      shinyjs::hide("nickname")
       shinyjs::hide("save")
     }
   })

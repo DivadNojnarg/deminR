@@ -16,12 +16,11 @@
 #' @importFrom shiny NS tagList 
 mod_game_params_ui <- function(id){
   ns <- NS(id)
-  
+
   # custom reload button
   reload_bttn <- f7Button(
-    inputId = ns("reload"), 
-    fill = FALSE,
-    label = f7Icon("autorenew", old = TRUE)
+    inputId = ns("options"), 
+    fill = FALSE
   )
   
   reload_bttn[[2]]$name <- "a"
@@ -30,10 +29,9 @@ mod_game_params_ui <- function(id){
   reload_bttn[[2]]$children <- NULL
   reload_bttn[[2]] <- tagAppendChildren(
     reload_bttn[[2]], 
-    f7Icon("refresh_outline", old = TRUE),
-    span(class = "tabbar-label", "Reload")
+    f7Icon("hammer", old = FALSE),
+    span(class = "tabbar-label", "Options")
   )
-  
   
   sheetTag <- f7Sheet(
     id = ns("game_params_sheet"),
@@ -51,9 +49,8 @@ mod_game_params_ui <- function(id){
   )
   
   tagList(
-    reload_bttn, 
-    sheetTag, 
-    uiOutput(ns("sheetTrigger"))
+    reload_bttn,
+    sheetTag
   )
   
 }
@@ -75,7 +72,7 @@ mod_game_params_server <- function(input, output, session, r){
   ### Reset parameters when the user changes the difficulty or clicks on reload button
   observeEvent({
     r$settings
-    input$reload
+    input$action1_button == 1
     1
   },{
     r$mod_timer$seconds <- 0 # reset timer
@@ -86,14 +83,27 @@ mod_game_params_server <- function(input, output, session, r){
   })
   
   # sheet trigger. Only works if the timer is 0 (meaning that the game is not running).
-  output$sheetTrigger <- renderUI({
-    f7TabLink(
-      id = ns("sheet_toggle"),
-      `data-sheet` =  paste0("#", ns("game_params_sheet")),
-      class = "sheet-open",
-      icon = f7Icon("settings_outline", old = TRUE),
-      label = "Settings",
-      style = if (r$mod_timer$seconds != 0) "display: none;"
+  observeEvent(input$action1_button, {
+    if (input$action1_button == 3) {
+      updateF7Sheet(inputId = "game_params_sheet", session = session)
+    }
+  })
+  
+  
+  # trigger action sheet when click on options button
+  observeEvent(input$options, {
+    f7ActionSheet(
+      grid = TRUE,
+      id = ns("action1"),
+      icons = list(
+        f7Icon("refresh_outline", old = TRUE), 
+        f7Icon("cloud_download", old = TRUE), 
+        f7Icon("settings_outline", old = TRUE) # games param triggers modal sheet
+      ),
+      buttons = data.frame(
+        text = c('Reset Game', 'Refresh Data', 'Parameters'),
+        color = c(NA, NA, NA)
+      )
     )
   })
   
