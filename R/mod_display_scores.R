@@ -23,22 +23,20 @@
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
-    tags$script(
-      "$(function() {
-      $(.dataTables_info, .paginate_button, .dataTables_length').css('color', 'white');
-      });
-      "
-    ),
-    f7Text(inputId = ns("nickname"), label = "Nickname"),
-    f7Block(
-      class = "swiper-no-swiping",
-      strong = TRUE, 
-      inset = TRUE, 
-      DT::dataTableOutput(ns("score_"))
-    ),
-    f7Flex(
+    uiOutput(ns("scoresList"), class = "list"),
+    f7Segment(
+      container = "row",
       f7Button(inputId = ns("save"), label = "Save"),
       f7Button(inputId = ns("refresh"), label = "Refresh scores")
+    ),
+    div(
+      id = ns("searchbar"),
+      f7SearchbarTrigger(targetId = ns("searchScore")),
+      f7Searchbar(
+        id = ns("searchScore"), 
+        expandable = TRUE,
+        placeholder = "Search in scores"
+      )
     )
   )
 }
@@ -54,6 +52,22 @@ mod_display_scores_server <- function(input, output, session, r){
   
   score_table <- reactiveValues()
   str <- reactiveValues(warning = " ")
+  
+  observe({
+    print(r$mod_grid$playing)
+    print(golem::get_golem_options("usecase"))
+    print(score_table$table)
+  })
+  
+  # click so the table is loaded at the launch of the app
+  observe({
+    shinyjs::click("refresh")
+  })
+  
+  # hide searchbar if input tabs is not score
+  observeEvent(r$currentTab$val, {
+    shinyjs::toggle(id = "searchbar", condition = (r$currentTab$val == "scores"))
+  })
   
   observeEvent(input$refresh, {
     # invalidateLater(100)
@@ -84,55 +98,84 @@ mod_display_scores_server <- function(input, output, session, r){
     
   })
   
-  # click so the table is loaded at the launch of the app and doesn't cause the "ajax problem error" or smthg
-  observe({
-    shinyjs::click("refresh")
+  output$scoresList <- renderUI({
+    
+    req(score_table$table)
+    
+    randImgId <- sample(1:9, 1)
+    files <- list.files("avatars")
+    file <- files[randImgId]
+    # prepare data
+    scores <- score_table$table %>%
+      filter_at(vars("Difficulty"), ~ . == r$settings$Level) %>%
+      select_at(vars("Date", "Nickname", "Score")) %>%
+      mutate_at(vars("Date"), list(~gsub("_", "-", .))) %>%
+      arrange_at(vars("Score"))
+    
+    # generate list items
+    tagList(
+      f7BlockTitle(title = "Scores", size = "large"),
+      f7List(
+        mode = "media",
+        inset = TRUE,
+        class = "swiper-no-swiping",
+        lapply(seq_len(nrow(scores)), function(i) {
+          temp <- scores %>% dplyr::slice(i)
+          f7ListItem(
+            title = temp$Nickname,
+            subtitle = r$settings$Level,
+            temp$Score,
+            media = tags$img(src = paste0("avatars", file)),
+            right = temp$Date
+          )
+        })
+      ) %>% f7Found(),
+      f7Block(
+        p("Nothing found")
+      ) %>% f7NotFound()
+    )
   })
   
-  output$score_ <- DT::renderDataTable({
-    if(!is.null(score_table$table)){
-      score_table$table %>%
-        filter_at(vars("Difficulty"), ~ . == r$settings$Level) %>%
-        select_at(vars("Date", "Nickname", "Score")) %>%
-        mutate_at(vars("Date"), list(~gsub("_", "-", .))) %>%
-        arrange_at(vars("Score")) %>%
-        DT::datatable(
-          rownames = FALSE,
-          selection = "none",
-          options = list(
-            dom = 't',
-            columnDefs = list(
-              list(className = 'dt-center', targets = 0:2)
-            )
-          )
-        ) %>%
-        DT::formatStyle(
-          columns = c("Date", "Nickname", "Score"), 
-          target = "cell", 
-          backgroundColor = "#1b1b1d"
-        )
-    } else{
-      data.frame(Score = "No data available")
-    }
+  # inform user that scores are successfully loaded
+  observe({
+    req(score_table$table)
+    print(r$currentTab$val)
+    req(r$currentTab$val == "scores")
+    f7Toast(
+      session, 
+      text = "Score successfully loaded!",
+      position = "bottom",
+      closeButtonColor = NULL
+    )
+  })
+  
+  # alert if no scores in the table
+  observeEvent(score_table$table, {
+    if (is.null(score_table$table))
+      f7Dialog(
+        type = "alert",
+        "No score to show!"
+      )
   })
   
   # Display the score saving only if the game is won
   observe({
     if(r$mod_grid$playing == "won"){
-      shinyjs::show("nickname")
+      f7Dialog(
+        type = "prompt",
+        inputId = ns("nickname"),
+        text = "Enter your nickname"
+      )
       shinyjs::show("save")
       shinyjs::enable("save")
     }
     if(r$mod_grid$playing == "onload"){
-      shinyjs::hide("nickname")
       shinyjs::hide("save")
     }
     if(r$mod_grid$playing == "loose"){
-      shinyjs::hide("nickname")
       shinyjs::hide("save")
     }
   })
-  
   
   observeEvent(input$save, {
     if(valid_nickname(input$nickname)){
