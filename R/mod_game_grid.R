@@ -76,7 +76,7 @@ mod_game_grid_ui <- function(id){
       # long press for mobiles
       sprintf(
         "$(function() {
-          $('#%s').on('taphold', function () {
+          $('#%s').on('taphold', 'path', function (e) {
             app.dialog.alert('Tap hold fired!');
             var id = $(e.currentTarget).attr('class').match(/case-\\d+/)[0];
             var right_click = {'count':Math.random(), 'id':id};
@@ -188,6 +188,32 @@ mod_game_grid_server <- function(input, output, session, r){
     if(any(!r$mod_grid$data$hide)){
       r$mod_grid$start  <- TRUE
     }
+  })
+  
+  
+  # warrior mode does funny things!
+  observeEvent({
+    req(r$warrior$mode)
+    req(r$mod_timer$seconds != 0)
+  },{
+    degree <- sample(c(90, 180, 270, 360), 1)
+    shinyjs::runjs(
+      sprintf(
+        "jQuery.fn.rotate = function(degrees) {
+          $(this).css({'transform' : 'rotate('+ degrees +'deg)'});
+          return $(this);
+        };
+        
+        setTimeout(function() {
+          $('#%s').one('click', function() {
+            $(this).rotate(%i);
+          });
+        }, 1000);
+        ",
+        ns("map_grid"),
+        degree
+      )
+    )
   })
   
   

@@ -14,7 +14,8 @@ app_server <- function(input, output, session) {
     mod_welcome = reactiveValues(firstVisit = TRUE),
     mod_scores = reactiveValues(refresh = NULL),
     click = reactiveValues(counter = 0),
-    currentTab = reactiveValues(val = NULL)
+    currentTab = reactiveValues(val = NULL),
+    warrior = reactiveValues(mode = FALSE)
   )
   
   # needed to get the value of the currently selected tabs

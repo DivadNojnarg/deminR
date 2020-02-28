@@ -55,8 +55,8 @@ mod_display_scores_server <- function(input, output, session, r){
   observe({
     #print(r$mod_grid$playing)
     #print(golem::get_golem_options("usecase"))
-    print(r$mod_scores$refresh)
-    print(r$mod_scores$firstVisit)
+    #print(r$mod_scores$refresh)
+    #print(r$mod_scores$firstVisit)
   })
   
   # Trigger refresh when app start so that score are displayed

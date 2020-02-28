@@ -45,6 +45,12 @@ mod_game_params_ui <- function(id){
       label = "Choose difficulty",
       choices = difficulty$Level,
       selected = difficulty$Level[1]
+    ),
+    f7BlockTitle(title = "Are you a warrior?", size = "large"),
+    f7Toggle(
+      inputId = ns("warrior"),
+      label = "Unleash the beast?",
+      checked = FALSE
     )
   )
   
@@ -75,6 +81,7 @@ mod_game_params_server <- function(input, output, session, r){
     input$action1_button == 1
     1
   },{
+    r$click$counter <- 0 # reset click counter
     r$mod_timer$seconds <- 0 # reset timer
     r$mod_grid$playing <- "onload" # reset current playing status
     r$mod_grid$start  <- FALSE # reset game started
@@ -82,13 +89,13 @@ mod_game_params_server <- function(input, output, session, r){
     r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
   })
   
-  
   # handle the case where the user trigger a bomb on first click
   observeEvent({
     r$mod_grid$playing == "loose"
   },{
     if (r$mod_grid$playing == "loose" & r$click$counter == 1) {
       shinyjs::delay(3000, {
+        r$click$counter <- 0 # reset click counter
         r$mod_timer$seconds <- 0 # reset timer
         r$mod_grid$playing <- "onload" # reset current playing status
         r$mod_grid$start  <- FALSE # reset game started
@@ -140,6 +147,14 @@ mod_game_params_server <- function(input, output, session, r){
     
     sheetProps <- list(grid = TRUE, id = ns("action1"), buttons = buttons)
     do.call(f7ActionSheet, sheetProps)
+  })
+  
+  
+  # warrior mode
+  observeEvent({
+    req(input$warrior)
+  }, {
+    r$warrior$mode <- TRUE
   })
   
 }
