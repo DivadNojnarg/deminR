@@ -30,6 +30,7 @@ app_ui <- function(request) {
           transparent = TRUE,
           left_panel = TRUE,
           subNavbar = f7SubNavbar(
+            class = "align-items-stretch",
             mod_game_info_ui("game_info_ui_1")[[1]],
             mod_display_scores_ui("display_scores_ui_1")[[3]]
           )

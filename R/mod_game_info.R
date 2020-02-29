@@ -19,9 +19,11 @@ mod_game_info_ui <- function(id){
   ns <- NS(id)
   tagList(
     f7Row(
-      uiOutput(ns("userName"), class = "col"),
-      uiOutput(ns("difficultyBadge"), class = "col") 
-    ),
+      uiOutput(ns("userName")),
+      uiOutput(ns("difficultyBadge")) ,
+      uiOutput(ns("timer")),
+      uiOutput(ns("bombs"))
+    ) %>% f7Margin(),
     uiOutput(ns('infos'))
   )
   
@@ -51,36 +53,22 @@ mod_game_info_server <- function(input, output, session, r){
     )
   })
   
-  output$infos <- renderUI({
+  # bombs counter UI
+  output$bombs <- renderUI({
     res <- r$mod_grid$data
     n_b <- sum(res$value == -999)
-    rowTag <- f7Row(
-      f7Col(
-        f7Card(
-          HTML(paste("<h2>", f7Icon("burst", old = FALSE), ": ", n_b - sum(res$flag & res$hide)),"</h2>") 
-        ) %>% 
-          f7Align("center") %>%
-          f7Shadow(24, hover = TRUE)
-      ),
-      f7Col(
-        f7Card(
-          HTML(paste("<h2>", f7Icon("timer", old = TRUE), ": ", format(r$mod_timer$seconds/100, nsmall = 2), "s","</h2>"))
-        ) %>% 
-          f7Align("center") %>%
-          f7Shadow(24, hover = TRUE)
-      )
-    ) %>% f7Margin()
-    
-    # display a loading skeleton only at app startup
-    if (r$click$counter == 0) {
-      for(i in seq_along(rowTag$children)) {
-        rowTag$children[[i]]$children[[1]] <- rowTag$children[[i]]$children[[1]] %>%
-          f7Skeleton()
-      }
-    }
-    
-    rowTag
-    
+    f7Chip(
+      icon = f7Icon("burst", old = FALSE),
+      label = as.character(n_b - sum(res$flag & res$hide)) 
+    )
+  })
+  
+  # timer UI
+  output$timer <- renderUI({
+    f7Chip(
+      icon = f7Icon("timer", old = TRUE),
+      label = format(r$mod_timer$seconds/100, nsmall = 2)
+    )
   })
   
   # initialize timer activation
