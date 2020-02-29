@@ -18,7 +18,10 @@
 mod_game_info_ui <- function(id){
   ns <- NS(id)
   tagList(
-    uiOutput(ns("difficultyBadge")),
+    f7Row(
+      uiOutput(ns("userName"), class = "col"),
+      uiOutput(ns("difficultyBadge"), class = "col") 
+    ),
     uiOutput(ns('infos'))
   )
   
@@ -33,15 +36,19 @@ mod_game_info_ui <- function(id){
 mod_game_info_server <- function(input, output, session, r){
   ns <- session$ns
   
+  output$userName <- renderUI({
+    f7Chip(label = paste("User:", r$cookies$user))
+  })
+  
   output$difficultyBadge <- renderUI({
-    f7Badge(
-      "Difficulty",
-      color = switch (r$settings$Level,
+    f7Chip(
+      label = paste("Difficulty:", r$settings$Level),
+      status = switch (r$settings$Level,
         "Beginner" = "teal",
         "Intermediate" = "deeporange",
         "Advanced" = "red"
       )
-    ) %>% f7Shadow(24, hover = TRUE)
+    )
   })
   
   output$infos <- renderUI({

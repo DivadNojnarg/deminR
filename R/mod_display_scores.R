@@ -191,12 +191,12 @@ mod_display_scores_server <- function(input, output, session, r){
   })
   
   observeEvent(input$save, {
-    if(valid_nickname(input$nickname)){
+    if(r$cookies$user){
       # insert into base
       shinyjs::disable(id = "save") # avoid several clicks
       
       line <- data.frame(
-        Nickname = input$nickname,
+        Nickname = r$cookies$user,
         Difficulty = r$settings$Level,
         Score = r$mod_timer$seconds/100,
         Date = paste(
@@ -227,13 +227,6 @@ mod_display_scores_server <- function(input, output, session, r){
       # wait to make sure the changes are done
       invalidateLater(1000)
       shinyjs::click(id = "refresh")
-    } else {
-      # if invalid nickname, display a message saying to enter a valid nickname
-      f7Dialog(
-        title = "Invalid input!",
-        text = "You nickname must be between 2 and 20 alphanumeric characters",
-        type = "alert"
-      )
     }
   })
   

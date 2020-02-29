@@ -15,7 +15,8 @@ app_server <- function(input, output, session) {
     mod_scores = reactiveValues(refresh = NULL),
     click = reactiveValues(counter = 0),
     currentTab = reactiveValues(val = NULL),
-    warrior = reactiveValues(mode = FALSE)
+    warrior = reactiveValues(mode = FALSE),
+    cookies = reactiveValues()
   )
   
   # needed to get the value of the currently selected tabs
@@ -26,6 +27,8 @@ app_server <- function(input, output, session) {
   
   # welcome module
   callModule(mod_welcome_server, "welcome_ui_1", r = r)
+  # set cookies based on authentication layer
+ 
   ### Help module
   callModule(mod_help_server, "help_ui_1")
   ### Params 

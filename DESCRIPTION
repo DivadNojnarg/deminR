@@ -27,12 +27,14 @@ Imports:
     DT,
     sever,
     magrittr,
-    glue
+    glue,
+    glouton
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo,
     hrbrmstr/ethercalc,
-    JohnCoene/sever
+    JohnCoene/sever,
+    ColinFay/glouton
 RoxygenNote: 7.0.2
 Suggests: 
     testthat
