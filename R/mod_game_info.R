@@ -44,7 +44,7 @@ mod_game_info_server <- function(input, output, session, r){
   
   output$difficultyBadge <- renderUI({
     f7Chip(
-      label = paste("Difficulty:", r$settings$Level),
+      label = r$settings$Level,
       status = switch (r$settings$Level,
         "Beginner" = "teal",
         "Intermediate" = "deeporange",

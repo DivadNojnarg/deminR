@@ -34,7 +34,7 @@ Remotes:
     hadley/emo,
     hrbrmstr/ethercalc,
     JohnCoene/sever,
-    ColinFay/glouton
+    DivadNojnarg/glouton
 RoxygenNote: 7.0.2
 Suggests: 
     testthat
