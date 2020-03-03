@@ -16,13 +16,15 @@ app_server <- function(input, output, session) {
     click = reactiveValues(counter = 0),
     currentTab = reactiveValues(val = NULL),
     warrior = reactiveValues(mode = FALSE),
-    cookies = reactiveValues()
+    cookies = reactiveValues(),
+    device = reactiveValues(info = NULL)
   )
   
   # needed to get the value of the currently selected tabs
   # between modules
   observe({
     r$currentTab$val <- input$tabset
+    r$device$info <- input$deviceInfo
   })
   
   # welcome module
