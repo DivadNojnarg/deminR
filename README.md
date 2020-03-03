@@ -27,12 +27,9 @@ run_app()
 ## TO DO
 - add new reactiveValue in r to know the current device (David)
 - double click or long press for mobile? (Discuss)...
-- create database instead of ethercalc (David)
-- update data according to DB (Gab)
 - group_by devices (Gab)
 - maybe add other data ... (Gab + David)
 - Finish help section (Gab)
-- Change grid size (beginner level should have less) (Gab)
 - optimize UI (Gab + David): chip in navbar not properly aligned in some cases (if timer > 100s, if user name lenght...) 
 
 

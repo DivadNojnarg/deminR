@@ -52,13 +52,6 @@ mod_display_scores_server <- function(input, output, session, r){
   score_table <- reactiveValues()
   str <- reactiveValues(warning = " ")
   
-  observe({
-    #print(r$mod_grid$playing)
-    #print(golem::get_golem_options("usecase"))
-    #print(r$mod_scores$refresh)
-    #print(r$mod_scores$firstVisit)
-  })
-  
   # Trigger refresh when app start so that score are displayed
   # This event occurs once. Then the user will need to click on
   # the refresh button
@@ -78,7 +71,7 @@ mod_display_scores_server <- function(input, output, session, r){
     # invalidateLater(100)
     req(r$mod_scores$refresh)
     
-    if(golem::get_golem_options("usecase") == "online"){
+    if(golem::get_golem_options("usecase") == "ethercalc"){
       score_table$table <- data.frame(
         ec_read(
           room = golem::get_golem_options("ec_room"), 
@@ -93,6 +86,28 @@ mod_display_scores_server <- function(input, output, session, r){
         stringsAsFactors = FALSE
       )
     }
+    
+    if(golem::get_golem_options("usecase") == "database"){
+
+      # Connect to database
+      con <- DBI::dbConnect(
+        RPostgres::Postgres(), 
+        dbname = golem::get_golem_options("dbname"), 
+        host = golem::get_golem_options("dbhost"), 
+        port = golem::get_golem_options("dbport"), 
+        user = golem::get_golem_options("dbuser"), 
+        password = golem::get_golem_options("dbpwd")
+      )
+      
+      # Get the scores
+      score_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_name")) 
+      
+      
+      # Disconnect from database
+      DBI::dbDisconnect(con)
+
+    }
+    
     
     if(golem::get_golem_options("usecase") == "local"){
       score_table$table <- read.table(
@@ -114,7 +129,7 @@ mod_display_scores_server <- function(input, output, session, r){
     # prepare data
     scores <- score_table$table %>%
       filter_at(vars("Difficulty"), ~ . == r$settings$Level) %>%
-      select_at(vars("Date", "Nickname", "Score")) %>%
+      select_at(vars("Date", "Nickname", "Score", "Device")) %>%
       mutate_at(vars("Date"), list(~gsub("_", "-", .))) %>%
       arrange_at(vars("Score"))
     
@@ -132,7 +147,7 @@ mod_display_scores_server <- function(input, output, session, r){
             subtitle = r$settings$Level,
             temp$Score,
             media = tags$img(src = paste0("avatars", file)),
-            right = temp$Date
+            right = temp$Date, temp$Device
           )
         })
       ) %>% f7Found(),
@@ -191,7 +206,8 @@ mod_display_scores_server <- function(input, output, session, r){
   })
   
   observeEvent(input$save, {
-    if(r$cookies$user){
+    
+    if(!is.null(r$cookies$user) & !is.na(r$cookies$user)){
       # insert into base
       shinyjs::disable(id = "save") # avoid several clicks
       
@@ -205,14 +221,35 @@ mod_display_scores_server <- function(input, output, session, r){
           format(Sys.Date(), "%d"), 
           sep = "_"
         ),
+        Device = NA,
         stringsAsFactors = FALSE
       )
       
-      if(golem::get_golem_options("usecase") == "online"){
+      if(golem::get_golem_options("usecase") == "ethercalc"){
         ec_append(line, 
                   room = golem::get_golem_options("ec_room"),
                   ec_host = golem::get_golem_options("ec_host"))
       }
+      
+      if(golem::get_golem_options("usecase") == "database"){
+        # Connect to database
+        con <- DBI::dbConnect(
+          RPostgres::Postgres(), 
+          dbname = golem::get_golem_options("dbname"), 
+          host = golem::get_golem_options("dbhost"), 
+          port = golem::get_golem_options("dbport"), 
+          user = golem::get_golem_options("dbuser"), 
+          password = golem::get_golem_options("dbpwd")
+        )
+        
+        # Write the new score
+        DBI::dbAppendTable(con, name = golem::get_golem_options("table_name"),
+                           value = line)
+        
+        DBI::dbDisconnect(con)      }
+      
+      
+      
       if(golem::get_golem_options("usecase") == "local"){
         write.table(
           line,

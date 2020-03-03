@@ -28,7 +28,9 @@ Imports:
     sever,
     magrittr,
     glue,
-    glouton
+    glouton,
+    DBI,
+    RPostgres
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo,

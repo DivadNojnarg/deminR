@@ -4,7 +4,17 @@
 \alias{run_app}
 \title{Run the Shiny Application}
 \usage{
-run_app(usecase = "local", ec_host = "", ec_room = "")
+run_app(
+  usecase = "local",
+  ec_host = "",
+  ec_room = "",
+  dbname = "",
+  dbhost = "",
+  dbport = "",
+  dbuser = "",
+  dbpwd = "",
+  table_name = ""
+)
 }
 \arguments{
 \item{usecase}{usecase}
@@ -12,6 +22,18 @@ run_app(usecase = "local", ec_host = "", ec_room = "")
 \item{ec_host}{ethercalc host}
 
 \item{ec_room}{ethercalc room}
+
+\item{dbname}{database name}
+
+\item{dbhost}{database host}
+
+\item{dbport}{database port}
+
+\item{dbuser}{database user}
+
+\item{dbpwd}{database password}
+
+\item{table_name}{database table name}
 }
 \description{
 Run the Shiny Application
