@@ -55,9 +55,14 @@ mod_display_scores_server <- function(input, output, session, r){
   observe({
     if (r$mod_welcome$firstVisit) {
       r$mod_scores$refresh <- TRUE 
-      r$mod_welcome$firstVisit <- FALSE
+      f7Toast(
+        session, 
+        text = "Scores successfully loaded!",
+        position = "bottom",
+        closeButtonColor = NULL
+      )
     }
-  })
+  }, priority = 1000)
   
   # hide searchbar if input tabs is not score
   observeEvent(r$currentTab$val, {
@@ -123,7 +128,7 @@ mod_display_scores_server <- function(input, output, session, r){
   # scores tibble
   scores <- reactive({
     # prepare data
-    scores <- score_table$table %>%
+    score_table$table %>%
       filter_at(vars("difficulty"), ~ . == r$settings$Level) %>%
       select_at(vars("date", "nickname", "score", "device")) %>%
       mutate_at(vars("date"), list(~gsub("_", "-", .))) %>%
@@ -182,18 +187,25 @@ mod_display_scores_server <- function(input, output, session, r){
     )
   })
   
-  # inform user that scores are successfully loaded
-  observe({
-    req(score_table$table)
+  # navigate to 
+  observeEvent({
+    r$currentTab$val
+  },{
     req(r$currentTab$val == "scores")
+    r$mod_welcome$firstVisit <- FALSE
+    r$mod_scores$refresh <- TRUE
+  })
+  
+  # inform user that scores are successfully loaded
+  observeEvent({
+    r$mod_scores$refresh
+    req(!r$mod_welcome$firstVisit)
+  },{
     req(r$mod_scores$refresh)
+    req(nrow(score_table$table) > 0)
     f7Toast(
       session, 
-      text = if (r$mod_scores$refresh) {
-        "Score successfully updated!"
-      } else {
-        "Score successfully loaded!"
-      },
+      text = "Scores successfully updated!",
       position = "bottom",
       closeButtonColor = NULL
     )
@@ -204,7 +216,7 @@ mod_display_scores_server <- function(input, output, session, r){
   
   # alert if no scores in the table
   observeEvent(score_table$table, {
-    if (is.null(score_table$table))
+    if (nrow(score_table$table) == 0)
       f7Dialog(
         type = "alert",
         "No score to show!"
@@ -327,9 +339,6 @@ mod_display_scores_server <- function(input, output, session, r){
           col.names = FALSE
         )
       }
-      
-      # trigger refresh
-      r$mod_scores$refresh <- TRUE 
     }
   })
   
