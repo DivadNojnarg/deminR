@@ -1,5 +1,6 @@
-Nickname;Difficulty;Score;Date;Device
+nickname;difficulty;score;date;device
 Init;Beginner;3600.01;2019_11_26;NA
 Init;Intermediate;3600.01;2019_11_26;NA
 Init;Advanced;3600.01;2019_11_26;NA
 Gabrielle;Dev;0.55;2020_03_03;NA
+Gabrielle;Dev;0;2020-03-04 10:29:44;windows 
