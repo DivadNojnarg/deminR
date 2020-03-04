@@ -20,6 +20,7 @@
 #' @importFrom readr cols col_character
 #' @importFrom shinyjs click hide show enable disable
 #' @importFrom utils read.table write.table
+#' @importFrom lubridate ymd_hms
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -231,12 +232,7 @@ mod_display_scores_server <- function(input, output, session, r){
         nickname = r$cookies$user,
         difficulty = r$settings$Level,
         score = r$mod_timer$seconds/100,
-        date = paste(
-          format(Sys.Date(), "%Y"),
-          format(Sys.Date(), "%m"),
-          format(Sys.Date(), "%d"), 
-          sep = "_"
-        ),
+        date = ymd_hms(Sys.time()),
         device = deviceDetails,
         stringsAsFactors = FALSE
       )
