@@ -95,7 +95,7 @@ mod_display_scores_server <- function(input, output, session, r){
       # Get the scores
       score_table$table <- DBI::dbReadTable(
         con, 
-        name = golem::get_golem_options("table_name")
+        name = golem::get_golem_options("table_scores")
       ) 
       
       
@@ -315,7 +315,7 @@ mod_display_scores_server <- function(input, output, session, r){
         # Write the new score
         DBI::dbAppendTable(
           con, 
-          name = golem::get_golem_options("table_name"),
+          name = golem::get_golem_options("table_scores"),
           value = line
         )
         

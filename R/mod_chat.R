@@ -71,7 +71,7 @@ mod_chat_server <- function(input, output, session, r){
       )
       
       # Get the scores
-      messages_table$table <- DBI::dbReadTable(con, name = "messages") 
+      messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message")) 
       # Disconnect from database
       DBI::dbDisconnect(con) 
     }
@@ -96,10 +96,10 @@ mod_chat_server <- function(input, output, session, r){
     )
     
     # Write the new score
-    DBI::dbAppendTable(con, name = "messages", value = newMessage)
+    DBI::dbAppendTable(con, name = golem::get_golem_options("table_message"), value = newMessage)
     
     # Get the scores
-    messages_table$table <- DBI::dbReadTable(con, name = "messages") 
+    messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message")) 
     DBI::dbDisconnect(con) 
   })
   
