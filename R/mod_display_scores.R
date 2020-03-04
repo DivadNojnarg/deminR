@@ -142,8 +142,25 @@ mod_display_scores_server <- function(input, output, session, r){
         class = "swiper-no-swiping",
         lapply(seq_len(nrow(scores)), function(i) {
           temp <- scores %>% dplyr::slice(i)
+          
+          trophy <- if (i == 1) {
+            emo::ji("1st_place_medal")
+          } else if (i == 2) {
+            emo::ji("2nd_place_medal")
+          } else if (i == 3) {
+            emo::ji("3rd_place_medal")
+          } else if (i == nrow(scores)) {
+            emo::ji("hankey")
+          } else {
+            NULL
+          }
+          
           f7ListItem(
-            title = temp$nickname,
+            title = if (!is.null(trophy)) {
+              paste0(temp$nickname, ": ", trophy)
+            } else {
+              temp$nickname
+            },
             subtitle = r$settings$Level,
             footer = temp$device,
             temp$score,
