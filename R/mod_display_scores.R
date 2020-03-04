@@ -24,6 +24,13 @@ mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
     uiOutput(ns("scoresList"), class = "list"),
+    
+    f7checkBox(
+      inputId = ns("filterDevice"),
+      label = "All devices",
+      value = TRUE
+    ),
+    
     div(
       id = ns("searchbar"),
       f7SearchbarTrigger(targetId = ns("searchScore")),
@@ -120,10 +127,18 @@ mod_display_scores_server <- function(input, output, session, r){
   })
   
   
+
   # List containing all scores
   output$scoresList <- renderUI({
-    
+
     req(score_table$table)
+    
+    if(input$filterDevice){
+      scores <- scores()
+    } else{
+      scores <- scores() %>% filter_at(vars("device"), ~ . == r$device$deviceType)
+    }
+
     
     randImgId <- sample(1:9, 1)
     files <- list.files("avatars")
@@ -131,13 +146,15 @@ mod_display_scores_server <- function(input, output, session, r){
     
     # generate list items
     tagList(
+
+
       f7BlockTitle(title = "Scores", size = "large"),
       f7List(
         mode = "media",
         inset = TRUE,
         class = "swiper-no-swiping",
-        lapply(seq_len(nrow(scores())), function(i) {
-          temp <- scores() %>% dplyr::slice(i)
+        lapply(seq_len(nrow(scores)), function(i) {
+          temp <- scores %>% dplyr::slice(i)
           
           trophy <- if (i == 1) {
             emo::ji("1st_place_medal")
@@ -145,7 +162,7 @@ mod_display_scores_server <- function(input, output, session, r){
             emo::ji("2nd_place_medal")
           } else if (i == 3) {
             emo::ji("3rd_place_medal")
-          } else if (i == nrow(scores())) {
+          } else if (i == nrow(scores)) {
             emo::ji("hankey")
           } else {
             NULL
@@ -241,6 +258,7 @@ mod_display_scores_server <- function(input, output, session, r){
       shinyjs::disable(id = "save") # avoid several clicks
       
       # gather device info
+      
       deviceDetails <- if (r$device$info$desktop) {
         webBrowser <- if (r$device$info$ie) {
           "ie"
@@ -277,7 +295,8 @@ mod_display_scores_server <- function(input, output, session, r){
         difficulty = r$settings$Level,
         score = r$mod_timer$seconds/100,
         date = lubridate::ymd_hms(Sys.time()),
-        device = deviceDetails,
+        # device = deviceDetails,
+        device = r$device$deviceType,
         stringsAsFactors = FALSE
       )
 

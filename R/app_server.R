@@ -26,6 +26,7 @@ app_server <- function(input, output, session) {
   observe({
     r$currentTab$val <- input$tabset
     r$device$info <- input$deviceInfo
+    r$device$deviceType <- ifelse(r$device$info$desktop, "Desktop", "Mobile")
   })
   
   # welcome module
