@@ -58,6 +58,11 @@ app_ui <- function(request) {
             tabName = "scores",
             icon = f7Icon("list_number", old = FALSE), 
             mod_display_scores_ui("display_scores_ui_1")[[1]]
+          ),
+          f7Tab(
+            tabName = "chat",
+            icon = f7Icon("chat_bubble_2", old = FALSE),
+            mod_chat_ui("chat_ui_1")
           )
         )
       )
