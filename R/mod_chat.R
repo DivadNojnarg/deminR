@@ -40,6 +40,22 @@ mod_chat_ui <- function(id){
 mod_chat_server <- function(input, output, session, r){
   ns <- session$ns
   
+  # validate message input
+  observe({
+    f7ValidateInput(
+      inputId = ns("message"),
+      error = "Message cannot be empty!"
+    )
+  })
+  
+  # disable submit button if message content is ""
+  observe({
+    shinyjs::toggleState(
+      id = "sendMessage", 
+      condition = nchar(input$message)  > 0
+    )
+  })
+  
   messages_table <- reactiveValues()
   
   # load the messages table
@@ -84,10 +100,9 @@ mod_chat_server <- function(input, output, session, r){
     DBI::dbDisconnect(con) 
   })
   
-  # create chat items 
-  output$chat <- renderUI({
+  messagesTag <- reactive({
+    req(messages_table$table)
     req(r$cookies$user)
-    input$sendMessage
     items <- lapply(seq_len(nrow(messages_table$table)), function(i) {
       
       temp <- messages_table$table %>% slice(i)
@@ -102,8 +117,11 @@ mod_chat_server <- function(input, output, session, r){
         src = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
       )
     })
-    
-    f7Messages(id = "messagelist", items)
+  })
+  
+  # create chat items 
+  output$chat <- renderUI({
+    f7Messages(id = "messagelist", messagesTag())
   })
   
 }
