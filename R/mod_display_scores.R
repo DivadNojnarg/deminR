@@ -296,19 +296,3 @@ mod_display_scores_server <- function(input, output, session, r){
 
 ## To be copied in the server
 # callModule(mod_display_scores_server, "display_scores_ui_1")
-#  
-# library(shiny)
-# library(ethercalc)
-# library(readr)
-# 
-# 
-# if (interactive()){
-#  ui <- fluidPage(
-#    mod_display_scores_ui("test")
-#  )
-#  server <- function(input, output, session) {
-#    callModule(mod_display_scores_server, "test")
-# 
-#  }
-#  shinyApp(ui, server)
-# }
