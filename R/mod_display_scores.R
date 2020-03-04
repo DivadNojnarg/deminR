@@ -232,7 +232,7 @@ mod_display_scores_server <- function(input, output, session, r){
         nickname = r$cookies$user,
         difficulty = r$settings$Level,
         score = r$mod_timer$seconds/100,
-        date = ymd_hms(Sys.time()),
+        date = lubridate::ymd_hms(Sys.time()),
         device = deviceDetails,
         stringsAsFactors = FALSE
       )
