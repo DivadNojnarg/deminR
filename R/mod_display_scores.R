@@ -238,7 +238,7 @@ mod_display_scores_server <- function(input, output, session, r){
           } else if (r$device$info$ipod) {
             "ipod"
           }
-          paste(r$device$info$os, r$device$info$osVersion, extraInfos)
+          paste(extraInfos, r$device$info$os, r$device$info$osVersion)
         } else {
           paste(r$device$info$os, r$device$info$osVersion)
         }
