@@ -31,7 +31,6 @@ app_ui <- function(request) {
           left_panel = TRUE,
           subNavbar = f7SubNavbar(
             class = "align-items-stretch",
-            mod_game_info_ui("game_info_ui_1")[[1]],
             mod_display_scores_ui("display_scores_ui_1")[[3]]
           )
         ),
@@ -51,7 +50,7 @@ app_ui <- function(request) {
             icon = f7Icon("home", old = TRUE),
             # main content
             mod_welcome_ui("welcome_ui_1"),
-            mod_game_info_ui("game_info_ui_1")[[2]],
+            mod_game_info_ui("game_info_ui_1"),
             mod_game_grid_ui("game_grid_ui_1"),
             mod_share_ui("share_ui_1")[[2]]
           ),

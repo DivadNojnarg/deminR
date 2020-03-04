@@ -23,8 +23,7 @@ mod_game_info_ui <- function(id){
       uiOutput(ns("difficultyBadge")) ,
       uiOutput(ns("timer")),
       uiOutput(ns("bombs"))
-    ) %>% f7Margin(),
-    uiOutput(ns('infos'))
+    ) %>% f7Margin()
   )
   
 }
