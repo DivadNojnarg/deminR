@@ -88,7 +88,7 @@ mod_display_scores_server <- function(input, output, session, r){
     }
     
     if(golem::get_golem_options("usecase") == "database"){
-
+      
       # Connect to database
       con <- DBI::dbConnect(
         RPostgres::Postgres(), 
@@ -100,12 +100,15 @@ mod_display_scores_server <- function(input, output, session, r){
       )
       
       # Get the scores
-      score_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_name")) 
+      score_table$table <- DBI::dbReadTable(
+        con, 
+        name = golem::get_golem_options("table_name")
+      ) 
       
       
       # Disconnect from database
       DBI::dbDisconnect(con)
-
+      
     }
     
     
@@ -128,10 +131,10 @@ mod_display_scores_server <- function(input, output, session, r){
     file <- files[randImgId]
     # prepare data
     scores <- score_table$table %>%
-      filter_at(vars("Difficulty"), ~ . == r$settings$Level) %>%
-      select_at(vars("Date", "Nickname", "Score", "Device")) %>%
-      mutate_at(vars("Date"), list(~gsub("_", "-", .))) %>%
-      arrange_at(vars("Score"))
+      filter_at(vars("difficulty"), ~ . == r$settings$Level) %>%
+      select_at(vars("date", "nickname", "score", "device")) %>%
+      mutate_at(vars("date"), list(~gsub("_", "-", .))) %>%
+      arrange_at(vars("score"))
     
     # generate list items
     tagList(
@@ -143,11 +146,12 @@ mod_display_scores_server <- function(input, output, session, r){
         lapply(seq_len(nrow(scores)), function(i) {
           temp <- scores %>% dplyr::slice(i)
           f7ListItem(
-            title = temp$Nickname,
+            title = temp$nickname,
             subtitle = r$settings$Level,
-            temp$Score,
+            footer = temp$device,
+            temp$score,
             media = tags$img(src = paste0("avatars", file)),
-            right = temp$Date, temp$Device
+            right = temp$date
           )
         })
       ) %>% f7Found(),
@@ -211,24 +215,58 @@ mod_display_scores_server <- function(input, output, session, r){
       # insert into base
       shinyjs::disable(id = "save") # avoid several clicks
       
+      # gather device info
+      deviceDetails <- if (r$device$info$desktop) {
+        webBrowser <- if (r$device$info$ie) {
+          "ie"
+        } else if (r$device$info$edge) {
+          "edge"
+        } else if (r$device$info$firefox) {
+          "firefox"
+        }
+        if (!is.null(webBrowser)) {
+          paste(r$device$info$os, r$device$info$osVersion, webBrowser)
+        } else {
+          paste(r$device$info$os, r$device$info$osVersion)
+        }
+      } else {
+        if (r$device$info$os == "ios") {
+          extraInfos <- if (r$device$info$ipad) {
+            "ipad"
+          } else if (r$device$info$iphone) {
+            "iphone"
+          } else if (r$device$info$ipod) {
+            "ipod"
+          }
+          paste(r$device$info$os, r$device$info$osVersion, extraInfos)
+        } else {
+          paste(r$device$info$os, r$device$info$osVersion)
+        }
+      }
+      
+      if (r$device$info$standalone) deviceDetails <- paste(deviceDetails, "PWA")
+      
+      
       line <- data.frame(
-        Nickname = r$cookies$user,
-        Difficulty = r$settings$Level,
-        Score = r$mod_timer$seconds/100,
-        Date = paste(
+        nickname = r$cookies$user,
+        difficulty = r$settings$Level,
+        score = r$mod_timer$seconds/100,
+        date = paste(
           format(Sys.Date(), "%Y"),
           format(Sys.Date(), "%m"),
           format(Sys.Date(), "%d"), 
           sep = "_"
         ),
-        Device = NA,
+        device = deviceDetails,
         stringsAsFactors = FALSE
       )
       
       if(golem::get_golem_options("usecase") == "ethercalc"){
-        ec_append(line, 
-                  room = golem::get_golem_options("ec_room"),
-                  ec_host = golem::get_golem_options("ec_host"))
+        ec_append(
+          line, 
+          room = golem::get_golem_options("ec_room"),
+          ec_host = golem::get_golem_options("ec_host")
+        )
       }
       
       if(golem::get_golem_options("usecase") == "database"){
@@ -243,10 +281,14 @@ mod_display_scores_server <- function(input, output, session, r){
         )
         
         # Write the new score
-        DBI::dbAppendTable(con, name = golem::get_golem_options("table_name"),
-                           value = line)
+        DBI::dbAppendTable(
+          con, 
+          name = golem::get_golem_options("table_name"),
+          value = line
+        )
         
-        DBI::dbDisconnect(con)      }
+        DBI::dbDisconnect(con)      
+      }
       
       
       
