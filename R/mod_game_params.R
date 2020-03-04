@@ -115,7 +115,20 @@ mod_game_params_server <- function(input, output, session, r){
       updateF7Sheet(inputId = "game_params_sheet", session = session)
     } else if (input$action1_button == 1) {
       r$mod_scores$refresh <- TRUE
+    } else if (input$action1_button == 3) {
+      f7Dialog(
+        type = "prompt",
+        inputId = ns("newNickname"),
+        text = "Change nickname"
+      )
     }
+  })
+  
+  
+  # Manually change user nickname during the game.
+  # This will overwrite the cookie...
+  observeEvent(input$newNickname, {
+    r$cookies$user <- input$newNickname
   })
   
   
@@ -131,6 +144,10 @@ mod_game_params_server <- function(input, output, session, r){
         list(
           text = "Parameters",
           icon = f7Icon("settings_outline", old = TRUE)
+        ),
+        list(
+          text = "Nickname",
+          icon = f7Icon("doc_person", old = TRUE)
         )
       )
     } else {
