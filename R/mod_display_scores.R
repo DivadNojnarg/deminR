@@ -161,9 +161,9 @@ mod_display_scores_server <- function(input, output, session, r){
             } else {
               temp$nickname
             },
-            subtitle = r$settings$Level,
+            subtitle = paste("Level: ", r$settings$Level),
             footer = temp$device,
-            temp$score,
+            h1(temp$score, class = "text-color-blue"),
             media = tags$img(src = paste0("avatars", file)),
             right = temp$date
           )

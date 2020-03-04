@@ -12,7 +12,7 @@ app_ui <- function(request) {
         skin = "md",
         theme = "dark",
         filled = FALSE,
-        color = "pink",
+        color = "blue",
         tapHold = TRUE,
         iosTouchRipple = TRUE,
         iosCenterTitle = TRUE,
