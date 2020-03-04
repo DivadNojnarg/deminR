@@ -79,10 +79,10 @@ mod_display_scores_server <- function(input, output, session, r){
           room = golem::get_golem_options("ec_room"), 
           ec_host = golem::get_golem_options("ec_host"),
           col_type = readr::cols(
-            Nickname = col_character(),
-            Difficulty = col_character(),
-            Score = col_character(),
-            Date = col_character()
+            nickname = col_character(),
+            difficulty = col_character(),
+            score = col_character(),
+            date = col_character()
           )
         ),
         stringsAsFactors = FALSE
