@@ -24,10 +24,6 @@ mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
     uiOutput(ns("scoresList"), class = "list"),
-    f7Segment(
-      container = "row",
-      f7Button(inputId = ns("save"), label = "Save")
-    ),
     div(
       id = ns("searchbar"),
       f7SearchbarTrigger(targetId = ns("searchScore")),
@@ -190,27 +186,11 @@ mod_display_scores_server <- function(input, output, session, r){
       )
   })
   
-  # Display the score saving only if the game is won
-  observe({
-    if(r$mod_grid$playing == "won"){
-      f7Dialog(
-        type = "prompt",
-        inputId = ns("nickname"),
-        text = "Enter your nickname"
-      )
-      shinyjs::show("save")
-      shinyjs::enable("save")
-    }
-    if(r$mod_grid$playing == "onload"){
-      shinyjs::hide("save")
-    }
-    if(r$mod_grid$playing == "loose"){
-      shinyjs::hide("save")
-    }
-  })
   
-  observeEvent(input$save, {
-    
+  observeEvent({
+    r$mod_grid$playing
+  }, {
+    req(r$mod_grid$playing == "won")
     if(!is.null(r$cookies$user) & !is.na(r$cookies$user)){
       # insert into base
       shinyjs::disable(id = "save") # avoid several clicks
@@ -303,9 +283,9 @@ mod_display_scores_server <- function(input, output, session, r){
           col.names = FALSE
         )
       }
-      # wait to make sure the changes are done
-      invalidateLater(1000)
-      shinyjs::click(id = "refresh")
+      
+      # trigger refresh
+      r$mod_scores$refresh <- TRUE 
     }
   })
   

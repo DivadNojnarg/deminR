@@ -31,7 +31,7 @@ app_ui <- function(request) {
           left_panel = TRUE,
           subNavbar = f7SubNavbar(
             class = "align-items-stretch",
-            mod_display_scores_ui("display_scores_ui_1")[[3]]
+            mod_display_scores_ui("display_scores_ui_1")[[2]]
           )
         ),
         panels = mod_help_ui("help_ui_1")[[1]],
@@ -57,7 +57,7 @@ app_ui <- function(request) {
           f7Tab(
             tabName = "scores",
             icon = f7Icon("list_number", old = FALSE), 
-            mod_display_scores_ui("display_scores_ui_1")[c(1, 2)]
+            mod_display_scores_ui("display_scores_ui_1")[[1]]
           )
         )
       )
