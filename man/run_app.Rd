@@ -11,7 +11,8 @@ run_app(
   dbport = "",
   dbuser = "",
   dbpwd = "",
-  table_name = ""
+  table_scores = "",
+  table_message = ""
 )
 }
 \arguments{
@@ -27,7 +28,9 @@ run_app(
 
 \item{dbpwd}{database password}
 
-\item{table_name}{database table name}
+\item{table_scores}{database table name}
+
+\item{table_message}{database table name}
 }
 \description{
 Run the Shiny Application
