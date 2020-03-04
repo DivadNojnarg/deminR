@@ -119,6 +119,19 @@ mod_display_scores_server <- function(input, output, session, r){
     }
   }, priority = 100)
   
+  
+  # scores tibble
+  scores <- reactive({
+    # prepare data
+    scores <- score_table$table %>%
+      filter_at(vars("difficulty"), ~ . == r$settings$Level) %>%
+      select_at(vars("date", "nickname", "score", "device")) %>%
+      mutate_at(vars("date"), list(~gsub("_", "-", .))) %>%
+      arrange_at(vars("score"))
+  })
+  
+  
+  # List containing all scores
   output$scoresList <- renderUI({
     
     req(score_table$table)
@@ -126,12 +139,6 @@ mod_display_scores_server <- function(input, output, session, r){
     randImgId <- sample(1:9, 1)
     files <- list.files("avatars")
     file <- files[randImgId]
-    # prepare data
-    scores <- score_table$table %>%
-      filter_at(vars("difficulty"), ~ . == r$settings$Level) %>%
-      select_at(vars("date", "nickname", "score", "device")) %>%
-      mutate_at(vars("date"), list(~gsub("_", "-", .))) %>%
-      arrange_at(vars("score"))
     
     # generate list items
     tagList(
@@ -140,8 +147,8 @@ mod_display_scores_server <- function(input, output, session, r){
         mode = "media",
         inset = TRUE,
         class = "swiper-no-swiping",
-        lapply(seq_len(nrow(scores)), function(i) {
-          temp <- scores %>% dplyr::slice(i)
+        lapply(seq_len(nrow(scores())), function(i) {
+          temp <- scores() %>% dplyr::slice(i)
           
           trophy <- if (i == 1) {
             emo::ji("1st_place_medal")
@@ -149,7 +156,7 @@ mod_display_scores_server <- function(input, output, session, r){
             emo::ji("2nd_place_medal")
           } else if (i == 3) {
             emo::ji("3rd_place_medal")
-          } else if (i == nrow(scores)) {
+          } else if (i == nrow(scores())) {
             emo::ji("hankey")
           } else {
             NULL
@@ -204,7 +211,31 @@ mod_display_scores_server <- function(input, output, session, r){
       )
   })
   
+  # Feedback when the current score becomes a winner in the 
+  # selected category or the worse score ever registered
+  observeEvent({
+    r$mod_grid$playing
+  }, {
+    req(r$mod_grid$playing == "won")
+    if (r$mod_timer$seconds/100 < min(scores()$score)) {
+      f7Dialog(
+        type = "alert",
+        title = paste("Congratulations", emo::ji("trophy")),
+        text = paste("You are the new winner of the", r$settings$Level, "category")
+      )
+    } else if (r$mod_timer$seconds/100 > max(scores()$score)) {
+      f7Dialog(
+        type = "alert",
+        title = paste("Wowowo", emo::ji("ghost")),
+        text = paste("You are the new worse score of the", r$settings$Level, "category")
+      )
+    }
+  })
   
+  
+  # When the game is won, add new entry in the remote storage
+  # either DB, ethercalc or locally, dependung on the 
+  # golem::get_golem_options("usecase") value.
   observeEvent({
     r$mod_grid$playing
   }, {
