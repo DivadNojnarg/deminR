@@ -6,8 +6,6 @@
 \usage{
 run_app(
   usecase = "local",
-  ec_host = "",
-  ec_room = "",
   dbname = "",
   dbhost = "",
   dbport = "",
@@ -18,10 +16,6 @@ run_app(
 }
 \arguments{
 \item{usecase}{usecase}
-
-\item{ec_host}{ethercalc host}
-
-\item{ec_room}{ethercalc room}
 
 \item{dbname}{database name}
 

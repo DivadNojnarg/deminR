@@ -15,7 +15,6 @@
 #' @export 
 #' @importFrom shiny NS tagList 
 #' @importFrom shinyMobile f7Row f7Col
-#' @importFrom ethercalc ec_edit ec_read ec_append
 #' @importFrom dplyr select_at mutate_at filter_at arrange_at vars
 #' @importFrom readr cols col_character
 #' @importFrom shinyjs click hide show enable disable
@@ -72,22 +71,7 @@ mod_display_scores_server <- function(input, output, session, r){
   observeEvent(r$mod_scores$refresh, {
     # invalidateLater(100)
     req(r$mod_scores$refresh)
-    
-    if(golem::get_golem_options("usecase") == "ethercalc"){
-      score_table$table <- data.frame(
-        ec_read(
-          room = golem::get_golem_options("ec_room"), 
-          ec_host = golem::get_golem_options("ec_host"),
-          col_type = readr::cols(
-            nickname = col_character(),
-            difficulty = col_character(),
-            score = col_character(),
-            date = col_character()
-          )
-        ),
-        stringsAsFactors = FALSE
-      )
-    }
+
     
     if(golem::get_golem_options("usecase") == "database"){
       
@@ -246,7 +230,7 @@ mod_display_scores_server <- function(input, output, session, r){
   
   
   # When the game is won, add new entry in the remote storage
-  # either DB, ethercalc or locally, dependung on the 
+  # either DB or locally, depending on the 
   # golem::get_golem_options("usecase") value.
   observeEvent({
     r$mod_grid$playing
@@ -296,14 +280,7 @@ mod_display_scores_server <- function(input, output, session, r){
         device = deviceDetails,
         stringsAsFactors = FALSE
       )
-      
-      if(golem::get_golem_options("usecase") == "ethercalc"){
-        ec_append(
-          line, 
-          room = golem::get_golem_options("ec_room"),
-          ec_host = golem::get_golem_options("ec_host")
-        )
-      }
+
       
       if(golem::get_golem_options("usecase") == "database"){
         # Connect to database
