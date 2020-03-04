@@ -97,13 +97,16 @@ mod_chat_server <- function(input, output, session, r){
     
     # Write the new score
     DBI::dbAppendTable(con, name = "messages", value = newMessage)
+    
+    # Get the scores
+    messages_table$table <- DBI::dbReadTable(con, name = "messages") 
     DBI::dbDisconnect(con) 
   })
   
   messagesTag <- reactive({
     req(messages_table$table)
     req(r$cookies$user)
-    items <- lapply(seq_len(nrow(messages_table$table)), function(i) {
+    lapply(seq_len(nrow(messages_table$table)), function(i) {
       
       temp <- messages_table$table %>% slice(i)
       
@@ -121,6 +124,7 @@ mod_chat_server <- function(input, output, session, r){
   
   # create chat items 
   output$chat <- renderUI({
+    invalidateLater(5000)
     f7Messages(id = "messagelist", messagesTag())
   })
   
