@@ -80,7 +80,7 @@ mod_welcome_server <- function(input, output, session, r){
         }
       }
     )
-  }, once = TRUE)
+  }, once = TRUE, priority = 10000)
   
   
   # toggle the login only if not authenticated

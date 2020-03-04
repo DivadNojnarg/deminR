@@ -17,7 +17,8 @@ app_server <- function(input, output, session) {
     currentTab = reactiveValues(val = NULL),
     warrior = reactiveValues(mode = FALSE),
     cookies = reactiveValues(),
-    device = reactiveValues(info = NULL)
+    device = reactiveValues(info = NULL),
+    loginPage = reactiveValues(visible = TRUE)
   )
   
   # needed to get the value of the currently selected tabs
@@ -28,7 +29,16 @@ app_server <- function(input, output, session) {
   })
   
   # welcome module
-  callModule(mod_welcome_server, "welcome_ui_1", r = r)
+  login <- callModule(mod_welcome_server, "welcome_ui_1", r = r)
+  observeEvent({
+    login()
+  },{
+    shinyjs::delay(1000,{
+      if (!login()) {
+        r$loginPage$visible <- FALSE
+      }
+    })
+  })
   # set cookies based on authentication layer
  
   ### Help module

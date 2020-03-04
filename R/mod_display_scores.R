@@ -52,7 +52,7 @@ mod_display_scores_server <- function(input, output, session, r){
   # This event occurs once. Then the user will need to click on
   # the refresh button
   observe({
-    if (r$mod_welcome$firstVisit) {
+    if (r$mod_welcome$firstVisit & !r$loginPage$visible) {
       r$mod_scores$refresh <- TRUE 
       f7Toast(
         session, 
