@@ -12,7 +12,8 @@ run_app(
   dbuser = "",
   dbpwd = "",
   table_scores = "",
-  table_message = ""
+  table_message = "",
+  avatars = list.files("inst/app/www/avatars/")
 )
 }
 \arguments{
@@ -31,6 +32,9 @@ run_app(
 \item{table_scores}{database table name}
 
 \item{table_message}{database table name}
+
+\item{avatars}{List of avatar images. Needed by \link{generateAvatar} in 
+\link{mod_display_scores_server}.}
 }
 \description{
 Run the Shiny Application

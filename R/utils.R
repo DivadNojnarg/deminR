@@ -33,3 +33,15 @@ createDBCon <- function() {
     password = golem::get_golem_options("dbpwd")
   )
 }
+
+
+
+#' Generate a random avatar image
+#'
+#' @param avatars List of avatars.
+#' @export
+generateAvatar <- function(avatars) {
+  n <- length(avatars)
+  randImgId <- sample(1:n, 1)
+  paste0("www/avatars/", avatars[randImgId])
+}

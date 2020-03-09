@@ -131,11 +131,6 @@ mod_display_scores_server <- function(input, output, session, r){
     } else{
       scores <- scores() %>% filter_at(vars("device"), ~ . == r$device$deviceType)
     }
-
-    
-    
-    avatarsPath <- "inst/app/www/avatars/"
-    avatars <- list.files(avatarsPath)
     
     # generate list items
     tagList(
@@ -144,8 +139,7 @@ mod_display_scores_server <- function(input, output, session, r){
         inset = TRUE,
         class = "swiper-no-swiping",
         lapply(seq_len(nrow(scores)), function(i) {
-          randImgId <- sample(1:9, 1)
-          file <- paste0("www/avatars/", avatars[randImgId])
+          file <- generateAvatar(golem::get_golem_options("avatars"))
           
           temp <- scores %>% dplyr::slice(i)
           
