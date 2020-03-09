@@ -140,20 +140,21 @@ mod_display_scores_server <- function(input, output, session, r){
     }
 
     
-    randImgId <- sample(1:9, 1)
-    files <- list.files("avatars")
-    file <- files[randImgId]
+    
+    avatarsPath <- "inst/app/www/avatars/"
+    avatars <- list.files(avatarsPath)
     
     # generate list items
     tagList(
-
-
       f7BlockTitle(title = "Scores", size = "large"),
       f7List(
         mode = "media",
         inset = TRUE,
         class = "swiper-no-swiping",
         lapply(seq_len(nrow(scores)), function(i) {
+          randImgId <- sample(1:9, 1)
+          file <- paste0("www/avatars/", avatars[randImgId])
+          
           temp <- scores %>% dplyr::slice(i)
           
           trophy <- if (i == 1) {
@@ -177,7 +178,7 @@ mod_display_scores_server <- function(input, output, session, r){
             subtitle = paste("Level: ", r$settings$Level),
             footer = temp$device,
             h1(temp$score, class = "text-color-blue"),
-            media = tags$img(src = paste0("avatars", file)),
+            media = tags$img(src = file),
             right = temp$date
           )
         })

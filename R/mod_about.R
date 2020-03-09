@@ -23,9 +23,10 @@ mod_about_ui <- function(id){
       theme = "dark",
       effect = "cover",
       resizable = FALSE,
-      f7Chip(img = "avatars/girl.png", label = "Gabrielle Devaux"),
-      f7Chip(img = "avatars/boy.png", label = "David Granjon"),
-      hr(),
+      f7Block(
+        f7Chip(img = "www/avatars/girl.svg", label = "Gabrielle Devaux"),
+        f7Chip(img = "www/avatars/boy.svg", label = "David Granjon") 
+      ),
       f7Link(
         label = "Github", 
         src = "https://github.com/DivadNojnarg/deminR",
