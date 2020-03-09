@@ -83,14 +83,7 @@ mod_display_scores_server <- function(input, output, session, r){
     if(golem::get_golem_options("usecase") == "database"){
       
       # Connect to database
-      con <- DBI::dbConnect(
-        RPostgres::Postgres(), 
-        dbname = golem::get_golem_options("dbname"), 
-        host = golem::get_golem_options("dbhost"), 
-        port = golem::get_golem_options("dbport"), 
-        user = golem::get_golem_options("dbuser"), 
-        password = golem::get_golem_options("dbpwd")
-      )
+      con <- createDBCon()
       
       # Get the scores
       score_table$table <- DBI::dbReadTable(
@@ -304,14 +297,7 @@ mod_display_scores_server <- function(input, output, session, r){
       
       if(golem::get_golem_options("usecase") == "database"){
         # Connect to database
-        con <- DBI::dbConnect(
-          RPostgres::Postgres(), 
-          dbname = golem::get_golem_options("dbname"), 
-          host = golem::get_golem_options("dbhost"), 
-          port = golem::get_golem_options("dbport"), 
-          user = golem::get_golem_options("dbuser"), 
-          password = golem::get_golem_options("dbpwd")
-        )
+        con <- createDBCon()
         
         # Write the new score
         DBI::dbAppendTable(

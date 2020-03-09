@@ -43,14 +43,7 @@ mod_chat_server <- function(input, output, session, r){
     # load all messages
     if (firstConnect()) {
       req(r$cookies$user)
-      con <- DBI::dbConnect(
-        RPostgres::Postgres(),
-        dbname = golem::get_golem_options("dbname"), 
-        host = golem::get_golem_options("dbhost"), 
-        port = golem::get_golem_options("dbport"), 
-        user = golem::get_golem_options("dbuser"), 
-        password = golem::get_golem_options("dbpwd")
-      )
+      con <- createDBCon()
       
       # Get the messages
       messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message"))
@@ -83,15 +76,9 @@ mod_chat_server <- function(input, output, session, r){
   # get update by other people
   observe({
    req(!firstConnect())
-   invalidateLater(1000)
-   con <- DBI::dbConnect(
-     RPostgres::Postgres(),
-     dbname = golem::get_golem_options("dbname"), 
-     host = golem::get_golem_options("dbhost"), 
-     port = golem::get_golem_options("dbport"), 
-     user = golem::get_golem_options("dbuser"), 
-     password = golem::get_golem_options("dbpwd")
-   )
+   invalidateLater(5000)
+   con <- createDBCon()
+   
    # select only the last message
    messages <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message"))
    new_lines <- nrow(messages) - nrow(messages_table$table)
@@ -132,14 +119,7 @@ mod_chat_server <- function(input, output, session, r){
     
     f7AddMessages(id = "mymessages", list(message_to_send))
     
-    con <- DBI::dbConnect(
-      RPostgres::Postgres(),
-      dbname = golem::get_golem_options("dbname"), 
-      host = golem::get_golem_options("dbhost"), 
-      port = golem::get_golem_options("dbport"), 
-      user = golem::get_golem_options("dbuser"), 
-      password = golem::get_golem_options("dbpwd")
-    )
+    con <- createDBCon()
     
     # Convert to tibble to tidy data
     # DB column names are different
