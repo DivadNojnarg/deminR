@@ -23,14 +23,15 @@
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
-    uiOutput(ns("scoresList"), class = "list"),
-    
-    f7checkBox(
-      inputId = ns("filterDevice"),
-      label = "All devices",
-      value = TRUE
+    f7Block(
+      f7BlockTitle(title = "Scores", size = "large"),
+      f7Toggle(
+        inputId = ns("filterDevice"),
+        label = "All devices",
+        checked = TRUE
+      )
     ),
-    
+    uiOutput(ns("scoresList"), class = "list"),
     div(
       id = ns("searchbar"),
       f7SearchbarTrigger(targetId = ns("searchScore")),
@@ -119,7 +120,6 @@ mod_display_scores_server <- function(input, output, session, r){
       arrange_at(vars("score"))
   })
   
-  
 
   # List containing all scores
   output$scoresList <- renderUI({
@@ -139,7 +139,6 @@ mod_display_scores_server <- function(input, output, session, r){
     
     # generate list items
     tagList(
-      f7BlockTitle(title = "Scores", size = "large"),
       f7List(
         mode = "media",
         inset = TRUE,

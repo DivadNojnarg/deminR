@@ -32,7 +32,7 @@ app_ui <- function(request) {
           right_panel = TRUE,
           subNavbar = f7SubNavbar(
             class = "align-items-stretch",
-            mod_display_scores_ui("display_scores_ui_1")[[2]]
+            mod_display_scores_ui("display_scores_ui_1")[[3]]
           )
         ),
         panels = tagList(
@@ -61,7 +61,7 @@ app_ui <- function(request) {
           f7Tab(
             tabName = "scores",
             icon = f7Icon("list_number", old = FALSE), 
-            mod_display_scores_ui("display_scores_ui_1")[[1]]
+            mod_display_scores_ui("display_scores_ui_1")[c(1, 2)]
           ),
           f7Tab(
             tabName = "chat",
