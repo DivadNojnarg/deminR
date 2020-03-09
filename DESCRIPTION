@@ -29,7 +29,9 @@ Imports:
     glue,
     glouton,
     DBI,
-    RPostgres
+    RPostgres,
+    tibble,
+    parallel
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo,

@@ -35,7 +35,7 @@ app_ui <- function(request) {
           )
         ),
         panels = mod_help_ui("help_ui_1")[[1]],
-        toolbar = mod_share_ui("share_ui_1")[[1]],
+        mod_share_ui("share_ui_1")[[1]],
         f7Tabs(
           id = "tabset",
           swipeable = TRUE,

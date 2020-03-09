@@ -13,21 +13,16 @@
 #'
 #' @keywords internal
 #' @export 
+#' @import dplyr
+#' @importFrom tibble as_tibble
 #' @importFrom shiny NS tagList 
-#' @importFrom dplyr slice
+#' @importFrom parallel mclapply detectCores
+#' @importFrom utils tail
 mod_chat_ui <- function(id){
   ns <- NS(id)
-  
   tagList(
-    uiOutput(ns("chat")),
-    f7Row(
-      f7Col(
-        f7Text(ns("message"), "My message")
-      ),
-      f7Col(
-        f7Button(ns("sendMessage"), "Send")
-      )
-    )
+    f7Messages(id = ns("mymessages"), title = "Chat Room"),
+    f7MessageBar(inputId = ns("mymessagebar"), placeholder = "Message")
   )
 }
 
@@ -40,29 +35,16 @@ mod_chat_ui <- function(id){
 mod_chat_server <- function(input, output, session, r){
   ns <- session$ns
   
-  # validate message input
-  observe({
-    f7ValidateInput(
-      inputId = ns("message"),
-      error = "Message cannot be empty!"
-    )
-  })
-  
-  # disable submit button if message content is ""
-  observe({
-    shinyjs::toggleState(
-      id = "sendMessage", 
-      condition = nchar(input$message)  > 0
-    )
-  })
-  
   messages_table <- reactiveValues()
+  firstConnect <- reactiveVal(TRUE)
   
-  # load the messages table
+  # load messages first
   observe({
-    if (r$mod_welcome$firstVisit) {
+    # load all messages
+    if (firstConnect()) {
+      req(r$cookies$user)
       con <- DBI::dbConnect(
-        RPostgres::Postgres(), 
+        RPostgres::Postgres(),
         dbname = golem::get_golem_options("dbname"), 
         host = golem::get_golem_options("dbhost"), 
         port = golem::get_golem_options("dbport"), 
@@ -70,24 +52,88 @@ mod_chat_server <- function(input, output, session, r){
         password = golem::get_golem_options("dbpwd")
       )
       
-      # Get the scores
-      messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message")) 
+      # Get the messages
+      messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message"))
+      messages <- parallel::mclapply(seq_len(nrow(messages_table$table)), function(i) {
+        temp_message <- messages_table$table %>% slice(i)
+        
+        f7Message(
+          text = temp_message$message,
+          header = temp_message$date,
+          name = temp_message$nickname,
+          type = if (r$cookies$user == temp_message$nickname){
+            "sent"
+          } else {
+            "received"
+          },
+          avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
+        )
+      }, mc.cores = parallel::detectCores() - 1)
+      
+      f7AddMessages(id = "mymessages", messages)
+      
+      firstConnect(FALSE)
       # Disconnect from database
-      DBI::dbDisconnect(con) 
+      DBI::dbDisconnect(con)
     }
   }, priority = 999)
   
   
-  observeEvent(input$sendMessage, {
-    newMessage <- data.frame(
-      nickname = r$cookies$user,
-      message = input$message,
-      date = lubridate::ymd_hms(Sys.time()),
-      stringsAsFactors = FALSE
+  
+  # get update by other people
+  observe({
+   req(!firstConnect())
+   invalidateLater(1000)
+   con <- DBI::dbConnect(
+     RPostgres::Postgres(),
+     dbname = golem::get_golem_options("dbname"), 
+     host = golem::get_golem_options("dbhost"), 
+     port = golem::get_golem_options("dbport"), 
+     user = golem::get_golem_options("dbuser"), 
+     password = golem::get_golem_options("dbpwd")
+   )
+   # select only the last message
+   messages <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message"))
+   new_lines <- nrow(messages) - nrow(messages_table$table)
+   if (new_lines > 0) {
+     new_messages <- messages %>%
+       slice(tail(row_number(), new_lines))
+     new_messages <- lapply(seq_len(nrow(new_messages)), function(i) {
+       temp_message <- new_messages %>% slice(i)
+       f7Message(
+         text = temp_message$message,
+         header = temp_message$date,
+         name = temp_message$nickname,
+         type = if (r$cookies$user == temp_message$nickname){
+           "sent"
+         } else {
+           "received"
+         },
+         avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
+       )
+     })
+     f7AddMessages(id = "mymessages", new_messages)
+     messages_table$table <- messages
+   }
+   DBI::dbDisconnect(con)
+  })
+  
+  
+  
+  # send message part
+  observeEvent(input[["mymessagebar-send"]], {
+    message_to_send <- f7Message(
+      text = input$mymessagebar,
+      name = r$cookies$user,
+      type = "sent",
+      header = lubridate::ymd_hms(Sys.time()),
+      avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
     )
     
+    f7AddMessages(id = "mymessages", list(message_to_send))
+    
     con <- DBI::dbConnect(
-      RPostgres::Postgres(), 
+      RPostgres::Postgres(),
       dbname = golem::get_golem_options("dbname"), 
       host = golem::get_golem_options("dbhost"), 
       port = golem::get_golem_options("dbport"), 
@@ -95,37 +141,21 @@ mod_chat_server <- function(input, output, session, r){
       password = golem::get_golem_options("dbpwd")
     )
     
-    # Write the new score
-    DBI::dbAppendTable(con, name = golem::get_golem_options("table_message"), value = newMessage)
+    # Convert to tibble to tidy data
+    # DB column names are different
+    # We need to do some cleaning
+    message_to_send <- message_to_send %>%
+      as_tibble() %>%
+      select("name", "text", "header") %>%
+      rename(nickname = "name", message = "text", date = "header")
     
-    # Get the scores
-    messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message")) 
-    DBI::dbDisconnect(con) 
-  })
-  
-  messagesTag <- reactive({
-    req(messages_table$table)
-    req(r$cookies$user)
-    lapply(seq_len(nrow(messages_table$table)), function(i) {
-      
-      temp <- messages_table$table %>% slice(i)
-      
-      f7Message(
-        state = if (temp$nickname != r$cookies$user) "received" else "sent",
-        type = "text",
-        author = temp$nickname,
-        date = temp$date,
-        temp$message,
-        # below is a placeholder
-        src = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
-      )
-    })
-  })
-  
-  # create chat items 
-  output$chat <- renderUI({
-    invalidateLater(5000)
-    f7Messages(id = "messagelist", messagesTag())
+    DBI::dbAppendTable(
+      con, 
+      golem::get_golem_options("table_message"), 
+      value = message_to_send
+    )
+    messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message"))
+    DBI::dbDisconnect(con)
   })
   
 }
