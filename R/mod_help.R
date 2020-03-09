@@ -44,7 +44,7 @@ mod_help_ui <- function(id){
       title = "Help",
       side = "right",
       theme = "dark",
-      effect = "cover",
+      effect = "reveal",
       resizable = FALSE,
       tags$div(
         
