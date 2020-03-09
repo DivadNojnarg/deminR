@@ -41,8 +41,8 @@ mod_help_ui <- function(id){
   tagList(
     f7Panel(
       inputId = ns("help_panel"),
-      title = "About",
-      side = "left",
+      title = "Help",
+      side = "right",
       theme = "dark",
       effect = "cover",
       resizable = FALSE,
@@ -64,12 +64,6 @@ mod_help_ui <- function(id){
 
 <p>Happy deminR !<p>
              ")
-      ),
-      f7Link(
-        label = "Github", 
-        src = "https://github.com/DivadNojnarg/deminR",
-        external = TRUE,
-        icon = f7Icon("ant", old = TRUE)
       )
     ),
     help_bttn

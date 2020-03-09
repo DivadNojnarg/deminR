@@ -3,6 +3,8 @@
 export("%>%")
 export(generate_spatial_grid)
 export(grid_init)
+export(mod_about_server)
+export(mod_about_ui)
 export(mod_chat_server)
 export(mod_chat_ui)
 export(mod_display_scores_server)

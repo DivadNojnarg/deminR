@@ -29,12 +29,16 @@ app_ui <- function(request) {
           bigger = FALSE,
           transparent = TRUE,
           left_panel = TRUE,
+          right_panel = TRUE,
           subNavbar = f7SubNavbar(
             class = "align-items-stretch",
             mod_display_scores_ui("display_scores_ui_1")[[2]]
           )
         ),
-        panels = mod_help_ui("help_ui_1")[[1]],
+        panels = tagList(
+          mod_about_ui("about_ui_1"),
+          mod_help_ui("help_ui_1")[[1]]
+        ),
         mod_share_ui("share_ui_1")[[1]],
         f7Tabs(
           id = "tabset",
