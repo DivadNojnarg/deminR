@@ -65,7 +65,7 @@ mod_display_scores_server <- function(input, output, session, r){
       f7Toast(
         session, 
         text = "Scores successfully loaded!",
-        position = "bottom",
+        position = "center",
         closeButtonColor = NULL
       )
     }
@@ -194,7 +194,7 @@ mod_display_scores_server <- function(input, output, session, r){
     f7Toast(
       session, 
       text = "Scores successfully updated!",
-      position = "bottom",
+      position = "center",
       closeButtonColor = NULL
     )
     # set refresh back to FALSE so that the parameter module may 
