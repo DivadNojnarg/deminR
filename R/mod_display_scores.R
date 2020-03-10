@@ -155,7 +155,7 @@ mod_display_scores_server <- function(input, output, session, r){
             NULL
           }
           
-          f7ListItem(
+          items <- f7ListItem(
             title = if (!is.null(trophy)) {
               paste0(temp$nickname, ": ", trophy)
             } else {
@@ -167,6 +167,20 @@ mod_display_scores_server <- function(input, output, session, r){
             media = tags$img(src = file),
             right = temp$date
           )
+          
+          # user may export their scores by mail
+          if (temp$nickname == r$cookies$user) {
+            f7Swipeout(
+              tag = items,
+              side = "left",
+              f7SwipeoutItem(
+                id = ns("sendToChat"),
+                f7Icon("envelope_badge", old = FALSE)
+              )
+            )
+          } else {
+            items
+          }
         })
       ) %>% f7Found(),
       f7Block(
