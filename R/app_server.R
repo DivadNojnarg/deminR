@@ -21,6 +21,28 @@ app_server <- function(input, output, session) {
     loginPage = reactiveValues(visible = TRUE)
   )
   
+  # when a message is exported from grid to chat
+  # switch to the chat tab
+  observeEvent({
+    r$mod_scores$sendToChat
+  },{
+    req(r$mod_scores$sendToChat)
+    f7Dialog(
+      inputId = "goToChat",
+      type = "confirm",
+      text = "Do you want to go to the 
+      chat tab to share your score?"
+    )
+  })
+  
+  observeEvent(input$goToChat, {
+    if (input$goToChat) {
+      updateF7Tabs(session, id = "tabset", selected = "chat")
+    } else {
+      r$mod_scores$sendToChat <- NULL
+    }
+  })
+  
   # needed to get the value of the currently selected tabs
   # between modules
   observe({
