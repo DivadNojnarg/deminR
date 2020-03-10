@@ -48,7 +48,10 @@ mod_welcome_ui <- function(id){
             shiny::tags$div(
               class = "list",
               shiny::tags$ul(shiny::tags$li(submitBttn)),
-              shiny::tags$div(class = "block-footer", "Blabla")
+              shiny::tags$div(
+                class = "block-footer", 
+                "Made with love :). Disclaimer: we are not responsible if you become
+                addicted!")
             )
           )
         )
