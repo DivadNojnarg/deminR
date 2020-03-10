@@ -16,18 +16,9 @@ remotes::install_github("DivadNojnarg/deminR")
 
 ## Getting Started
 
-<div class="row">
-<div class="col">
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_welcome_tab.png" width="25%"></a>
-</div>
-</div>
-<div class="col">
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_grid_tab.png" width="25%"></a>
-</div>
-</div>
-</div>
+Solarized dark             |  Solarized Ocean
+:-------------------------:|:-------------------------:
+![](man/figures/readme_welcome_tab.png)  |  ![](man/figures/readme_grid_tab.png)
 
 
 <div class="row">
