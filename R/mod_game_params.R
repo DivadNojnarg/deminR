@@ -82,7 +82,7 @@ mod_game_params_ui <- function(id){
         } else {
           $('#%s').css('background-color', '#1b1b1d');
           $('.swipe-handler').css('background-color', '#1b1b1d');
-          $('.leaflet-container').addClass('darkleaflet');
+          $('.leaflet-container').css('background-color', '#121212');
         }
       });
       ",
