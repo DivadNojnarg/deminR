@@ -16,49 +16,26 @@ remotes::install_github("DivadNojnarg/deminR")
 
 ## Getting Started
 
-Solarized dark             |  Solarized Ocean
+Welcome screen             |  Main tab
 :-------------------------:|:-------------------------:
-![](man/figures/readme_welcome_tab.png)  |  ![](man/figures/readme_grid_tab.png)
+![](man/figures/readme_welcome.png)  |  ![](man/figures/readme_grid.png)
 
+Game win                   |  Game fail
+:-------------------------:|:-------------------------:
+![](man/figures/readme_win.png)  |  ![](man/figures/readme_fail.png)
 
-<div class="row">
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_win.png"></a>
-</div>
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_fail.png"></a>
-</div>
-</div>
+Game options             |  Game parameters
+:-------------------------:|:-------------------------:
+![](man/figures/readme_options.png)  |  ![](man/figures/readme_params.png)
 
+Scores list                |  Dynamic chat
+:-------------------------:|:-------------------------:
+![](man/figures/readme_scores.png)  |  ![](man/figures/readme_chat.png)
 
-<div class="row">
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_options.png"></a>
-</div>
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_options_fullparams.png"></a>
-</div>
-</div>
+Theme light               |  Theme light               |  Theme light
+:-------------------------:|:-------------------------:|:-------------------------:
+![](man/figures/readme_light_1.png)  |  ![](man/figures/readme_light_2.png)  |  ![](man/figures/readme_light_3.png)
 
-
-<div class="row">
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_scores.png"></a>
-</div>
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_chat.png"></a>
-</div>
-</div>
-
-
-<div class="row">
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_lightTheme_1.png"></a>
-</div>
-<div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_lightTheme_2.png"></a>
-</div>
-</div>
 
 ## Example
 
