@@ -18,10 +18,10 @@ remotes::install_github("DivadNojnarg/deminR")
 
 <div class="row">
 <div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_welcome_tab.png"></a>
+<a href="#" target="_blank"><img src="man/figures/readme_welcome_tab.png" width="50%"></a>
 </div>
 <div class="card">
-<a href="#" target="_blank"><img src="man/figures/readme_grid_tab.png"></a>
+<a href="#" target="_blank"><img src="man/figures/readme_grid_tab.png" width="50%"></a>
 </div>
 </div>
 
