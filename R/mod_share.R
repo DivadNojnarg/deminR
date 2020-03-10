@@ -47,6 +47,10 @@ mod_share_server <- function(input, output, session, r){
       label = "Share",
       position = "center-bottom",
       sideOpen = "right",
+      f7Fab(
+        inputId = ns("shareChat"),
+        label = f7Icon("envelope_badge", old = FALSE)
+      ),
       a(class = "twitter-share-button external",
         href = glue(value = r$mod_timer$seconds/100, "https://twitter.com/intent/tweet?text=mineSweeper%20score:%20{value}%20"),
         `data-size` = "large",
@@ -56,6 +60,11 @@ mod_share_server <- function(input, output, session, r){
       #morph = TRUE,
       #morphTarget = ".toolbar"
     )
+  })
+  
+  # send to chat signal
+  observeEvent(input$shareChat, {
+    r$mod_scores$sendToChat <- paste("My score: ", r$mod_timer$seconds/100)
   })
   
   #observe(print(input$shareTwitter))

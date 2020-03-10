@@ -12,7 +12,7 @@ app_server <- function(input, output, session) {
     mod_timer = reactiveValues(),
     mod_bomb = reactiveValues(),
     mod_welcome = reactiveValues(firstVisit = TRUE),
-    mod_scores = reactiveValues(refresh = NULL),
+    mod_scores = reactiveValues(refresh = NULL, sendToChat = NULL),
     click = reactiveValues(counter = 0),
     currentTab = reactiveValues(val = NULL),
     warrior = reactiveValues(mode = FALSE),

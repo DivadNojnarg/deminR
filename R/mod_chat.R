@@ -138,6 +138,15 @@ mod_chat_server <- function(input, output, session, r){
     DBI::dbDisconnect(con)
   })
   
+  
+  # update message bar if a score is exported in the grid module
+  observeEvent({
+    r$mod_scores$sendToChat
+  },{
+    req(r$mod_scores$sendToChat)
+    updateF7MessageBar(inputId = "mymessagebar", value = r$mod_scores$sendToChat)
+  })
+  
 }
 
 ## To be copied in the UI
