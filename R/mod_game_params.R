@@ -46,6 +46,18 @@ mod_game_params_ui <- function(id){
       choices = difficulty$Level,
       selected = difficulty$Level[1]
     ),
+    f7BlockTitle(title = "Theme", size = "large"),
+    tags$div(
+      class = "row",
+      tags$div(
+        class = "col-50 bg-color-white demo-theme-picker",
+        f7checkBox(inputId = ns("globalThemeLight"), label = "")
+      ),
+      tags$div(
+        class = "col-50 bg-color-black demo-theme-picker",
+        f7checkBox(inputId = ns("globalThemeDark"), label = "", value = TRUE)
+      )
+    ),
     f7BlockTitle(title = "Are you a warrior?", size = "large"),
     f7Toggle(
       inputId = ns("warrior"),
@@ -56,7 +68,28 @@ mod_game_params_ui <- function(id){
   
   tagList(
     reload_bttn,
-    sheetTag
+    sheetTag,
+    tags$script(
+      sprintf(
+      "Shiny.addCustomMessageHandler('global-theme-setup', function(message) {
+        app.methods.setLayoutTheme(message);
+        if (message === 'light') {
+          $('.panel').removeClass('theme-dark');
+          $('.leaflet-container').removeClass('darkleaflet');
+          $('#%s').css('background-color', '');
+          $('.swipe-handler').css('background-color', '');
+          $('.leaflet-container').css('background-color', '#ffffff');
+        } else {
+          $('#%s').css('background-color', '#1b1b1d');
+          $('.swipe-handler').css('background-color', '#1b1b1d');
+          $('.leaflet-container').addClass('darkleaflet');
+        }
+      });
+      ",
+      ns("game_params_sheet"),
+      ns("game_params_sheet")
+      )
+    )
   )
   
 }
@@ -172,6 +205,45 @@ mod_game_params_server <- function(input, output, session, r){
     req(input$warrior)
   }, {
     r$warrior$mode <- TRUE
+  })
+  
+  # global theme (transform checkboxes in radio like)
+  observe({
+    shinyjs::runjs(
+      paste0(
+        "$(function(){
+        $('.bg-color-white').on('click', function() {
+          console.log('light');
+          $('#", ns("globalThemeLight"), "').prop('checked', true);
+          if ($('#", ns("globalThemeDark"), "').prop('checked')) {
+            $('#", ns("globalThemeDark"), "').prop('checked', false);
+          }
+          $('#", ns("globalThemeDark"), "').addClass('disabled');
+          Shiny.setInputValue('", ns("globalTheme"), "', 'light');
+        });
+        
+        $('.bg-color-black').on('click', function() {
+          console.log('dark');
+          $('#", ns("globalThemeDark"), "').prop('checked', true);
+          if ($('#", ns("globalThemeLight"), "').prop('checked')) {
+            $('#", ns("globalThemeLight"), "').prop('checked', false);
+          }
+          $('#", ns("globalThemeLight"), "').addClass('disabled');
+          Shiny.setInputValue('", ns("globalTheme"), "', 'dark');
+        });
+      });
+      "
+      )
+    )
+  })
+
+  
+  # send R values to JS for global theme setting
+  observe({
+    session$sendCustomMessage(
+      type = "global-theme-setup",
+      message = input$globalTheme
+    )
   })
   
 }

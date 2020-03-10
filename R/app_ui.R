@@ -88,6 +88,7 @@ golem_add_external_resources <- function(){
     # Or for example, you can add shinyalert::useShinyalert() here
     
     tags$script(src = "www/js/loginInputBinding.js"),
+    tags$link(rel = "stylesheet", type = "text/css", href = "www/css/colorThemeChooser.css"),
     shinyjs::inlineCSS(list(.darkleaflet = "background-color: #121212")),
     shinyjs::useShinyjs(),
     use_sever(),
