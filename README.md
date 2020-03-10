@@ -16,21 +16,13 @@ remotes::install_github("DivadNojnarg/deminR")
 
 ## Getting Started
 
-Welcome screen             |  Main tab
-:-------------------------:|:-------------------------:
-![](man/figures/readme_welcome.png)  |  ![](man/figures/readme_grid.png)
+Welcome screen             |  Main tab                 | Game win                   |  Game fail
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](man/figures/readme_welcome.png)  |  ![](man/figures/readme_grid.png)  |  ![](man/figures/readme_win.png)  |  ![](man/figures/readme_fail.png)
 
-Game win                   |  Game fail
-:-------------------------:|:-------------------------:
-![](man/figures/readme_win.png)  |  ![](man/figures/readme_fail.png)
-
-Game options             |  Game parameters
-:-------------------------:|:-------------------------:
-![](man/figures/readme_options.png)  |  ![](man/figures/readme_params.png)
-
-Scores list                |  Dynamic chat
-:-------------------------:|:-------------------------:
-![](man/figures/readme_scores.png)  |  ![](man/figures/readme_chat.png)
+Game options             |  Game parameters           |  Scores list                |  Dynamic chat
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](man/figures/readme_options.png)  |  ![](man/figures/readme_params.png)  |  ![](man/figures/readme_scores.png)  |  ![](man/figures/readme_chat.png)
 
 Theme light               |  Theme light               |  Theme light
 :-------------------------:|:-------------------------:|:-------------------------:
