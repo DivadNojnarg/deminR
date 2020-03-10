@@ -77,7 +77,6 @@ mod_game_grid_ui <- function(id){
       sprintf(
         "$(function() {
           $('#%s').on('taphold', 'path', function (e) {
-            app.dialog.alert('Tap hold fired!');
             var id = $(e.currentTarget).attr('class').match(/case-\\d+/)[0];
             var right_click = {'count':Math.random(), 'id':id};
             Shiny.setInputValue('%s', right_click);

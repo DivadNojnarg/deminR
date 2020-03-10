@@ -14,20 +14,35 @@ You can install the devel version of deminR from [github](https://github.com/Div
 remotes::install_github("DivadNojnarg/deminR")
 ```
 
+TO DO: How to install it...
+
 ## Getting Started
+
+Welcome to deminR, the R version of the [Minesweeper](https://en.wikipedia.org/wiki/Minesweeper_(video_game)). The goal is simple : flag all the mines as quick as possible by clicking on the grid. While this app is optimized for mobile use, it also works on desktop.
+Note that since the right click on desktop platforms is replaced by a long press for mobiles which takes more time, scores are categorized by devices.
+As soon as you click on a mine, the game is immediately lost. You may reset the game at any time when the timer is on by clicking on the option button in the navigation bar. After a success, the score may be shared on twitter (as long as you have a twitter account).
 
 Welcome screen             |  Main tab                 | Game win                   |  Game fail
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![](man/figures/readme_welcome.png)  |  ![](man/figures/readme_grid.png)  |  ![](man/figures/readme_win.png)  |  ![](man/figures/readme_fail.png)
 
+The game currently has 3 difficulty levels: beginner, intermediate and expert. There is a fourth mode, namely the warrior mode, which significantly increase the challenge. A chat is included so that people may share their experience. 
+
 Game options             |  Game parameters           |  Scores list                |  Dynamic chat
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![](man/figures/readme_options.png)  |  ![](man/figures/readme_params.png)  |  ![](man/figures/readme_scores.png)  |  ![](man/figures/readme_chat.png)
+
+Finally, you can change the global theme from dark (default) to light and inversely.
 
 Theme light               |  Theme light               |  Theme light
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](man/figures/readme_light_1.png)  |  ![](man/figures/readme_light_2.png)  |  ![](man/figures/readme_light_3.png)
 
+We wish you a lot of fun!
+
+## Limitations
+
+TO DO...
 
 ## Example
 
