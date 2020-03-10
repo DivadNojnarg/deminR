@@ -14,9 +14,60 @@ You can install the devel version of deminR from [github](https://github.com/Div
 remotes::install_github("DivadNojnarg/deminR")
 ```
 
+## Getting Started
+
+<div class="row">
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_welcome_tab.png"></a>
+</div>
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_grid_tab.png"></a>
+</div>
+</div>
+
+
+<div class="row">
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_win.png"></a>
+</div>
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_fail.png"></a>
+</div>
+</div>
+
+
+<div class="row">
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_options.png"></a>
+</div>
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_options_fullparams.png"></a>
+</div>
+</div>
+
+
+<div class="row">
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_scores.png"></a>
+</div>
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_chat.png"></a>
+</div>
+</div>
+
+
+<div class="row">
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_lightTheme_1.png"></a>
+</div>
+<div class="card">
+<a href="#" target="_blank"><img src="man/figures/readme_lightTheme_2.png"></a>
+</div>
+</div>
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Once installed, you may play the deminR as shown below:
 
 ``` r
 library(deminR)
