@@ -32,7 +32,6 @@ app_ui <- function(request) {
           bigger = FALSE,
           transparent = TRUE,
           left_panel = TRUE,
-          right_panel = TRUE,
           subNavbar = f7SubNavbar(
             class = "align-items-stretch",
             mod_display_scores_ui("display_scores_ui_1")[[3]]
