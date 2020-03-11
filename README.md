@@ -19,9 +19,10 @@ remotes::install_github("DivadNojnarg/deminR")
 ### Make it full screen on your mobile? (PWA)
 This is one of the greatest feature of shinyMobile. Below are the steps to follow (iOS, ipadOS):
 
-1                          |  2                        |  3               |  4    |   5
+1                          |  2                        |  3               
+|  4    |   5
 :-------------------------:|:-------------------------:|:-------------------------:|:-----
---------------------:|:-------------------------:|
+--------------------:|:-------------------------:
 ![](man/figures/readme_pwa_1.jpeg)  |  ![](man/figures/readme_pwa_2.jpeg)  |  ![](man/figures/readme_pwa_3.jpeg)  |  ![](man/figures/readme_pwa_4.jpeg)  |  ![](man/figures/readme_pwa_5.jpeg)
 
 For Android devices, it is recommended to use Chrome and the process is similar. 
