@@ -1,10 +1,12 @@
+<div align="center">
 
-# deminR
+<img src="./man/figures/icon_package.svg" height="250px" />
 
 [![Travis Build Status](https://travis-ci.org/DivadNojnarg/deminR.svg?branch=master)](https://travis-ci.org/DivadNojnarg/deminR)
 [![CRAN status](https://www.r-pkg.org/badges/version/deminR)](https://CRAN.R-project.org/package=deminR)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
+</div>
 
 ## Installation
 
