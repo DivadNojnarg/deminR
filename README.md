@@ -23,6 +23,9 @@ This is one of the greatest feature of shinyMobile. Below are the steps to follo
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](man/figures/readme_pwa_1.jpeg)  |  ![](man/figures/readme_pwa_2.jpeg)  |  ![](man/figures/readme_pwa_3.jpeg)
 
+For Android devices, it is recommended to use Chrome and the process is similar. 
+(Note that Chrome for iOS does not support the add to homescreen feature.)
+
 
 ## Getting Started
 
