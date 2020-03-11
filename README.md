@@ -21,7 +21,7 @@ This is one of the greatest feature of shinyMobile. Below are the steps to follo
 
 1               |  2              |  3
 :-------------------------:|:-------------------------:|:-------------------------:
-![](man/figures/readme_pwa_1.png)  |  ![](man/figures/readme_pwa_2.png)  |  ![](man/figures/readme_pwa_3.png)
+![](man/figures/readme_pwa_1.jpeg)  |  ![](man/figures/readme_pwa_2.jpeg)  |  ![](man/figures/readme_pwa_3.jpeg)
 
 
 ## Getting Started
