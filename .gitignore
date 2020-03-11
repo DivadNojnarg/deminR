@@ -5,4 +5,3 @@
 inst/doc
 rsconnect
 .DS_Store
-inst/examples/**/rsconnect
