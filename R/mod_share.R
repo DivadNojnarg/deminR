@@ -49,9 +49,10 @@ mod_share_server <- function(input, output, session, r){
     # only displayed after a victory
     req(r$mod_grid$playing == "won")
     
+    # prepare the share button
     shareChatBttn <- f7Button(
       inputId = ns("shareChat"),
-      label = f7Icon("envelope_badge", old = FALSE)
+      label = f7Icon("chat_bubble_2", old = FALSE)
     )
     shareChatBttn[[2]]$name <- "a"
     shareChatBttn[[2]]$attribs$type <- NULL
