@@ -16,7 +16,7 @@ You can install the devel version of deminR from [github](https://github.com/Div
 remotes::install_github("DivadNojnarg/deminR")
 ```
 
-### make it full screen on your mobile (PWA)
+### Make it full screen on your mobile? (PWA)
 This is one of the greatest feature of shinyMobile. Below are the steps to follow (iOS, ipadOS):
 
 1               |  2              |  3
