@@ -8,9 +8,9 @@ app_ui <- function(request) {
     # List the first level UI elements here 
     f7Page(
       title = "deminR",
-      icon = "apple-touch-icon.png",
-      favicon = "favicon.png",
-      manifest = "manifest.json",
+      icon = "www/icons/apple-touch-icon.png",
+      favicon = "www/icons/favicon.png",
+      manifest = "www/manifest.json",
       init = f7Init(
         skin = "md",
         theme = "dark",
