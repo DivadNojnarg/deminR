@@ -18,11 +18,7 @@
 mod_share_ui <- function(id){
   ns <- NS(id)
   tagList(
-    f7Toolbar(
-      position = "top",
-      lapply(1:3, function(i) f7Link(i) %>% f7FabClose())
-    ) %>% f7FabMorphTarget(),
-    # put an empty f7Fabs container
+    uiOutput(ns("shareToolbar")),
     uiOutput(ns("shareFabs"))
   )
 }
@@ -37,29 +33,44 @@ mod_share_server <- function(input, output, session, r){
   ns <- session$ns
   
   output$shareFabs <- renderUI({
-    
-    # only displayed after a victory
     req(r$mod_grid$playing == "won")
-    
     f7Fabs(
       id = ns("shareMenu"),
       extended = TRUE,
       label = "Share",
       position = "center-bottom",
       sideOpen = "right",
-      f7Fab(
-        inputId = ns("shareChat"),
-        label = f7Icon("envelope_badge", old = FALSE)
-      ),
-      a(class = "twitter-share-button external",
-        href = glue(value = r$mod_timer$seconds/100, "https://twitter.com/intent/tweet?text=mineSweeper%20score:%20{value}%20"),
+      morph = TRUE,
+      morphTarget = ".toolbar"
+    )
+  })
+  
+  output$shareToolbar <- renderUI({
+    # only displayed after a victory
+    req(r$mod_grid$playing == "won")
+    
+    shareChatBttn <- f7Button(
+      inputId = ns("shareChat"),
+      label = f7Icon("envelope_badge", old = FALSE)
+    )
+    shareChatBttn[[2]]$name <- "a"
+    shareChatBttn[[2]]$attribs$type <- NULL
+    shareChatBttn[[2]]$attribs$class <- "link fab-close f7-action-button"
+    
+    f7Toolbar(
+      position = "top",
+      shareChatBttn,
+      a(class = "link twitter-share-button external",
+        href = glue(
+          user = r$cookies$user, 
+          score = r$mod_timer$seconds/100, 
+          "https://twitter.com/intent/tweet?text=mineSweeper%20score%20for%20{user}:%20{score}%20"),
         `data-size` = "large",
         onclick = paste0("Shiny.setInputValue(", ns("shareTwitter"), ", true)"),
         f7Icon("logo_twitter", old = TRUE)
-      )
-      #morph = TRUE,
-      #morphTarget = ".toolbar"
-    )
+      ) %>% f7FabClose()
+    ) %>% f7FabMorphTarget()
+    
   })
   
   # send to chat signal

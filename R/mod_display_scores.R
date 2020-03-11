@@ -189,6 +189,17 @@ mod_display_scores_server <- function(input, output, session, r){
     )
   })
   
+  
+  # send to chat signal
+  observeEvent(input$sendToChat, {
+    r$mod_scores$sendToChat <- if(input$sendToChat) {
+      input$sendToChat
+    } else {
+      FALSE
+    }
+  })
+  
+  
   # navigate to 
   observeEvent({
     r$currentTab$val
