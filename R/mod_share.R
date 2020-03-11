@@ -78,9 +78,6 @@ mod_share_server <- function(input, output, session, r){
   observeEvent(input$shareChat, {
     r$mod_scores$sendToChat <- paste("My score: ", r$mod_timer$seconds/100)
   })
-  
-  #observe(print(input$shareTwitter))
-  #observe(print(input$shareMenu))
 }
 
 ## To be copied in the UI
