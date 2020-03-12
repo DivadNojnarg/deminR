@@ -60,6 +60,9 @@ mod_share_server <- function(input, output, session, r){
     
     f7Toolbar(
       position = "top",
+      style = if(r$device$info$os %in% c("ios", "macos")) {
+        "margin-top: 44px;"
+      },
       shareChatBttn,
       a(class = "link twitter-share-button external",
         href = glue(
@@ -71,7 +74,6 @@ mod_share_server <- function(input, output, session, r){
         f7Icon("logo_twitter", old = TRUE)
       ) %>% f7FabClose()
     ) %>% f7FabMorphTarget()
-    
   })
   
   # send to chat signal
