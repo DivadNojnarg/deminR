@@ -48,22 +48,34 @@ mod_game_params_ui <- function(id){
     ),
     hiddenItems = tagList(
       f7BlockTitle(title = "Theme", size = "large"),
-      tags$div(
-        class = "row",
+      f7Block(
         tags$div(
-          class = "col-50 bg-color-white demo-theme-picker",
-          f7checkBox(inputId = ns("globalThemeLight"), label = "")
-        ),
-        tags$div(
-          class = "col-50 bg-color-black demo-theme-picker",
-          f7checkBox(inputId = ns("globalThemeDark"), label = "", value = TRUE)
+          class = "row",
+          tags$div(
+            class = "col-50 bg-color-white demo-theme-picker",
+            f7checkBox(inputId = ns("globalThemeLight"), label = "")
+          ),
+          tags$div(
+            class = "col-50 bg-color-black demo-theme-picker",
+            f7checkBox(inputId = ns("globalThemeDark"), label = "", value = TRUE)
+          )
+        )
+      ),
+      f7BlockTitle(title = "Scores autorefresh", size = "large"),
+      f7Block(
+        f7Toggle(
+          inputId = ns("scoresAutorefresh"),
+          label = "",
+          checked = FALSE
         )
       ),
       f7BlockTitle(title = "Are you a warrior?", size = "large"),
-      f7Toggle(
-        inputId = ns("warrior"),
-        label = "Unleash the beast?",
-        checked = FALSE
+      f7Block(
+        f7Toggle(
+          inputId = ns("warrior"),
+          label = "Unleash the beast?",
+          checked = FALSE
+        )
       ),
       tags$div(" ", style = "margin-bottom: 2cm;")
     )
@@ -212,6 +224,11 @@ mod_game_params_server <- function(input, output, session, r){
     req(input$warrior)
   }, {
     r$warrior$mode <- TRUE
+  })
+  
+  # scores auto refresh
+  observeEvent(input$scoresAutorefresh, {
+    r$mod_scores$autoRefresh <- input$scoresAutorefresh
   })
   
   # global theme (transform checkboxes in radio like)

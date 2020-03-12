@@ -211,6 +211,7 @@ mod_display_scores_server <- function(input, output, session, r){
   
   # inform user that scores are successfully loaded
   observeEvent({
+    req(r$mod_scores$autoRefresh)
     r$mod_scores$refresh
     req(!r$mod_welcome$firstVisit)
   },{
