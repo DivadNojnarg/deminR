@@ -42,7 +42,7 @@ Welcome screen             |  Main tab                 | Game win               
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![](man/figures/readme_welcome.png)  |  ![](man/figures/readme_grid.png)  |  ![](man/figures/readme_win.png)  |  ![](man/figures/readme_fail.png)
 
-The game currently has 3 difficulty levels: beginner, intermediate and expert. There is a fourth mode, namely the warrior mode, which significantly increase the challenge. A chat is included so that people may share their experience. 
+The game currently has 3 difficulty levels: beginner, intermediate and expert. There is a fourth mode, namely the warrior mode, which significantly increases the challenge. A chat is included so that people may share their experience. 
 
 Game options             |  Game parameters           |  Scores list                |  Dynamic chat
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
@@ -58,7 +58,9 @@ We wish you a lot of fun!
 
 ## Limitations
 
-TO DO...
+When launched from Windows on local mode, the several icons of the application may not display as expected.
+
+
 
 ## Example
 
@@ -67,12 +69,12 @@ Once installed, you may play the deminR as shown below:
 ``` r
 library(deminR)
 ## basic example code
-run_app()
+run_app(usecase = "local")
 ```
 
 ## TO DO
 - [x] add new reactiveValue in r to know the current device (David)
-- [ ] double click or long press for mobile? (Discuss)...
+- [x] double click or long press for mobile? (Discuss)...
 - [x] group_by devices (Gab) 
 - [ ] maybe add other data ... (Gab + David)
 - [x] Finish help section (Gab)
