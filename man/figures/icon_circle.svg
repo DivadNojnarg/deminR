@@ -16,7 +16,10 @@
    version="1.1"
    id="svg1187"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="icon_circle.svg">
+   sodipodi:docname="icon_circle.svg"
+   inkscape:export-filename="D:\Users\gabrielle.devaux\Documents\MISSIONS\Side-project\deminR\man\figures\icon_circle2.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs1181">
     <radialGradient
@@ -109,14 +112,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="387.73703"
+     inkscape:cx="-242.26297"
      inkscape:cy="881.93565"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1001"
-     inkscape:window-x="-9"
+     inkscape:window-width="2400"
+     inkscape:window-height="1271"
+     inkscape:window-x="2391"
      inkscape:window-y="-9"
      inkscape:window-maximized="1" />
   <metadata
@@ -127,7 +130,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -138,7 +141,7 @@
      transform="translate(0,203)">
     <g
        id="g5912"
-       transform="matrix(7.6289079,2.8733575,-2.8733575,7.6289079,-1706.7308,-2552.7167)">
+       transform="matrix(7.4874203,2.8200675,-2.8200675,7.4874203,-1671.1411,-2505.2338)">
       <ellipse
          ry="29.504498"
          rx="29.854118"
