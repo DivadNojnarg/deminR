@@ -64,7 +64,8 @@ mod_game_params_ui <- function(id){
         inputId = ns("warrior"),
         label = "Unleash the beast?",
         checked = FALSE
-      )
+      ),
+      tags$div(" ", style = "margin-bottom: 2cm;")
     )
   )
   
