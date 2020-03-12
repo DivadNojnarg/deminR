@@ -114,7 +114,6 @@ INSERT INTO messages (nickname, message, date) VALUES ('bobby', 'My amazing mess
 
 ## Credits
 * The package structure was made with the package [Golem](https://github.com/ThinkR-open/golem) 
-* The package UI is powered by shinyMobile
-[shinyMobile](https://github.com/RinteRface/shinyMobile)
+* The package UI is powered by [shinyMobile](https://github.com/RinteRface/shinyMobile)
 * The smileys used in the help section were created by [Conmongt](https://pixabay.com/fr/users/conmongt-1226108/)
 
