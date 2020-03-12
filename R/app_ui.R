@@ -20,7 +20,7 @@ app_ui <- function(request) {
         iosTouchRipple = TRUE,
         iosCenterTitle = TRUE,
         iosTranslucentBars = TRUE,
-        hideNavOnPageScroll = TRUE,
+        hideNavOnPageScroll = FALSE,
         hideTabsOnPageScroll = FALSE,
         serviceWorker = NULL
       ),
