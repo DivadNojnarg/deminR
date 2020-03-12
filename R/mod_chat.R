@@ -23,7 +23,7 @@ mod_chat_ui <- function(id){
   ns <- NS(id)
   tagList(
     f7Messages(id = ns("mymessages"), title = "Chat Room"),
-    f7MessageBar(inputId = ns("mymessagebar"), placeholder = "Message")
+    uiOutput(ns("messageBarUI"), style = "margin-bottom: -50px;")
   )
 }
 
@@ -38,6 +38,12 @@ mod_chat_server <- function(input, output, session, r){
   
   messages_table <- reactiveValues()
   firstConnect <- reactiveVal(TRUE)
+  
+  # only display message bar if the chat tab is active
+  output$messageBarUI <- renderUI({
+    req(r$currentTab$val == "chat")
+    f7MessageBar(inputId = ns("mymessagebar"), placeholder = "Message")
+  })
   
   # load messages first
   observe({
