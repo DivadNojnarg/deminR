@@ -220,7 +220,6 @@ mod_game_params_server <- function(input, output, session, r){
       paste0(
         "$(function(){
         $('.bg-color-white').on('click', function() {
-          console.log('light');
           $('#", ns("globalThemeLight"), "').prop('checked', true);
           if ($('#", ns("globalThemeDark"), "').prop('checked')) {
             $('#", ns("globalThemeDark"), "').prop('checked', false);
@@ -230,7 +229,6 @@ mod_game_params_server <- function(input, output, session, r){
         });
         
         $('.bg-color-black').on('click', function() {
-          console.log('dark');
           $('#", ns("globalThemeDark"), "').prop('checked', true);
           if ($('#", ns("globalThemeLight"), "').prop('checked')) {
             $('#", ns("globalThemeLight"), "').prop('checked', false);
