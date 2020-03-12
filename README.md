@@ -72,6 +72,8 @@ library(deminR)
 run_app(usecase = "local")
 ```
 
+There is a "database" usecase which require a PostgreSQL database to be launched.
+
 ## TO DO
 - [x] add new reactiveValue in r to know the current device (David)
 - [x] double click or long press for mobile? (Discuss)...
@@ -81,4 +83,8 @@ run_app(usecase = "local")
 - [x] UI issue: chip in navbar not properly aligned in some cases (if timer > 100s, if user name lenght...)
 - [ ] optimize UI (Gab + David)
 
+
+## Credentials
+* The package structure was made with the package [Golem](https://github.com/ThinkR-open/golem) 
+* The smileys used in the help section were created by [Conmongt](https://pixabay.com/fr/users/conmongt-1226108/)
 
