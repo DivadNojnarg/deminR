@@ -79,6 +79,15 @@ app_server <- function(input, output, session) {
   callModule(mod_display_scores_server, id = "display_scores_ui_1", r = r)
   # share module
   callModule(mod_share_server, "share_ui_1", r = r)
-  # chat module
-  callModule(mod_chat_server, "chat_ui_1", r = r)
+
+  
+  # activate chat module only on database mode
+  observe({
+    if(golem::get_golem_options("usecase") == "database"){
+      # chat module
+      callModule(mod_chat_server, "chat_ui_1", r = r)
+      
+    }
+  })
+  
 }
