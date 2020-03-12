@@ -18,6 +18,7 @@
 #' @importFrom shiny NS tagList 
 #' @importFrom parallel mclapply detectCores
 #' @importFrom utils tail
+#' @importFrom lubridate as_datetime
 mod_chat_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -52,7 +53,7 @@ mod_chat_server <- function(input, output, session, r){
         
         f7Message(
           text = temp_message$message,
-          header = temp_message$date,
+          header = format(lubridate::as_datetime(temp_message$date), "%B %d %H:%M"),
           name = temp_message$nickname,
           type = if (r$cookies$user == temp_message$nickname){
             "sent"
@@ -89,7 +90,7 @@ mod_chat_server <- function(input, output, session, r){
        temp_message <- new_messages %>% slice(i)
        f7Message(
          text = temp_message$message,
-         header = temp_message$date,
+         header = format(lubridate::as_datetime(temp_message$date), "%B %d %H:%M"),
          name = temp_message$nickname,
          type = if (r$cookies$user == temp_message$nickname){
            "sent"
@@ -113,7 +114,7 @@ mod_chat_server <- function(input, output, session, r){
       text = input$mymessagebar,
       name = r$cookies$user,
       type = "sent",
-      header = lubridate::ymd_hms(Sys.time()),
+      header = format(lubridate::as_datetime(Sys.time()), "%B %d %H:%M"),
       avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
     )
     
