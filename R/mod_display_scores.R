@@ -19,7 +19,7 @@
 #' @importFrom readr cols col_character
 #' @importFrom shinyjs click hide show enable disable
 #' @importFrom utils read.table write.table
-#' @importFrom lubridate ymd_hms
+#' @importFrom lubridate ymd_hms as_datetime
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -165,7 +165,7 @@ mod_display_scores_server <- function(input, output, session, r){
             footer = temp$device,
             h1(temp$score, class = "text-color-blue"),
             media = tags$img(src = file),
-            right = temp$date
+            right = tags$small(format(lubridate::as_datetime(temp$date), "%B %d %H:%M"))
           )
           
           # user may export their scores by mail
