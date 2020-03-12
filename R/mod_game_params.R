@@ -82,10 +82,14 @@ mod_game_params_ui <- function(id){
           $('#%s').css('background-color', '');
           $('.swipe-handler').css('background-color', '');
           $('.leaflet-container').css('background-color', '#ffffff');
+          $('.accordion-item .item-content .item-inner').css('color', 'black');
+          $('.accordion-item .accordion-item-content').css('color', 'black');
         } else {
           $('#%s').css('background-color', '#1b1b1d');
           $('.swipe-handler').css('background-color', '#1b1b1d');
           $('.leaflet-container').css('background-color', '#121212');
+          $('.accordion-item .item-content .item-inner').css('color', 'white');
+          $('.accordion-item .accordion-item-content').css('color', 'white');
         }
       });
       ",
