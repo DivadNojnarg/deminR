@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./man/figures/icon_package.svg" height="250px" />
+<img src="./man/figures/icon_package.png" height="250px" />
 
 [![Travis Build Status](https://travis-ci.org/DivadNojnarg/deminR.svg?branch=master)](https://travis-ci.org/DivadNojnarg/deminR)
 [![CRAN status](https://www.r-pkg.org/badges/version/deminR)](https://CRAN.R-project.org/package=deminR)
