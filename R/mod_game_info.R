@@ -105,8 +105,7 @@ mod_game_info_server <- function(input, output, session, r){
           "Hey! You're a winner!"
         },
         icon = f7Icon("bolt_fill", old = TRUE),
-        title = "Woooop!",
-        titleRightText = lubridate::today()
+        title = "Woooop!"
       ) 
     }
   })
