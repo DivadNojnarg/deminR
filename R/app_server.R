@@ -90,4 +90,15 @@ app_server <- function(input, output, session) {
     }
   })
   
+  # disable chat if local mode
+  observeEvent(req(r$currentTab$val == "chat"),{
+    
+    if(golem::get_golem_options("usecase") == "local"){
+      f7Dialog(
+        type = "alert",
+        text = "Chat is disabled in local mode"
+      )
+    }
+  }, once = TRUE)
+  
 }
