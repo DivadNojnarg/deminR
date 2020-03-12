@@ -24,8 +24,8 @@ mod_about_ui <- function(id){
       effect = "cover",
       resizable = FALSE,
       f7Block(
-        f7Chip(img = "www/avatars/girl.svg", label = "Gabrielle Devaux"),
-        f7Chip(img = "www/avatars/boy.svg", label = "David Granjon") 
+        f7Chip(img = "www/avatars/girl.svg", label = tags$a(href = "https://twitter.com/devauxgabrielle", target="_blank", "Gabrielle Devaux")),
+        f7Chip(img = "www/avatars/boy.svg", label = tags$a(href = "https://twitter.com/divadnojnarg", target="_blank", "David Granjon"))
       ),
       f7Link(
         label = "Github", 
