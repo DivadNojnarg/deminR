@@ -12,7 +12,7 @@ app_ui <- function(request) {
       favicon = "www/icons/favicon.png",
       manifest = "www/manifest.json",
       init = f7Init(
-        skin = "md",
+        skin = "auto",
         theme = "dark",
         filled = FALSE,
         color = "blue",
@@ -91,7 +91,7 @@ golem_add_external_resources <- function(){
     
     tags$script(src = "www/js/loginInputBinding.js"),
     tags$link(rel = "stylesheet", type = "text/css", href = "www/css/colorThemeChooser.css"),
-    shinyjs::inlineCSS(list(.darkleaflet = "background-color: #121212")),
+    shinyjs::inlineCSS(list(.darkleaflet = "background-color: #0000")),
     shinyjs::useShinyjs(),
     use_sever(),
     use_glouton()
