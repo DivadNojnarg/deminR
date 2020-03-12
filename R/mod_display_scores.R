@@ -156,6 +156,7 @@ mod_display_scores_server <- function(input, output, session, r){
           }
           
           items <- f7ListItem(
+            header = if (r$warrior$mode) emo::ji("scream") else NULL,
             title = if (!is.null(trophy)) {
               paste0(temp$nickname, ": ", trophy)
             } else {
