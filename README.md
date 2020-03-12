@@ -31,6 +31,7 @@ This is one of the greatest feature of shinyMobile. Below are the steps to follo
 For Android devices, it is recommended to use Chrome and the process is similar. 
 (Note that Chrome for iOS does not support the add to homescreen feature.)
 
+If for any reason the app crashes, you may kill it like a classic mobile app and restart!
 
 ## Getting Started
 
@@ -58,9 +59,7 @@ We wish you a lot of fun!
 
 ## Limitations
 
-When launched from Windows on local mode, the several icons of the application may not display as expected.
-
-
+When launched from desktop in local mode, some icons may not display as expected.
 
 ## Example
 
@@ -74,6 +73,35 @@ run_app(usecase = "local")
 
 There is a "database" usecase which require a PostgreSQL database to be launched.
 
+## Database
+deminR is linked to a [Postgres](https://www.postgresql.org) database containing (at the moment) 2 tables:
+- scores
+- messages for the chat
+
+To create the scores table, one might use:
+
+```sql
+CREATE TABLE scores (
+  nickname varchar NOT NULL,
+  difficulty varchar (25) check (difficulty in ('Beginner', 'Intermediate', 'Advanced')),
+  score float (2) NOT NULL,
+  date varchar NOT NULL,
+  device varchar NOT NULL
+);
+```
+
+and similarly for the messages table:
+
+```sql
+CREATE TABLE messages (
+  nickname varchar NOT NULL,
+  message varchar NOT NULL,
+  date varchar NOT NULL
+);
+
+INSERT INTO messages (nickname, message, date) VALUES ('bobby', 'My amazing message', '2020-03-04');
+```
+
 ## TO DO
 - [x] add new reactiveValue in r to know the current device (David)
 - [x] double click or long press for mobile? (Discuss)...
@@ -84,7 +112,9 @@ There is a "database" usecase which require a PostgreSQL database to be launched
 - [ ] optimize UI (Gab + David)
 
 
-## Credentials
+## Credits
 * The package structure was made with the package [Golem](https://github.com/ThinkR-open/golem) 
+* The package UI is powered by shinyMobile
+[shinyMobile](https://github.com/RinteRface/shinyMobile)
 * The smileys used in the help section were created by [Conmongt](https://pixabay.com/fr/users/conmongt-1226108/)
 
