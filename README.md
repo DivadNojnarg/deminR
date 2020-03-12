@@ -1,10 +1,13 @@
+<div align="center">
 
-# deminR
+<img src="./man/figures/icon_package.svg" height="250px" />
 
 [![Travis Build Status](https://travis-ci.org/DivadNojnarg/deminR.svg?branch=master)](https://travis-ci.org/DivadNojnarg/deminR)
 [![CRAN status](https://www.r-pkg.org/badges/version/deminR)](https://CRAN.R-project.org/package=deminR)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![shinyapps.io](https://img.shields.io/badge/shinyapps.io-on-purple.svg)](https://dgranjon.shinyapps.io/deminR)
 
+</div>
 
 ## Installation
 
@@ -14,7 +17,20 @@ You can install the devel version of deminR from [github](https://github.com/Div
 remotes::install_github("DivadNojnarg/deminR")
 ```
 
-TO DO: How to install it...
+### Make it full screen on your mobile? (PWA)
+This is one of the greatest feature of shinyMobile. Below are the steps to follow (iOS, ipadOS):
+
+1                          |  2                        |  3                       
+:-------------------------:|:-------------------------:|:-------------------------:
+![](man/figures/readme_pwa_1.jpeg)  |  ![](man/figures/readme_pwa_2.jpeg)  |  ![](man/figures/readme_pwa_3.jpeg)  
+
+4                          |  5
+:-------------------------:|:-------------------------:
+![](man/figures/readme_pwa_4.png)  |  ![](man/figures/readme_pwa_5.png)
+
+For Android devices, it is recommended to use Chrome and the process is similar. 
+(Note that Chrome for iOS does not support the add to homescreen feature.)
+
 
 ## Getting Started
 

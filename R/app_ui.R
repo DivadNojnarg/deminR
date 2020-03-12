@@ -8,8 +8,11 @@ app_ui <- function(request) {
     # List the first level UI elements here 
     f7Page(
       title = "deminR",
+      icon = "www/icons/apple-touch-icon.png",
+      favicon = "www/icons/favicon.png",
+      manifest = "www/manifest.json",
       init = f7Init(
-        skin = "md",
+        skin = "auto",
         theme = "dark",
         filled = FALSE,
         color = "blue",
@@ -29,7 +32,6 @@ app_ui <- function(request) {
           bigger = FALSE,
           transparent = TRUE,
           left_panel = TRUE,
-          right_panel = TRUE,
           subNavbar = f7SubNavbar(
             class = "align-items-stretch",
             mod_display_scores_ui("display_scores_ui_1")[[3]]
@@ -89,7 +91,7 @@ golem_add_external_resources <- function(){
     
     tags$script(src = "www/js/loginInputBinding.js"),
     tags$link(rel = "stylesheet", type = "text/css", href = "www/css/colorThemeChooser.css"),
-    shinyjs::inlineCSS(list(.darkleaflet = "background-color: #121212")),
+    shinyjs::inlineCSS(list(.darkleaflet = "background-color: #0000")),
     shinyjs::useShinyjs(),
     use_sever(),
     use_glouton()

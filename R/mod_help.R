@@ -46,24 +46,52 @@ mod_help_ui <- function(id){
       theme = "dark",
       effect = "reveal",
       resizable = FALSE,
-      tags$div(
-        
-        HTML("
-<p>Welcome to deminR, the R version of the Minesweeper. If you're a Windows' user, chances are that you&nbsp;had this game on your computer a few years ago.&nbsp;This guide will help you in completing your first game. The goal is simple : flag all the mines as quick as possible.&nbsp;</p>
-<p>You can start by clicking at an random place&nbsp;using use a left click on desktop or a single tap on mobile or tablet. It will reveal the block. The digits on a revealed block indicates the number of adjacent mines around it. Put a flag in a case when you&nbsp;think there is a mine. On desktop use a right click, on mobile or tablet use a double tap.</p>
-<img src='www/img/rules1.png' alt='Example' width='80' height='80'/>
-
-<p>If you reveal a block containing a mine, you loose.</p>
-<img src='www/img/rules2.png' alt='Example' width='80' height='80'/>
-
-<p>If you manage to flag all the mines, you win and your score is saved in the score panel !</p>
-<img src='www/img/rules3.png' alt='Example' width='80' height='80'/>
-
-<p>Above the grid, a timer shows your score, and a counter indicates the number of remaining bombs in the grid.</p>
-<p>If you want to start over, change the game level or refresh the scores table, hit the 'settings' button.</p>
-
-<p>Happy deminR !<p>
-             ")
+      
+      f7Accordion(
+        multiCollapse = TRUE,
+        inputId = ns("helpAccordion"),
+        f7AccordionItem(
+          title = "Welcome",
+          "Welcome to deminR, the R version of the Minesweeper. 
+          If you're a Windows' user, chances are that you had this game on 
+          your computer a few years ago. This guide will help you in completing 
+          your first game"
+        ),
+        f7AccordionItem(
+          title = "Goal",
+          "The goal is simple: flag all the mines as quick as 
+          possible. You can start by clicking at an random place using use a 
+          left click on desktop or a single tap on mobile or tablet. 
+          It will reveal the block. The digits on a revealed block 
+          indicates the number of adjacent mines around it. Put a 
+          flag in a case when you think there is a mine. On desktop use a right 
+          click, on mobile or tablet use a long tap (>1s).", 
+          br(),
+          div(img(src = 'www/img/rules1.png', alt = 'Example', width = '80', height = '80')) %>%
+            f7Align("center")
+        ),
+        f7AccordionItem(
+          title = "Details",
+          "Above the grid, a timer shows your score, and a counter indicates 
+          the number of remaining bombs in the grid. If you want to start over, 
+          change the game level or refresh the scores table, hit the 'settings' 
+          button. Happy deminR!"
+        ),
+        f7AccordionItem(
+          title = "Loose",
+          "If you reveal a block containing a mine, you loose.",
+          br(),
+          div(img(src = 'www/img/rules2.png', alt = 'Example', width = '80', height = '80')) %>%
+            f7Align("center")
+        ),
+        f7AccordionItem(
+          title = "Win",
+          "If you manage to flag all the mines, you win and your score 
+          is saved in the score panel!",
+          br(),
+          div(img(src = 'www/img/rules3.png', alt = 'Example', width = '80', height = '80')) %>%
+            f7Align("center")
+        )
       )
     ),
     help_bttn
@@ -81,6 +109,7 @@ mod_help_server <- function(input, output, session){
   # Help is located in the left panel
   observeEvent(input$toggle_help,{
     updateF7Panel(inputId = "help_panel", session = session)
+    updateF7Accordion(inputId = "helpAccordion", selected = 1, session = session)
   })
 }
     
