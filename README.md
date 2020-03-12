@@ -105,15 +105,6 @@ CREATE TABLE messages (
 INSERT INTO messages (nickname, message, date) VALUES ('bobby', 'My amazing message', '2020-03-04');
 ```
 
-## TO DO
-- [x] add new reactiveValue in r to know the current device (David)
-- [x] double click or long press for mobile? (Discuss)...
-- [x] group_by devices (Gab) 
-- [ ] maybe add other data ... (Gab + David)
-- [x] Finish help section (Gab)
-- [x] UI issue: chip in navbar not properly aligned in some cases (if timer > 100s, if user name lenght...)
-- [ ] optimize UI (Gab + David)
-
 
 ## Credits
 * The package structure was made with the package [Golem](https://github.com/ThinkR-open/golem) 
