@@ -137,7 +137,6 @@ mod_display_scores_server <- function(input, output, session, r){
       f7List(
         mode = "media",
         inset = TRUE,
-        class = "swiper-no-swiping",
         lapply(seq_len(nrow(scores)), function(i) {
           file <- generateAvatar(golem::get_golem_options("avatars"))
           
