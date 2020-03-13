@@ -200,18 +200,18 @@ mod_display_scores_server <- function(input, output, session, r){
   })
   
   
-  # navigate to 
+  # trigger refresh scores 
   observeEvent({
     r$currentTab$val
   },{
     req(r$currentTab$val == "scores")
     r$mod_welcome$firstVisit <- FALSE
+    req(r$mod_scores$autoRefresh)
     r$mod_scores$refresh <- TRUE
   })
   
   # inform user that scores are successfully loaded
   observeEvent({
-    req(r$mod_scores$autoRefresh)
     r$mod_scores$refresh
     req(!r$mod_welcome$firstVisit)
   },{
