@@ -39,15 +39,22 @@ mod_game_params_ui <- function(id){
     swipeToClose = TRUE,
     swipeToStep = TRUE,
     backdrop = TRUE,
-    f7BlockTitle(title = "Game Options", size = "large"),
+    f7BlockTitle(title = "Game Options", size = "medium"),
     f7Radio(
       inputId = ns("level"),
       label = "Choose difficulty",
       choices = difficulty$Level,
       selected = difficulty$Level[1]
     ),
+    f7Block(
+      f7Toggle(
+        inputId = ns("warrior"),
+        label = "Are you a warrior?",
+        checked = FALSE
+      )
+    ),
     hiddenItems = tagList(
-      f7BlockTitle(title = "Theme", size = "large"),
+      f7BlockTitle(title = "Theme", size = "medium"),
       f7Block(
         tags$div(
           class = "row",
@@ -61,7 +68,7 @@ mod_game_params_ui <- function(id){
           )
         )
       ),
-      f7BlockTitle(title = "Scores autorefresh", size = "large"),
+      f7BlockTitle(title = "Scores autorefresh", size = "medium"),
       f7Block(
         f7Toggle(
           inputId = ns("scoresAutorefresh"),
@@ -69,15 +76,7 @@ mod_game_params_ui <- function(id){
           checked = FALSE
         )
       ),
-      f7BlockTitle(title = "Are you a warrior?", size = "large"),
-      f7Block(
-        f7Toggle(
-          inputId = ns("warrior"),
-          label = "Unleash the beast?",
-          checked = FALSE
-        )
-      ),
-      tags$div(" ", style = "margin-bottom: 2cm;")
+      tags$div(" ", style = "margin-bottom: 1cm;")
     )
   )
   
