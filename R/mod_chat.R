@@ -23,7 +23,7 @@ mod_chat_ui <- function(id){
   ns <- NS(id)
   tagList(
     f7Messages(id = ns("mymessages"), title = "Chat Room"),
-    uiOutput(ns("messageBarUI"))
+    f7MessageBar(inputId = ns("mymessagebar"), placeholder = "Message")
   )
 }
 
@@ -32,36 +32,15 @@ mod_chat_ui <- function(id){
 #' @rdname mod_chat
 #' @export
 #' @keywords internal
-
 mod_chat_server <- function(input, output, session, r){
   ns <- session$ns
   
   messages_table <- reactiveValues()
   firstConnect <- reactiveVal(TRUE)
   
-  # only display message bar if the chat tab is active
-  output$messageBarUI <- renderUI({
-    req(r$currentTab$val == "chat")
-    messageBarTag <- f7MessageBar(
-      inputId = ns("mymessagebar"), 
-      placeholder = "Message"
-    )
-    
-    # some cosmetic
-    messageBarTag[[2]] <- messageBarTag[[2]] %>% tagAppendAttributes(
-      style = "margin-bottom: -50px;"
-    )
-    messageBarTag
-  })
-  
-  
-  # dynamically hide and show the message bar wrapper
+  # only display message bar when the tab is chat
   observeEvent(r$currentTab$val, {
-    if (r$currentTab$val == "chat") {
-      shinyjs::show(id = "messageBarUI")
-    } else {
-      shinyjs::hide(id = "messageBarUI")
-    }
+    shinyjs::toggle(id = "mymessagebar", condition = r$currentTab$val == "chat")
   })
   
   # load messages first

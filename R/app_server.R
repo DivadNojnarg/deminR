@@ -21,6 +21,11 @@ app_server <- function(input, output, session) {
     loginPage = reactiveValues(visible = TRUE)
   )
   
+  # hide tabs menu when on message tab
+  observeEvent(r$currentTab$val, {
+    shinyjs::toggle(selector = ".tabLinks", condition = r$currentTab$val != "chat")
+  })
+  
   # when a message is exported from grid to chat
   # switch to the chat tab
   observeEvent({
