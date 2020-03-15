@@ -25,16 +25,27 @@ mod_display_scores_ui <- function(id){
   tagList(
     f7Block(
       f7BlockTitle(title = "Scores", size = "large"),
-      f7Flex(
-        f7Toggle(
-          inputId = ns("filterDevice"),
-          label = "All devices",
-          checked = TRUE
-        ),
-        f7Toggle(
-          inputId = ns("myScoresOnly"),
-          label = "Only me?",
-          checked = FALSE
+      f7Button(
+        inputId = ns("scoresOpts"),
+        label = "Filter Scores",
+        fill = FALSE
+      ),
+      f7Sheet(
+        id = ns("scoresSheetOpts"),
+        orientation = "top",
+        backdrop = TRUE,
+        f7BlockTitle(title = "Basic filters", size = "large"),
+        f7Flex(
+          f7Toggle(
+            inputId = ns("filterDevice"),
+            label = "All devices",
+            checked = TRUE
+          ),
+          f7Toggle(
+            inputId = ns("myScoresOnly"),
+            label = "Only me?",
+            checked = FALSE
+          )
         )
       )
     ),
@@ -62,6 +73,12 @@ mod_display_scores_server <- function(input, output, session, r){
   
   score_table <- reactiveValues()
   str <- reactiveValues(warning = " ")
+  
+  
+  # Open scores options when click on filter
+  observeEvent(input$scoresOpts, {
+    updateF7Sheet(inputId = "scoresSheetOpts", session)
+  })
   
   # Trigger refresh when app start so that score are displayed
   # This event occurs once. Then the user will need to click on
