@@ -33,7 +33,9 @@ mod_display_scores_ui <- function(id){
       f7Sheet(
         id = ns("scoresSheetOpts"),
         orientation = "top",
+        swipeToClose = TRUE,
         backdrop = TRUE,
+        swipeHandler = FALSE,
         f7BlockTitle(title = "Basic filters", size = "large"),
         f7Flex(
           f7Toggle(
@@ -46,6 +48,15 @@ mod_display_scores_ui <- function(id){
             label = "Only me?",
             checked = FALSE
           )
+        ),
+        f7BlockTitle(title = "Other filters", size = "large"),
+        f7Flex(
+          f7Toggle(
+            inputId = ns("filterClicks"),
+            label = "By clicks?",
+            checked = FALSE
+          ),
+          uiOutput(ns("scoresNClicksUI"))
         )
       )
     ),
@@ -80,6 +91,22 @@ mod_display_scores_server <- function(input, output, session, r){
     updateF7Sheet(inputId = "scoresSheetOpts", session)
   })
   
+  # numeric input to filter by number of clicks
+  output$scoresNClicksUI <- renderUI({
+    req(input$filterClicks)
+    req(scores())
+    f7Stepper(
+      inputId = ns("scoresNClicks"),
+      label = "Cut-off (<=)",
+      value = round(median(scores()$clicks)),
+      min = round(min(scores()$clicks)),
+      max = round(max(scores()$clicks)),
+      wraps = TRUE,
+      manual = TRUE,
+      fill = TRUE
+    )
+  })
+  
   # Trigger refresh when app start so that score are displayed
   # This event occurs once. Then the user will need to click on
   # the refresh button
@@ -105,25 +132,18 @@ mod_display_scores_server <- function(input, output, session, r){
     req(r$mod_scores$refresh)
 
     
-    if(golem::get_golem_options("usecase") == "database"){
-      
+    if (golem::get_golem_options("usecase") == "database") {
       # Connect to database
       con <- createDBCon()
-      
       # Get the scores
       score_table$table <- DBI::dbReadTable(
         con, 
         name = golem::get_golem_options("table_scores")
       ) 
       
-      
       # Disconnect from database
       DBI::dbDisconnect(con)
-      
-    }
-    
-    
-    if(golem::get_golem_options("usecase") == "local"){
+    } else if (golem::get_golem_options("usecase") == "local") {
       score_table$table <- read.table(
         "inst/app/www/scores.txt",
         header = TRUE,
@@ -139,18 +159,14 @@ mod_display_scores_server <- function(input, output, session, r){
     # prepare data
     score_table$table %>%
       filter_at(vars("difficulty"), ~ . == r$settings$Level) %>%
-      select_at(vars("date", "nickname", "score", "device")) %>%
+      select_at(vars("date", "nickname", "score", "device", "clicks")) %>%
       mutate_at(vars("date"), list(~gsub("_", "-", .))) %>%
       arrange_at(vars("score"))
   })
   
-
-  # List containing all scores
-  output$scoresList <- renderUI({
-
-    req(score_table$table)
-    
-    # filter by device
+  
+  # filtered scores by device
+  scores_filtered <- reactive({
     scores <- if (input$filterDevice){
       scores()
     } else{
@@ -159,8 +175,23 @@ mod_display_scores_server <- function(input, output, session, r){
     
     # filter by name
     if (input$myScoresOnly) {
-      scores <- scores() %>% filter_at(vars("nickname"), ~ . == r$cookies$user)
+      scores <- scores %>% filter_at(vars("nickname"), ~ . == r$cookies$user)
     } 
+    
+    # filter by clicks
+    if (input$filterClicks) {
+      req(input$scoresNClicks)
+      scores <- scores %>% filter_at(vars("clicks"), ~ . <= input$scoresNClicks)
+    }
+    scores
+  })
+  
+
+  # List containing all scores
+  output$scoresList <- renderUI({
+
+    req(score_table$table)
+    scores <- scores_filtered()
     
     # generate list items
     tagList(
@@ -193,7 +224,7 @@ mod_display_scores_server <- function(input, output, session, r){
             },
             subtitle = paste("Level: ", r$settings$Level),
             footer = temp$device,
-            h1(paste0(temp$score, " (", temp$clicks, "clicks)"), class = "text-color-blue"),
+            h1(paste0(temp$score, " (", temp$clicks, " clicks)"), class = "text-color-blue"),
             media = tags$img(src = file),
             right = tags$small(format(lubridate::as_datetime(temp$date), "%B %d %H:%M"))
           )
@@ -340,11 +371,12 @@ mod_display_scores_server <- function(input, output, session, r){
         date = lubridate::ymd_hms(Sys.time()),
         # device = deviceDetails,
         device = r$device$deviceType,
+        clicks = r$clicks$counter,
         stringsAsFactors = FALSE
       )
 
       
-      if(golem::get_golem_options("usecase") == "database"){
+      if (golem::get_golem_options("usecase") == "database") {
         # Connect to database
         con <- createDBCon()
         
@@ -356,11 +388,7 @@ mod_display_scores_server <- function(input, output, session, r){
         )
         
         DBI::dbDisconnect(con)      
-      }
-      
-      
-      
-      if(golem::get_golem_options("usecase") == "local"){
+      } else if (golem::get_golem_options("usecase") == "local") {
         write.table(
           line,
           file = "inst/app/www/scores.txt",
