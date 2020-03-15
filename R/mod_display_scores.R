@@ -357,6 +357,25 @@ mod_display_scores_server <- function(input, output, session, r){
     }
   })
   
+  
+  # toggle searchbar when leave the scores tab
+  observeEvent(r$currentTab$val, {
+    if (r$currentTab$val == "scores") {
+      shinyjs::runjs(
+        sprintf(
+          "$(function() {
+          var searchbar = app.searchbar.get('#%s');
+          if (searchbar.enabled) {
+            searchbar.toggle();
+          }
+        });
+        ",
+          ns("searchScore")
+        )
+      ) 
+    }
+  })
+  
 }
 
 ## To be copied in the UI
