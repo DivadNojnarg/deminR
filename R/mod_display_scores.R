@@ -25,10 +25,17 @@ mod_display_scores_ui <- function(id){
   tagList(
     f7Block(
       f7BlockTitle(title = "Scores", size = "large"),
-      f7Toggle(
-        inputId = ns("filterDevice"),
-        label = "All devices",
-        checked = TRUE
+      f7Flex(
+        f7Toggle(
+          inputId = ns("filterDevice"),
+          label = "All devices",
+          checked = TRUE
+        ),
+        f7Toggle(
+          inputId = ns("myScoresOnly"),
+          label = "Only me?",
+          checked = FALSE
+        )
       )
     ),
     uiOutput(ns("scoresList"), class = "list"),
@@ -126,11 +133,17 @@ mod_display_scores_server <- function(input, output, session, r){
 
     req(score_table$table)
     
-    if(input$filterDevice){
-      scores <- scores()
+    # filter by device
+    scores <- if (input$filterDevice){
+      scores()
     } else{
-      scores <- scores() %>% filter_at(vars("device"), ~ . == r$device$deviceType)
+      scores() %>% filter_at(vars("device"), ~ . == r$device$deviceType)
     }
+    
+    # filter by name
+    if (input$myScoresOnly) {
+      scores <- scores() %>% filter_at(vars("nickname"), ~ . == r$cookies$user)
+    } 
     
     # generate list items
     tagList(
