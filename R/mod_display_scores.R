@@ -176,7 +176,7 @@ mod_display_scores_server <- function(input, output, session, r){
             },
             subtitle = paste("Level: ", r$settings$Level),
             footer = temp$device,
-            h1(temp$score, class = "text-color-blue"),
+            h1(paste0(temp$score, " (", temp$clicks, "clicks)"), class = "text-color-blue"),
             media = tags$img(src = file),
             right = tags$small(format(lubridate::as_datetime(temp$date), "%B %d %H:%M"))
           )
