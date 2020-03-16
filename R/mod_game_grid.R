@@ -15,7 +15,6 @@
 #' @export 
 #' @import shiny 
 #' @import leaflet
-#' @importFrom purrr map
 #' 
 # library(shiny)
 # library(leaflet)
