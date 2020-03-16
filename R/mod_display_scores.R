@@ -38,11 +38,7 @@ mod_display_scores_ui <- function(id){
         swipeHandler = FALSE,
         f7BlockTitle(title = "Basic filters", size = "large"),
         f7Flex(
-          f7Toggle(
-            inputId = ns("filterDevice"),
-            label = "All devices",
-            checked = TRUE
-          ),
+          uiOutput(ns("filterDeviceUI")),
           f7Toggle(
             inputId = ns("myScoresOnly"),
             label = "Only me?",
@@ -107,6 +103,16 @@ mod_display_scores_server <- function(input, output, session, r){
     )
   })
   
+  # filter only by devices
+  output$filterDeviceUI <- renderUI({
+    req(r$device$deviceType)
+    f7Toggle(
+      inputId = ns("filterDevice"),
+      label = paste0("Only ", r$device$deviceType, " ?"),
+      checked = TRUE
+    )
+  })
+  
   # Trigger refresh when app start so that score are displayed
   # This event occurs once. Then the user will need to click on
   # the refresh button
@@ -167,10 +173,18 @@ mod_display_scores_server <- function(input, output, session, r){
   
   # filtered scores by device
   scores_filtered <- reactive({
-    scores <- if (input$filterDevice){
+    
+    # at start input$filterDevice needs the modal sheet to be first open
+    # to exists. We must ensure this does not trigger error. In the meantime,
+    # we cannot set req(input$filterDevice) since scores would never appear at start...
+    scores <- if (is.null(input$filterDevice)) {
       scores()
-    } else{
-      scores() %>% filter_at(vars("device"), ~ . == r$device$deviceType)
+    } else {
+      if (input$filterDevice) {
+        scores() %>% filter_at(vars("device"), ~ . == r$device$deviceType)
+      } else {
+        scores()
+      }
     }
     
     # filter by name
@@ -329,53 +343,16 @@ mod_display_scores_server <- function(input, output, session, r){
     req(r$mod_grid$playing == "won")
     if(!is.null(r$cookies$user) & !is.na(r$cookies$user)){
       # insert into base
-      shinyjs::disable(id = "save") # avoid several clicks
-      
-      # gather device info
-      
-      deviceDetails <- if (r$device$info$desktop) {
-        webBrowser <- if (r$device$info$ie) {
-          "ie"
-        } else if (r$device$info$edge) {
-          "edge"
-        } else if (r$device$info$firefox) {
-          "firefox"
-        }
-        if (!is.null(webBrowser)) {
-          paste(r$device$info$os, r$device$info$osVersion, webBrowser)
-        } else {
-          paste(r$device$info$os, r$device$info$osVersion)
-        }
-      } else {
-        if (r$device$info$os == "ios") {
-          extraInfos <- if (r$device$info$ipad) {
-            "ipad"
-          } else if (r$device$info$iphone) {
-            "iphone"
-          } else if (r$device$info$ipod) {
-            "ipod"
-          }
-          paste(extraInfos, r$device$info$os, r$device$info$osVersion)
-        } else {
-          paste(r$device$info$os, r$device$info$osVersion)
-        }
-      }
-      
-      if (r$device$info$standalone) deviceDetails <- paste(deviceDetails, "PWA")
-      
-      
       line <- data.frame(
         nickname = r$cookies$user,
         difficulty = r$settings$Level,
         score = r$mod_timer$seconds/100,
         date = lubridate::ymd_hms(Sys.time()),
-        # device = deviceDetails,
         device = r$device$deviceType,
-        clicks = r$clicks$counter,
+        clicks = r$click$counter,
         stringsAsFactors = FALSE
       )
 
-      
       if (golem::get_golem_options("usecase") == "database") {
         # Connect to database
         con <- createDBCon()
