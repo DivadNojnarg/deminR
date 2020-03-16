@@ -37,7 +37,9 @@ app_ui <- function(request) {
             mod_display_scores_ui("display_scores_ui_1")[[3]]
           )
         ),
-        messagebar = mod_chat_ui("chat_ui_1")[[2]],
+        messagebar = if (golem::get_golem_options("usecase") == "database") {
+          mod_chat_ui("chat_ui_1")[[2]]
+        },
         panels = tagList(
           mod_about_ui("about_ui_1"),
           mod_help_ui("help_ui_1")[[1]]
@@ -66,11 +68,12 @@ app_ui <- function(request) {
             icon = f7Icon("list_number", old = FALSE), 
             mod_display_scores_ui("display_scores_ui_1")[c(1, 2)]
           ),
+          # only display if database
           f7Tab(
             tabName = "chat",
             icon = f7Icon("chat_bubble_2", old = FALSE),
             mod_chat_ui("chat_ui_1")[[1]]
-          )
+          ) 
         )
       )
     )
