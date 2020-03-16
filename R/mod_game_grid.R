@@ -94,24 +94,30 @@ mod_game_grid_server <- function(input, output, session, r){
   # generate the map of the polygon
   output$map_grid <- renderLeaflet({
     data <- r$mod_grid$data
-    leaflet(options = leafletOptions(zoomControl = FALSE,
-                                     minZoom = r$settings$Zoom,
-                                     maxZoom = r$settings$Zoom,
-                                     dragging = FALSE,
-                                     doubleClickZoom = FALSE,
-                                     attributionControl = FALSE)) %>% 
-      addPolygons(data = data, 
-                  label = data$display,
-                  layerId = data$ID,
-                  color = data$color,
-                  fillColor = data$fillcolor,
-                  options = pathOptions(className = data$ID),
-                  labelOptions = labelOptions(
-                    noHide = TRUE, 
-                    textOnly = TRUE,
-                    textsize = "15px",
-                    direction = "center"
-                  ))
+    leaflet(
+      options = leafletOptions(
+        zoomControl = FALSE,
+        minZoom = r$settings$Zoom,
+        maxZoom = r$settings$Zoom,
+        dragging = FALSE,
+        doubleClickZoom = FALSE,
+        attributionControl = FALSE
+      )
+    ) %>% 
+      addPolygons(
+        data = data, 
+        label = data$display,
+        layerId = data$ID,
+        color = data$color,
+        fillColor = data$fillcolor,
+        options = pathOptions(className = data$ID),
+        labelOptions = labelOptions(
+          noHide = TRUE, 
+          textOnly = TRUE,
+          textsize = "15px",
+          direction = "center"
+        )
+      )
   })
   
   
