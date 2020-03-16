@@ -15,6 +15,7 @@
 #' @export 
 #' @import shiny 
 #' @import leaflet
+#' @importFrom purrr map
 #' 
 # library(shiny)
 # library(leaflet)
@@ -90,7 +91,6 @@ mod_game_grid_ui <- function(id){
 mod_game_grid_server <- function(input, output, session, r){
   ns <- session$ns
   
-  
   # generate the map of the polygon
   output$map_grid <- renderLeaflet({
     data <- r$mod_grid$data
@@ -115,7 +115,11 @@ mod_game_grid_server <- function(input, output, session, r){
           noHide = TRUE, 
           textOnly = TRUE,
           textsize = "15px",
-          direction = "center"
+          direction = "center",
+          style = list(
+            "color" = if (r$theme$color == "dark") "white" else "black",
+            "font-weight" =  "bold"
+          )
         )
       )
   })

@@ -260,11 +260,15 @@ mod_game_params_server <- function(input, output, session, r){
 
   
   # send R values to JS for global theme setting
+  # and expose theme color to other modules
   observe({
     session$sendCustomMessage(
       type = "global-theme-setup",
       message = input$globalTheme
     )
+    
+    req(input$globalTheme)
+    r$theme$color <- input$globalTheme
   })
   
 }

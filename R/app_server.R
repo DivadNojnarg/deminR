@@ -18,7 +18,10 @@ app_server <- function(input, output, session) {
     warrior = reactiveValues(mode = FALSE),
     cookies = reactiveValues(),
     device = reactiveValues(info = NULL),
-    loginPage = reactiveValues(visible = TRUE)
+    loginPage = reactiveValues(visible = TRUE),
+    # set to dark by default since at start, the global theme
+    # input value does not exist (only when one triggers the switch)
+    theme = reactiveValues(color = "dark") 
   )
   
   # hide tabs menu when on message tab
