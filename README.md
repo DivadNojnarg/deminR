@@ -74,6 +74,11 @@ library(deminR)
 run_app(usecase = "local")
 ```
 
+You could also embed the app in a `runGadget` function:
+```r
+runGadget(run_app(usecase = "local"))
+```
+
 There is a "database" usecase which require a PostgreSQL database to be launched.
 
 ## Database
