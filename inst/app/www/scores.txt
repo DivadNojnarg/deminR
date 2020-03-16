@@ -1,6 +1,5 @@
-nickname;difficulty;score;date;device
-Init;Beginner;3600.01;2019_11_26;NA
-Init;Intermediate;3600.01;2019_11_26;NA
-Init;Advanced;3600.01;2019_11_26;NA
-Gabrielle;Dev;0.55;2020_03_03;NA
-Gabrielle;Dev;0;2020-03-04 10:29:44;windows 
+nickname;difficulty;score;date;device;clicks
+David;Beginner;10.63;2019_11_22 08:23:58;mobile;5
+Jean;Intermediate;230.01;2019_11_26 11:41:46;desktop;22
+Gabrielle;Beginner;0.55;2020_03_03 12:44:23;desktop;1
+Gabrielle;Intermediate;60;2020-03-04 10:29:44;mobile;10
