@@ -37,6 +37,6 @@ Remotes:
     hadley/emo,
     JohnCoene/sever,
     DivadNojnarg/glouton
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Suggests: 
     testthat

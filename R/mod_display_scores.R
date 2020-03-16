@@ -20,6 +20,7 @@
 #' @importFrom shinyjs click hide show enable disable
 #' @importFrom utils read.table write.table
 #' @importFrom lubridate ymd_hms as_datetime
+#' @importFrom stats median
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
