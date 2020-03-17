@@ -403,6 +403,9 @@ mod_display_scores_server <- function(input, output, session, r){
     }
   })
   
+  # send scores to the stat brother module
+  return(reactive(score_table$table))
+  
 }
 
 ## To be copied in the UI

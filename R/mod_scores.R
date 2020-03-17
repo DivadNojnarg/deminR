@@ -28,8 +28,8 @@ mod_scores_ui <- function(id){
 #' @noRd 
 mod_scores_server <- function(input, output, session, r){
   ns <- session$ns
-  callModule(mod_display_scores_server, id = "display_scores_ui_1", r = r)
-  callModule(mod_scores_stats_server, id = "scores_stats_ui_1", r = r)
+  scores_data <- callModule(mod_display_scores_server, id = "display_scores_ui_1", r = r)
+  callModule(mod_scores_stats_server, id = "scores_stats_ui_1", r = r, scores_data)
 }
     
 ## To be copied in the UI

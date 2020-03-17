@@ -31,7 +31,8 @@ Imports:
     DBI,
     RPostgres,
     tibble,
-    parallel
+    parallel,
+    mobileCharts
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo,
