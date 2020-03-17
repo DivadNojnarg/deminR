@@ -26,7 +26,7 @@ mod_display_scores_ui <- function(id){
   tagList(
     f7Tab(
       tabName = "Scores",
-      icon = f7Icon("email", old = FALSE),
+      icon = f7Icon("list_bullet", old = FALSE),
       active = TRUE,
       f7Block(
         f7Button(
