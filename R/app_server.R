@@ -84,7 +84,7 @@ app_server <- function(input, output, session) {
   ### Timer module + bomb counter
   callModule(mod_game_info_server, "game_info_ui_1", r = r)
   ### Score module
-  callModule(mod_display_scores_server, id = "display_scores_ui_1", r = r)
+  callModule(mod_scores_server, id = "scores_ui_1", r = r)
   # share module
   callModule(mod_share_server, "share_ui_1", r = r)
 

@@ -24,40 +24,44 @@
 mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
-    f7Block(
-      f7BlockTitle(title = "Scores", size = "large"),
-      f7Button(
-        inputId = ns("scoresOpts"),
-        label = "Filter Scores",
-        fill = FALSE
-      ),
-      f7Sheet(
-        id = ns("scoresSheetOpts"),
-        orientation = "top",
-        swipeToClose = TRUE,
-        backdrop = TRUE,
-        swipeHandler = FALSE,
-        f7BlockTitle(title = "Basic filters", size = "large"),
-        f7Flex(
-          uiOutput(ns("filterDeviceUI")),
-          f7Toggle(
-            inputId = ns("myScoresOnly"),
-            label = "Only me?",
-            checked = FALSE
-          )
+    f7Tab(
+      tabName = "Scores",
+      icon = f7Icon("email", old = FALSE),
+      active = TRUE,
+      f7Block(
+        f7Button(
+          inputId = ns("scoresOpts"),
+          label = "Filter Scores",
+          fill = FALSE
         ),
-        f7BlockTitle(title = "Other filters", size = "large"),
-        f7Flex(
-          f7Toggle(
-            inputId = ns("filterClicks"),
-            label = "By clicks?",
-            checked = FALSE
+        f7Sheet(
+          id = ns("scoresSheetOpts"),
+          orientation = "top",
+          swipeToClose = TRUE,
+          backdrop = TRUE,
+          swipeHandler = FALSE,
+          f7BlockTitle(title = "Basic filters", size = "large"),
+          f7Flex(
+            uiOutput(ns("filterDeviceUI")),
+            f7Toggle(
+              inputId = ns("myScoresOnly"),
+              label = "Only me?",
+              checked = FALSE
+            )
           ),
-          uiOutput(ns("scoresNClicksUI"))
+          f7BlockTitle(title = "Other filters", size = "large"),
+          f7Flex(
+            f7Toggle(
+              inputId = ns("filterClicks"),
+              label = "By clicks?",
+              checked = FALSE
+            ),
+            uiOutput(ns("scoresNClicksUI"))
+          )
         )
-      )
+      ),
+      uiOutput(ns("scoresList"), class = "list")
     ),
-    uiOutput(ns("scoresList"), class = "list"),
     div(
       id = ns("searchbar"),
       f7SearchbarTrigger(targetId = ns("searchScore")),
