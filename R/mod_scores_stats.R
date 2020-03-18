@@ -30,7 +30,11 @@ mod_scores_stats_ui <- function(id){
     ),
     f7Card(
       title = "Clicks",
-      mobileOutput(ns("nclicks"))
+      mobileOutput(ns("clicksChart"))
+    ),
+    f7Card(
+      title = "Efficacy Index",
+      mobileOutput(ns("efficacyChart"))
     )
   )
 }
@@ -59,7 +63,7 @@ mod_scores_stats_server <- function(input, output, session, r, scores){
   })
   
   # n clicks distribution
-  output$nclicks <- render_mobile({
+  output$clicksChart <- render_mobile({
     req(scores())
     
     # filter by category
@@ -69,9 +73,22 @@ mod_scores_stats_server <- function(input, output, session, r, scores){
     
     mobile(df, aes(x = clicks, y = n)) %>% 
       mobile_bar() %>% 
-      mobile_interaction("bar-select") %>% # highlight on select
+      mobile_interaction("bar-select") #%>% # highlight on select
       #mobile_interaction("pan", limitRange = lmt) %>% 
-      mobile_scroll(mode = "x", xStyle = list(offsetY = -5))
+      #mobile_scroll(mode = "x", xStyle = list(offsetY = -5))
+  })
+  
+  
+  # score/click ratio by category
+  output$efficacyChart <- render_mobile({
+    req(scores())
+    eff_data <- scores() %>% 
+      filter(difficulty == r$settings$Level) %>%
+      mutate(efficacy = score / clicks)
+    mobile(eff_data, aes(x = nickname, y = efficacy)) %>% 
+      mobile_point(color = "red") %>%
+      mobile_tooltip(snap = TRUE) %>%
+      mobile_coord("rect", transposed = TRUE)
   })
   
   observe(print(scores()))
