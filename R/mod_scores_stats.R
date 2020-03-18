@@ -17,8 +17,20 @@ mod_scores_stats_ui <- function(id){
     icon = f7Icon("chart_bar_square", old = FALSE),
     active = FALSE,
     f7Card(
-      title = "Props",
-      mobileOutput(ns("props"))
+      title = tagList(
+        "Props",
+        f7Radio(
+          inputId = ns("propsCol"),
+          label = "",
+          choices = c("difficulty", "device"),
+          selected = "difficulty"
+        )
+      ),
+      mobileOutput(ns("propsChart"))
+    ),
+    f7Card(
+      title = "Clicks",
+      mobileOutput(ns("nclicks"))
     )
   )
 }
@@ -29,19 +41,39 @@ mod_scores_stats_ui <- function(id){
 mod_scores_stats_server <- function(input, output, session, r, scores){
   ns <- session$ns
   
-  output$props <- render_mobile({
+  props <- reactive({
     req(scores())
-    
-    df <- scores() %>% 
-      count(difficulty) %>%
+    scores() %>% 
+      count(.data[[input$propsCol]]) %>%
       mutate(props = n / nrow(scores()) * 100) %>%
       mutate(x = "1")
-    
-    mobile(df, aes(x, props, color = difficulty, adjust = stack)) %>% 
+  })
+  
+  # difficulty level props
+  output$propsChart <- render_mobile({
+    req(props())
+    mobile(props(), aes(x, props, color = .data[[input$propsCol]], adjust = stack)) %>% 
       mobile_bar() %>% 
       mobile_coord("polar", transposed = TRUE) %>% 
       mobile_hide_axis()
   })
+  
+  # n clicks distribution
+  output$nclicks <- render_mobile({
+    req(scores())
+    
+    # filter by category
+    df <- scores() %>% 
+      filter(difficulty == r$settings$Level) %>%
+      count(clicks)
+    
+    mobile(df, aes(x = clicks, y = n)) %>% 
+      mobile_bar() %>% 
+      mobile_interaction("bar-select") %>% # highlight on select
+      #mobile_interaction("pan", limitRange = lmt) %>% 
+      mobile_scroll(mode = "x", xStyle = list(offsetY = -5))
+  })
+  
   observe(print(scores()))
 }
     
