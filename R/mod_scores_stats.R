@@ -33,6 +33,10 @@ mod_scores_stats_ui <- function(id){
       mobileOutput(ns("clicksChart"))
     ),
     f7Card(
+      title = "Scores",
+      mobileOutput(ns("scoresChart"))
+    ),
+    f7Card(
       title = "Efficacy Index",
       mobileOutput(ns("efficacyChart"))
     )
@@ -78,6 +82,28 @@ mod_scores_stats_server <- function(input, output, session, r, scores){
       #mobile_scroll(mode = "x", xStyle = list(offsetY = -5))
   })
   
+  # scores by device distribution
+  output$scoresChart <- render_mobile({
+    req(scores())
+    
+    df <- scores() %>% 
+      filter(difficulty == r$settings$Level) %>%
+      group_by(gr=cut(score, breaks= seq(0, 1000, by = 4), right = FALSE)) %>% 
+      summarise(n= n()) %>%
+      right_join(data.frame(gr = unique(cut(1:1000, breaks= seq(0, 1000, by = 4), right = FALSE)))) 
+    
+    df <- df[1:max(which(!is.na(df$n))),]
+    
+    # print(df)
+
+    mobile(df, aes(x = gr, y = n)) %>%
+      mobile_bar() %>%
+      mobile_interaction("bar-select") #%>% # highlight on select
+    #mobile_interaction("pan", limitRange = lmt) %>%
+    #mobile_scroll(mode = "x", xStyle = list(offsetY = -5))
+    
+  })
+  
   
   # score/click ratio by category
   output$efficacyChart <- render_mobile({
@@ -91,7 +117,7 @@ mod_scores_stats_server <- function(input, output, session, r, scores){
       mobile_coord("rect", transposed = TRUE)
   })
   
-  observe(print(scores()))
+  # observe(print(scores()))
 }
     
 ## To be copied in the UI
