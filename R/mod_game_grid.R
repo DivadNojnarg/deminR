@@ -36,6 +36,16 @@ mod_game_grid_ui <- function(id){
   tagList(
     # grid for game
     leafletOutput(ns("map_grid")),
+    # disable finger swipe for the game grid
+    tags$script(
+      sprintf(
+        "$(function() {
+          $('#%s').addClass('disable-select swiper-no-swiping');
+        });
+        ",
+        ns("map_grid")
+      )
+    ),
     # disable mobile browser default "long-tap" actions
     tags$style(
       ".disable-select {
