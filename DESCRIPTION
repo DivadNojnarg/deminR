@@ -38,6 +38,7 @@ Remotes:
     hadley/emo,
     JohnCoene/sever,
     DivadNojnarg/glouton
+    RinteRface/mobileCharts
 RoxygenNote: 7.1.0
 Suggests: 
     testthat
