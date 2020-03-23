@@ -48,6 +48,7 @@ app_ui <- function(request) {
         f7Tabs(
           id = "tabset",
           swipeable = TRUE,
+          style = "toolbar",
           animated = FALSE,
           .items = tagList(
             mod_game_params_ui("game_params_ui_1"),
