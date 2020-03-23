@@ -65,7 +65,7 @@ mod_game_info_server <- function(input, output, session, r){
   # timer UI
   output$timer <- renderUI({
     f7Chip(
-      icon = f7Icon("timer", old = TRUE),
+      icon = f7Icon("timer", old = FALSE),
       label = format(r$mod_timer$seconds/100, nsmall = 2)
     )
   })

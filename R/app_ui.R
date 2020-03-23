@@ -57,7 +57,7 @@ app_ui <- function(request) {
           f7Tab(
             tabName = "main",
             active = TRUE,
-            icon = f7Icon("home", old = TRUE),
+            icon = f7Icon("gamecontroller", old = FALSE),
             # main content
             mod_welcome_ui("welcome_ui_1"),
             mod_game_info_ui("game_info_ui_1"),
