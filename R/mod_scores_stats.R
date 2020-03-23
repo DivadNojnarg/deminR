@@ -68,7 +68,8 @@ mod_scores_stats_server <- function(input, output, session, r, scores){
     mobile(props(), aes(x, props, color = .data[[input$propsCol]], adjust = stack)) %>% 
       mobile_bar() %>% 
       mobile_coord("polar", transposed = TRUE) %>% 
-      mobile_hide_axis()
+      mobile_hide_axis() %>%
+      mobile_interaction("pie-select")
   })
   
   # n clicks distribution
@@ -98,14 +99,11 @@ mod_scores_stats_server <- function(input, output, session, r, scores){
       right_join(data.frame(gr = unique(cut(1:1000, breaks= seq(0, 1000, by = 4), right = FALSE)))) 
     
     df <- df[1:max(which(!is.na(df$n))),]
-    
-    # print(df)
 
     mobile(df, aes(x = gr, y = n)) %>%
       mobile_bar() %>%
-      mobile_interaction("bar-select") #%>% # highlight on select
-    #mobile_interaction("pan", limitRange = lmt) %>%
-    #mobile_scroll(mode = "x", xStyle = list(offsetY = -5))
+      mobile_interaction("bar-select") %>%
+      mobile_coord("rect", transposed = TRUE)
     
   })
   
