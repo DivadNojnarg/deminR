@@ -196,11 +196,11 @@ mod_game_params_server <- function(input, output, session, r){
         ),
         list(
           text = "Parameters",
-          icon = f7Icon("settings_outline", old = TRUE)
+          icon = f7Icon("hammer", old = FALSE)
         ),
         list(
           text = "Nickname",
-          icon = f7Icon("doc_person", old = TRUE)
+          icon = f7Icon("doc_person", old = FALSE)
         )
       )
     } else {
