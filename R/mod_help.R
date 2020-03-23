@@ -30,7 +30,7 @@ mod_help_ui <- function(id){
   help_bttn[[2]]$children <- NULL
   help_bttn[[2]] <- tagAppendChildren(
     help_bttn[[2]], 
-    f7Icon("help_outline", old = TRUE),
+    f7Icon("question_circle", old = FALSE),
     span(class = "tabbar-label", "Help")
   )
   
