@@ -37,7 +37,7 @@ Remotes:
     RinteRface/shinyMobile,
     hadley/emo,
     JohnCoene/sever,
-    DivadNojnarg/glouton
+    DivadNojnarg/glouton,
     RinteRface/mobileCharts
 RoxygenNote: 7.1.0
 Suggests: 
