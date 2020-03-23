@@ -12,10 +12,8 @@
 #' @import mobileCharts
 mod_scores_stats_ui <- function(id){
   ns <- NS(id)
-  f7Tab(
-    tabName = "Stats",
-    icon = f7Icon("chart_bar_square", old = FALSE),
-    active = FALSE,
+  
+  cardItems <- tagList(
     f7Card(
       title = tagList(
         "Props",
@@ -40,6 +38,13 @@ mod_scores_stats_ui <- function(id){
       title = "Efficacy Index",
       mobileOutput(ns("efficacyChart"))
     )
+  )
+  
+  f7Tab(
+    tabName = "Stats",
+    icon = f7Icon("chart_bar_square", old = FALSE),
+    active = FALSE,
+    lapply(cardItems, tagAppendAttributes, class = "swiper-no-swiping")
   )
 }
     
