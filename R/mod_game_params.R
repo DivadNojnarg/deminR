@@ -219,11 +219,12 @@ mod_game_params_server <- function(input, output, session, r){
   
   
   # warrior mode
-  observeEvent({
-    req(input$warrior)
-  }, {
-    r$warrior$mode <- TRUE
+  observeEvent(
+    input$warrior
+  , {
+    r$warrior$mode <- input$warrior
   })
+  
   
   # scores auto refresh
   observeEvent(input$scoresAutorefresh, {
