@@ -57,7 +57,7 @@ mod_chat_server <- function(input, output, session, r){
         
         f7Message(
           text = temp_message$message,
-          header = format(lubridate::as_datetime(temp_message$date), "%B %d %H:%M"),
+          header = temp_message$date,
           name = temp_message$nickname,
           type = if (r$cookies$user == temp_message$nickname){
             "sent"
@@ -79,9 +79,9 @@ mod_chat_server <- function(input, output, session, r){
   
   
   # get update by other people
-  observe({
+  observeEvent(r$currentTab$val, {
    req(!firstConnect())
-   invalidateLater(5000)
+   req(r$currentTab$val == "chat")
    con <- createDBCon()
    
    # select only the last message
@@ -94,7 +94,7 @@ mod_chat_server <- function(input, output, session, r){
        temp_message <- new_messages %>% slice(i)
        f7Message(
          text = temp_message$message,
-         header = format(lubridate::as_datetime(temp_message$date), "%B %d %H:%M"),
+         header = temp_message$date,
          name = temp_message$nickname,
          type = if (r$cookies$user == temp_message$nickname){
            "sent"
