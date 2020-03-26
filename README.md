@@ -46,11 +46,17 @@ Welcome screen             |  Main tab                 | Game win               
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![](man/figures/readme_welcome.png)  |  ![](man/figures/readme_grid.png)  |  ![](man/figures/readme_win.png)  |  ![](man/figures/readme_fail.png)
 
-The game currently has 3 difficulty levels: beginner, intermediate and expert. There is a fourth mode, namely the warrior mode, which significantly increases the challenge. A chat is included so that people may share their experience. 
+The game currently has 3 difficulty levels: beginner, intermediate and expert. There is a fourth mode, namely the warrior mode, which significantly increases the challenge. A chat is included so that people may share their experience. If you want to check how to play minesweeper, a help section is available.
 
-Game options             |  Game parameters           |  Scores list                |  Dynamic chat
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![](man/figures/readme_options.png)  |  ![](man/figures/readme_params.png)  |  ![](man/figures/readme_scores.png)  |  ![](man/figures/readme_chat.png)
+Game options             |  Game parameters           |  Scores list                
+:-------------------------:|:-------------------------:|:-------------------------:
+![](man/figures/readme_options.png)  |  ![](man/figures/readme_params.png)  |  ![](man/figures/readme_scores.png)  
+
+Scores statistics            |  Dynamic chat           |  Help               
+:-------------------------:|:-------------------------:|:-------------------------:
+![](man/figures/readme_scores_stats.png)  |  ![](man/figures/readme_chat.png) |  ![](man/figures/readme_help.png)   
+
+
 
 Finally, you can change the global theme from dark (default) to light and inversely.
 
