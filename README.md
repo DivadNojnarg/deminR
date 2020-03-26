@@ -6,7 +6,7 @@
 [![CRAN status](https://www.r-pkg.org/badges/version/deminR)](https://CRAN.R-project.org/package=deminR)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![shinyapps.io](https://img.shields.io/badge/shinyapps.io-on-purple.svg)](https://dgranjon.shinyapps.io/deminR)
-[![rstudio cloud](https://img.shields.io/badge/rstudio-cloud-on-blue.svg)](https://rstudio.cloud/project/1032373)
+[![rstudio cloud](https://img.shields.io/badge/rstudiocloud-on-blue.svg)](https://rstudio.cloud/project/1032373)
 
 
 
