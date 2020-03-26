@@ -51,8 +51,9 @@ mod_chat_server <- function(input, output, session, r){
       con <- createDBCon()
       
       # Get the messages
-      messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message"))
-      messages <- parallel::mclapply(seq_len(nrow(messages_table$table)), function(i) {
+      messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message")) 
+      messages <- parallel::mclapply(seq_len(nrow(messages_table$table)), function(i) {  # comment this line on windows
+      # messages <- lapply(seq_len(nrow(messages_table$table)), function(i) { # comment this line on mac
         temp_message <- messages_table$table %>% slice(i)
         
         f7Message(
@@ -66,7 +67,9 @@ mod_chat_server <- function(input, output, session, r){
           },
           avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
         )
-      }, mc.cores = parallel::detectCores() - 1)
+      }
+      , mc.cores = parallel::detectCores() - 1 # comment this line on windows
+      )
       
       f7AddMessages(id = "mymessages", messages)
       

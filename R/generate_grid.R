@@ -98,9 +98,15 @@ generate_spatial_grid <- function(N, n_mines){
   combn <- as.data.frame(expand.grid(x,y))
   res <- map2(combn$Var1, combn$Var2, calc)
   
+  # Comment this bloc on windows
   res2 <- parallel::mclapply(seq_along(res), function(i){
     Polygons(list(res[[i]]), paste0("case-", i))
   }, mc.cores = detectCores() - 1)
+  
+  # Comment this block on mac
+  # res2 <- lapply(seq_along(res), function(i){
+  #   Polygons(list(res[[i]]), paste0("case-", i))
+  # })
   
   SpP = SpatialPolygons(res2, seq_along(res2))
   
