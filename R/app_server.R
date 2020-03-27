@@ -64,7 +64,7 @@ app_server <- function(input, output, session) {
   observeEvent({
     login()
   },{
-    shinyjs::delay(1000,{
+    shinyjs::delay(10,{
       if (!login()) {
         r$loginPage$visible <- FALSE
       }
