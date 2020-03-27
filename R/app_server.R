@@ -69,7 +69,7 @@ app_server <- function(input, output, session) {
         r$loginPage$visible <- FALSE
       }
     })
-  })
+  }, ignoreInit = TRUE)
   # set cookies based on authentication layer
  
   ### Help module
