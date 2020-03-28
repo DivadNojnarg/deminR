@@ -71,7 +71,7 @@ mod_share_server <- function(input, output, session, r){
           level = r$settings$Level,
           deviceinfo = r$device$deviceType,
           clicks = r$click$counter,
-          "https://twitter.com/intent/tweet?text=mineSweeper+score+for+{user}+in+{level}+level%3A+{score}+seconds+in+{clicks}+clicks%2C+yeay+%21+%23rstat+Try+at+https%3A%2F%2Fdgranjon.shinyapps.io%2FdeminR%2F"),
+          "https://twitter.com/intent/tweet?text=mineSweeper+score+for+{user}+in+{level}+level%3A+{score}+seconds+in+{clicks}+clicks%2C+yeay+%21+%23rstats+Try+at+https%3A%2F%2Fdgranjon.shinyapps.io%2FdeminR%2F"),
         `data-size` = "large",
         onclick = paste0("Shiny.setInputValue(", ns("shareTwitter"), ", true)"),
         f7Icon("logo_twitter", old = TRUE)
