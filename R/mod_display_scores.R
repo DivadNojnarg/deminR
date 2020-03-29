@@ -165,6 +165,7 @@ mod_display_scores_server <- function(input, output, session, r){
   # scores tibble
   scores <- reactive({
     # prepare data
+    req(nrow(score_table$table) > 0)
     score_table$table %>%
       filter_at(vars("difficulty"), ~ . == r$settings$Level) %>%
       select_at(vars("date", "nickname", "score", "device", "clicks")) %>%
