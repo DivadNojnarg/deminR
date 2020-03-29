@@ -121,17 +121,14 @@ mod_display_scores_server <- function(input, output, session, r){
   # Trigger refresh when app start so that score are displayed
   # This event occurs once. Then the user will need to click on
   # the refresh button
-  observe({
-    if (r$mod_welcome$firstVisit & !r$loginPage$visible) {
+  observeEvent({
+    r$loginPage$visible
+    r$cookies$user
+  },{
+    if (!r$loginPage$visible || !is.null(r$cookies$user)) {
       r$mod_scores$refresh <- TRUE 
-      f7Toast(
-        session, 
-        text = "Scores successfully loaded!",
-        position = "center",
-        closeButtonColor = NULL
-      )
     }
-  }, priority = 1000)
+  }, once = TRUE)
   
   # hide searchbar if input tabs is not score
   observeEvent(r$currentTab$val, {
@@ -286,7 +283,6 @@ mod_display_scores_server <- function(input, output, session, r){
     r$currentTab$val
   },{
     req(r$currentTab$val == "scores")
-    r$mod_welcome$firstVisit <- FALSE
     req(r$mod_scores$autoRefresh)
     r$mod_scores$refresh <- TRUE
   })
@@ -294,7 +290,6 @@ mod_display_scores_server <- function(input, output, session, r){
   # inform user that scores are successfully loaded
   observeEvent({
     r$mod_scores$refresh
-    req(!r$mod_welcome$firstVisit)
   },{
     req(r$mod_scores$refresh)
     req(nrow(score_table$table) > 0)

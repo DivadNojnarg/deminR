@@ -226,9 +226,9 @@ mod_game_grid_server <- function(input, output, session, r){
   })
   
   
-  observeEvent(r$mod_welcome$firstVisit, {
+  observeEvent(r$loginPage$visible, {
     shinyjs::addCssClass(id = "map_grid", class = "darkleaflet")
-  })
+  }, once = TRUE)
   
   return(reactive(input$map_grid_shape_click))
   
