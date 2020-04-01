@@ -182,7 +182,7 @@ mod_game_grid_server <- function(input, output, session, r){
   
   
   ### If all bomb cases are hidden and all other cases are revealed, end of the game (win)
-  observe({
+  observeEvent(r$mod_grid$data, {
     data <- r$mod_grid$data
     data_bombs <- data[data$value == -999,]
     data_not_bombs <- data[data$value != -999,]
@@ -193,7 +193,7 @@ mod_game_grid_server <- function(input, output, session, r){
   })
   
   ### Start the timer when user first click on the grid
-  observe({
+  observeEvent(input$map_grid_shape_click, {
     if(any(!r$mod_grid$data$hide)){
       r$mod_grid$start  <- TRUE
     }
