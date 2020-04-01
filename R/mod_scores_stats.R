@@ -65,7 +65,7 @@ mod_scores_stats_server <- function(input, output, session, r, scores){
   # difficulty level props
   output$propsChart <- render_mobile({
     req(props())
-    mobile(props(), aes(x, props, color = .data[[input$propsCol]], adjust = stack)) %>% 
+    mobile(props(), aes(x, props, color = .data[[input$propsCol]], adjust = 'stack')) %>% 
       mobile_bar() %>% 
       mobile_coord("polar", transposed = TRUE) %>% 
       mobile_hide_axis() %>%

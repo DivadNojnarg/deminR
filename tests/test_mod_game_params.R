@@ -52,34 +52,34 @@
 
 
 
-
-library(shiny)
-library(shinyMobile)
-library(deminR)
-shiny::shinyApp(
-  ui = f7Page(
-    title = "My app",
-    f7SingleLayout(
-      navbar = f7Navbar(
-        title = "Single Layout",
-        hairline = FALSE,
-        shadow = TRUE
-      ),
-      mod_game_params_ui("test")
-    )
-  ),
-  server = function(input, output, session) {
-    callModule(mod_game_params_server, "test", r = reactiveValues(
-      mod_grid = reactiveValues(playing = "onload", start = FALSE),
-      mod_timer = reactiveValues(),
-      mod_bomb = reactiveValues(),
-      mod_scores = reactiveValues(refresh = NULL, sendToChat = NULL, autoRefresh = NULL),
-      click = reactiveValues(counter = 0),
-      currentTab = reactiveValues(val = NULL),
-      warrior = reactiveValues(mode = FALSE),
-      cookies = reactiveValues(),
-      device = reactiveValues(info = NULL),
-      settings = reactiveValues()
-    ))
-  }
-)
+# 
+# library(shiny)
+# library(shinyMobile)
+# library(deminR)
+# shiny::shinyApp(
+#   ui = f7Page(
+#     title = "My app",
+#     f7SingleLayout(
+#       navbar = f7Navbar(
+#         title = "Single Layout",
+#         hairline = FALSE,
+#         shadow = TRUE
+#       ),
+#       mod_game_params_ui("test")
+#     )
+#   ),
+#   server = function(input, output, session) {
+#     callModule(mod_game_params_server, "test", r = reactiveValues(
+#       mod_grid = reactiveValues(playing = "onload", start = FALSE),
+#       mod_timer = reactiveValues(),
+#       mod_bomb = reactiveValues(),
+#       mod_scores = reactiveValues(refresh = NULL, sendToChat = NULL, autoRefresh = NULL),
+#       click = reactiveValues(counter = 0),
+#       currentTab = reactiveValues(val = NULL),
+#       warrior = reactiveValues(mode = FALSE),
+#       cookies = reactiveValues(),
+#       device = reactiveValues(info = NULL),
+#       settings = reactiveValues()
+#     ))
+#   }
+# )
