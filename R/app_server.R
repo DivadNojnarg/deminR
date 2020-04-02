@@ -86,6 +86,8 @@ app_server <- function(input, output, session) {
   callModule(mod_scores_server, id = "scores_ui_1", r = r)
   # share module
   callModule(mod_share_server, "share_ui_1", r = r)
+  # about me module
+  callModule(mod_about_me_server, "about_me_ui_1", r = r)
 
   
   # activate chat module only on database mode

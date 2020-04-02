@@ -47,24 +47,16 @@ generateAvatar <- function(avatars) {
 }
 
 
-#' Create a Framework7 page with tab layout
+#' Custom framework7 subnavbar
 #'
-#' Build a Framework7 page with tab layout
-#'
-#' @param ... Slot for \link{f7Tabs}.
-#' @param navbar Slot for \link{f7Navbar}.
-#' @param messagebar Slot for \link{f7MessageBar}.
-#' @param panels Slot for \link{f7Panel}.
-#' Wrap in \link[shiny]{tagList} if multiple panels.
-#' @param appbar Slot for \link{f7Appbar}.
-f7TabLayout <- function (..., navbar, messagebar = NULL, panels = NULL, appbar = NULL) {
-  shiny::tagList(
-    appbar, 
-    panels, 
+#' @param ... Subnavbar items.
+#' @export
+f7SubNavbar <- function(...) {
+  shiny::tags$div(
+    class = "subnavbar",
     shiny::tags$div(
-      class = "view view-main", 
-      messagebar,
-      shiny::tags$div(class = "page", navbar, ...)
+      class = "subnavbar-inner",
+      ...
     )
   )
 }

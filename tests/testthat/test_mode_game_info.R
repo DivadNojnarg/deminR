@@ -43,7 +43,7 @@ tryCatch({
 
       # Testing timer
       active(TRUE)
-      session$elapse(100)
+      session$elapse(1000)
       expect_equal(r$mod_timer$seconds > 0, TRUE)
 
       

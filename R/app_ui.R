@@ -33,8 +33,9 @@ app_ui <- function(request) {
           transparent = TRUE,
           left_panel = TRUE,
           subNavbar = f7SubNavbar(
-            class = "align-items-stretch",
-            mod_scores_ui("scores_ui_1")[[2]]
+            mod_about_me_ui("about_me_ui_1")[[1]],
+            mod_scores_ui("scores_ui_1")[[2]],
+            mod_about_me_ui("about_me_ui_1")[[2]]
           )
         ),
         messagebar = if (golem::get_golem_options("usecase") == "database") {

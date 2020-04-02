@@ -2,6 +2,7 @@
 
 export("%>%")
 export(createDBCon)
+export(f7SubNavbar)
 export(generateAvatar)
 export(generate_spatial_grid)
 export(grid_init)

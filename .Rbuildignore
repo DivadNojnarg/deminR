@@ -11,3 +11,4 @@ $run_dev.*
 ^docs$
 ^pkgdown$
 ^rsconnect$
+^\.vscode$
