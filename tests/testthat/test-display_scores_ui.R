@@ -1,10 +1,46 @@
-test_that("display scores UI", {
-  # this module is a tagList containing 2 elements
-  # [[1]] is a tab item, [[2]] is the searchbar trigger/searchbar tag
-  scoresUI <- mod_display_scores_ui("scores_ui")
+# this module is a tagList containing 2 elements
+# [[1]] is a tab item, [[2]] is the searchbar trigger/searchbar tag
+scoresUI <- mod_display_scores_ui("scores_ui")
+
+test_that("display scores UI global", {
   expect_shinytaglist(scoresUI)
   expect_length(scoresUI, 2)
+})
+
+
+test_that("scores UI Tab content", {
+  # inspect the tab content
+  tabScoresUI <- scoresUI[[1]]
+  expect_length(tabScoresUI, 4)
+  tabScoresContentUI <- tabScoresUI[[1]]
+  expect_shinytag(tabScoresContentUI)
+  expect_equal(tabScoresContentUI$attribs$id, "Scores")
+  expect_length(tabScoresContentUI$children, 2)
+  # f7List output
+  expect_equal(tabScoresContentUI$children[[2]]$attribs$id, "scores_ui-scoresList")
+  expect_equal(tabScoresContentUI$children[[2]]$attribs$class, "shiny-html-output")
+})
+
+
+test_that("scores UI Tab sheet", {
+  # inspect the tab content
+  sheetUI <- tabScoresContentUI$children[[1]]$children
+  expect_length(sheetUI, 2)
+  # sheet trigger
+  expect_equal(sheetUI[[1]][[2]]$name, "button")
+  expect_equal(sheetUI[[1]][[2]]$attribs$id, "scores_ui-scoresOpts")
   
+  # sheet content
+  sheetTag <- sheetUI[[2]]
+  # [[1]] is ths JS binding, [[2]] is the CSS, [[3]] is the HTML content
+  expect_length(sheetTag, 3)
+  expect_is(sheetTag[[1]], "html_dependency")
+  expect_equal(sheetTag[[2]]$name, "style")
+  expect_equal(sheetTag[[3]]$attribs$id, "scores_ui-scoresSheetOpts")
+})
+
+
+test_that("scores UI searchbar", {
   # inspect each item individually
   searchBarUI <- scoresUI[[2]]
   expect_equal(searchBarUI$attribs$id, "scores_ui-searchbar")
