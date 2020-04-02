@@ -320,13 +320,13 @@ mod_display_scores_server <- function(input, output, session, r){
     r$mod_grid$playing
   }, {
     req(r$mod_grid$playing == "won")
-    if (r$mod_timer$seconds/100 < min(scores()$score)) {
+    if (r$mod_timer$seconds < min(scores()$score)) {
       f7Dialog(
         type = "alert",
         title = paste("Congratulations", emo::ji("trophy")),
         text = paste("You are the new winner of the", r$settings$Level, "category")
       )
-    } else if (r$mod_timer$seconds/100 > max(scores()$score)) {
+    } else if (r$mod_timer$seconds > max(scores()$score)) {
       f7Dialog(
         type = "alert",
         title = paste("Wowowo", emo::ji("ghost")),
@@ -348,7 +348,7 @@ mod_display_scores_server <- function(input, output, session, r){
       line <- data.frame(
         nickname = r$cookies$user,
         difficulty = r$settings$Level,
-        score = r$mod_timer$seconds/100,
+        score = r$mod_timer$seconds,
         date = lubridate::ymd_hms(Sys.time()),
         device = r$device$deviceType,
         clicks = r$click$counter,

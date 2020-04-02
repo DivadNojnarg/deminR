@@ -67,7 +67,7 @@ mod_share_server <- function(input, output, session, r){
       a(class = "link twitter-share-button external",
         href = glue(
           user = r$cookies$user, 
-          score = r$mod_timer$seconds/100, 
+          score = r$mod_timer$seconds, 
           level = r$settings$Level,
           deviceinfo = r$device$deviceType,
           clicks = r$click$counter,
@@ -81,7 +81,7 @@ mod_share_server <- function(input, output, session, r){
   
   # send to chat signal
   observeEvent(input$shareChat, {
-    r$mod_scores$sendToChat <- paste("My score: ", r$mod_timer$seconds/100)
+    r$mod_scores$sendToChat <- paste("My score: ", r$mod_timer$seconds)
   })
 }
 
