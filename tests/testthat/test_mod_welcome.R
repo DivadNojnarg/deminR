@@ -1,8 +1,3 @@
-library(shiny)
-library(shinyMobile)
-library(testthat)
-library(deminR)
-
 arg <- reactiveValues(
   cookies = reactiveValues(),
   loginPage = reactiveValues(visible = TRUE)

@@ -1,10 +1,4 @@
-library(shiny)
-library(shinyMobile)
-library(testthat)
-library(deminR)
 library(xml2)
-
-
 # Running example of module
 # shiny::shinyApp(
 #   ui = f7Page(
