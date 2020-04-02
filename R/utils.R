@@ -64,7 +64,7 @@ f7SubNavbar <- function(...) {
 
 #' Validate a nickname provided by the user.
 #' 
-#' Used by the \link{mod_welcome} module
+#' Used by the \link{mod_welcome_server} module
 #'
 #' @param char Nickname.
 #'

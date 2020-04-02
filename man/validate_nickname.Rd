@@ -13,5 +13,5 @@ validate_nickname(char)
 Boolean
 }
 \description{
-Used by the \link{mod_welcome} module
+Used by the \link{mod_welcome_server} module
 }
