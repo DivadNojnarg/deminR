@@ -8,11 +8,11 @@ test_that("display scores UI global", {
 })
 
 
+tabScoresUI <- scoresUI[[1]]
+tabScoresContentUI <- tabScoresUI[[1]]
 test_that("scores UI Tab content", {
   # inspect the tab content
-  tabScoresUI <- scoresUI[[1]]
   expect_length(tabScoresUI, 4)
-  tabScoresContentUI <- tabScoresUI[[1]]
   expect_shinytag(tabScoresContentUI)
   expect_equal(tabScoresContentUI$attribs$id, "Scores")
   expect_length(tabScoresContentUI$children, 2)
