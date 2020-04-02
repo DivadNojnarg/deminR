@@ -91,7 +91,7 @@ mod_welcome_server <- function(input, output, session, r){
   observeEvent(input$login, {
     if (!authenticated()) {
       # validate the user login
-      if (valid_nickname(input$login_user)) {
+      if (validate_nickname(input$login_user)) {
         r$cookies$user <- input$login_user
         updateF7Login(
           id = "loginPage",

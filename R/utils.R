@@ -60,3 +60,23 @@ f7SubNavbar <- function(...) {
     )
   )
 }
+
+
+#' Validate a nickname provided by the user.
+#' 
+#' Used by the \link{mod_welcome} module
+#'
+#' @param char Nickname.
+#'
+#' @return Boolean
+#' @export
+validate_nickname <- function(char){
+  valid <- TRUE
+  cond <- c(
+    nchar(char) <= 20,
+    nchar(char) >=2,
+    grepl("^[a-zA-Z0-9]*$", char)
+  )
+  if (!all(cond)) valid <- FALSE
+  valid
+}
