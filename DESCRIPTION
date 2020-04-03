@@ -39,7 +39,8 @@ Remotes:
     hadley/emo,
     JohnCoene/sever,
     DivadNojnarg/glouton,
-    RinteRface/mobileCharts
+    RinteRface/mobileCharts,
+    rstudio/shiny
 RoxygenNote: 7.1.0
 Suggests: 
     testthat (>= 2.1.0),
