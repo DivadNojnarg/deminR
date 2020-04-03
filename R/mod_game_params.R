@@ -124,7 +124,7 @@ mod_game_params_server <- function(input, output, session, r){
   ns <- session$ns
   ### The user chooses a difficutlty and it determines several parameters :
   # size of the grid, number of mines, leaflet zoom level
-  observe({
+  observeEvent(input$level, {
     r$settings <- difficulty[difficulty$Level == input$level,]
   })
   
