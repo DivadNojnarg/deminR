@@ -1,27 +1,4 @@
 library(xml2)
-# Running example of module
-# shiny::shinyApp(
-#   ui = f7Page(
-#     title = "My app",
-#     f7SingleLayout(
-#       navbar = f7Navbar(
-#         title = "Single Layout",
-#         hairline = FALSE,
-#         shadow = TRUE
-#       ),
-#       mod_game_info_ui("test")
-#     )
-#   ),
-#   server = function(input, output, session) {
-#     callModule(mod_game_info_server, "test", r = reactiveValues(
-#       mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
-#       mod_timer = reactiveValues(),
-#       cookies = reactiveValues(user = "toto"), 
-#       settings = reactiveValues(Level = "Beginner")
-#     ))
-#   }
-# )
-
 
 difficulty <- data.frame(
     Level = c("Beginner", "Intermediate", "Advanced"),
@@ -76,5 +53,26 @@ tryCatch({
 })
 
 
-
+# Running example of module alone
+# shiny::shinyApp(
+#   ui = f7Page(
+#     title = "My app",
+#     f7SingleLayout(
+#       navbar = f7Navbar(
+#         title = "Single Layout",
+#         hairline = FALSE,
+#         shadow = TRUE
+#       ),
+#       mod_game_info_ui("test")
+#     )
+#   ),
+#   server = function(input, output, session) {
+#     callModule(mod_game_info_server, "test", r = reactiveValues(
+#       mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
+#       mod_timer = reactiveValues(),
+#       cookies = reactiveValues(user = "toto"), 
+#       settings = reactiveValues(Level = "Beginner")
+#     ))
+#   }
+# )
 

@@ -31,13 +31,20 @@ testModule(mod_share_server, {
 r$mod_grid <- reactiveValues(playing = "won")
 testModule(mod_share_server, {
   # check deps
-  expect_true(length(output$shareToolbar$html) > 0)
+  expect_true(length(output$shareToolbar$deps) > 0)
   
   # this element is composed of $html and $deps
   #expect_length(str(output$shareToolbar), 2)
   # inspect html
   toolbarTag <- html2R(output$shareToolbar$html, prefix = TRUE)
-  toolbarTag$children[[1]]$children
-  output$shareToolbar
-  #print(toolbarTag)
+  expect_length(toolbarTag$children[[1]]$children, 2)
+  expect_equal(toolbarTag$children[[1]]$children[[1]]$attribs$id, "mock-session-shareChat")
+  expect_equal(toolbarTag$children[[1]]$children[[2]]$attribs$onclick, "Shiny.setInputValue(mock-session-shareTwitter, true)")
+  
+  # check if toolbar margin style is correctly updated based on the current
+  # operating system
+  r$device$info$os <- "ios"
+  session$flushReact()
+  toolbarTag <- html2R(output$shareToolbar$html, prefix = TRUE)
+  expect_equal(toolbarTag$children[[1]]$attribs$style, "margin-top: 44px;")
 }, r = r)
