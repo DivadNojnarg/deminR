@@ -59,12 +59,12 @@ mod_about_me_server <- function(input, output, session, r){
       h4(
         "Worker Id:", 
         if (session$clientData$url_hostname == "127.0.0.1") {
-          "Local"
+          f7Badge("Local")
         } else {
           if (session$clientData$url_search != "") {
-            session$clientData$url_search
+            f7Badge(session$clientData$url_search)
           } else {
-            NA
+            f7Badge(NA)
           }
         }
       )
