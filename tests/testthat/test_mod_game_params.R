@@ -1,3 +1,4 @@
+library(shiny)
 
 difficulty <- data.frame(
   Level = c("Beginner", "Intermediate", "Advanced"),

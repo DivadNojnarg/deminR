@@ -1,3 +1,5 @@
+library(shiny)
+
 arg <- reactiveValues(
   cookies = reactiveValues(user = NULL),
   loginPage = reactiveValues(visible = TRUE)

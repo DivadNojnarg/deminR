@@ -1,3 +1,5 @@
+library(shiny)
+
 r <- reactiveValues(
   mod_scores = reactiveValues(sendToChat = NULL),
   mod_grid = reactiveValues(playing = "onload"),

@@ -1,4 +1,5 @@
 library(xml2)
+library(shiny)
 
 difficulty <- data.frame(
     Level = c("Beginner", "Intermediate", "Advanced"),
