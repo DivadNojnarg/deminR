@@ -61,7 +61,11 @@ mod_about_me_server <- function(input, output, session, r){
         if (session$clientData$url_hostname == "127.0.0.1") {
           "Local"
         } else {
-          session$clientData$url_search
+          if (session$clientData$url_search != "") {
+            session$clientData$url_search
+          } else {
+            NA
+          }
         }
       )
     )
