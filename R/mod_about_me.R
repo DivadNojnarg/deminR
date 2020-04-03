@@ -18,6 +18,18 @@ mod_about_me_ui <- function(id){
       class = "float-right link action-button",
       id = ns("openProfile"),
       tags$img(src = generateAvatar(golem::get_golem_options("avatars")), width = "40px")
+    ),
+    f7Sheet(
+      id = ns("aboutMeSheet"),
+      orientation = "bottom",
+      swipeToClose = TRUE,
+      swipeToStep = TRUE,
+      backdrop = TRUE,
+      h1("About Me"),
+      hiddenItems = tagList(
+        uiOutput(ns("myDevice")),
+        uiOutput(ns("workerId"))
+      )
     )
   )
 }
@@ -30,6 +42,29 @@ mod_about_me_server <- function(input, output, session, r){
   observeEvent(r$currentTab$val, {
     shinyjs::toggle(id = "openProfile", condition = r$currentTab$val != "scores")
     shinyjs::toggle(id = "subnavGhost", condition = r$currentTab$val != "scores")
+  })
+  
+  observeEvent(input$openProfile, {
+    updateF7Sheet(inputId = "aboutMeSheet", session)
+  })
+  
+  output$myDevice <- renderUI({
+    f7Block(
+      h4("OS:", f7Badge(r$device$info$os))
+    )
+  })
+  
+  output$workerId <- renderUI({
+    f7Block(
+      h4(
+        "Worker Id:", 
+        if (session$clientData$url_hostname == "127.0.0.1") {
+          "Local"
+        } else {
+          session$clientData$url_search
+        }
+      )
+    )
   })
 }
     
