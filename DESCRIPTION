@@ -32,7 +32,6 @@ Imports:
     DBI,
     RPostgres,
     tibble,
-    parallel,
     mobileCharts,
     stringr
 Remotes: 

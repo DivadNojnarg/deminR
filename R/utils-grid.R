@@ -75,7 +75,6 @@ grid_data <- function(grid, N){
 #'
 #' @importFrom sp Polygon Polygons SpatialPolygons SpatialPolygonsDataFrame
 #' @importFrom purrr map2
-#' @importFrom parallel mclapply
 #' 
 #' @export
 #' @rdname grid_init
@@ -95,9 +94,9 @@ generate_spatial_grid <- function(N, n_mines){
   res <- map2(combn$Var1, combn$Var2, calc)
   
   # Comment this bloc on windows
-  res2 <- parallel::mclapply(seq_along(res), function(i){
+  res2 <- lapply(seq_along(res), function(i){
     Polygons(list(res[[i]]), paste0("case-", i))
-  }, mc.cores = detectCores() - 1)
+  })
   
   # Comment this block on mac
   # res2 <- lapply(seq_along(res), function(i){

@@ -33,10 +33,9 @@ test_that("scores UI Tab sheet", {
   # sheet content
   sheetTag <- sheetUI[[2]]
   # [[1]] is ths JS binding, [[2]] is the CSS, [[3]] is the HTML content
-  expect_length(sheetTag, 3)
+  expect_length(sheetTag, 2)
   expect_is(sheetTag[[1]], "html_dependency")
-  expect_equal(sheetTag[[2]]$name, "style")
-  expect_equal(sheetTag[[3]]$attribs$id, "scores_ui-scoresSheetOpts")
+  expect_equal(sheetTag[[2]]$attribs$id, "scores_ui-scoresSheetOpts")
 })
 
 

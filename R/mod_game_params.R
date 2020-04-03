@@ -207,7 +207,7 @@ mod_game_params_server <- function(input, output, session, r){
       list(
         list(
           text = "Reset Game",
-          icon = f7Icon("refresh_outline", old = TRUE)
+          icon = f7Icon("gobackward", old = FALSE)
         )
       )
     }

@@ -10,9 +10,6 @@ difficulty <- data.frame(
 
 
 testModule(mod_game_params_server, {
-  # this test will fail on Travis but not locally
-  skip_on_travis()
-    
   session$setInputs(level = "Intermediate")
   # Test data dimension ; if level is intermediate, data should have NxN rows
   expect_equal(nrow(r$mod_grid$data), difficulty$Size[difficulty$Level=='Intermediate']^2)
