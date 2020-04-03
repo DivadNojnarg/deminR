@@ -21,6 +21,7 @@ Imports:
     emo,
     lubridate,
     readr,
+    XML,
     shinyjs,
     dplyr,
     DT,
@@ -32,7 +33,8 @@ Imports:
     RPostgres,
     tibble,
     parallel,
-    mobileCharts
+    mobileCharts,
+    stringr
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo,
