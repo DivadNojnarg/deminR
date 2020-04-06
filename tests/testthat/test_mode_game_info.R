@@ -18,7 +18,6 @@ tryCatch({
       session$elapse(1000)
       expect_equal(r$mod_timer$seconds > 0, TRUE)
 
-      
       # Testing difficulty badge
       r$settings = difficulty[difficulty$Level == "Intermediate",]
       r$mod_grid$data = generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
@@ -33,14 +32,6 @@ tryCatch({
       r$mod_grid$data = generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
       session$flushReact()
       expect_equal(xml_text(xml_find_all(read_html(output$bombs$html), '//*[@class="chip-label"]/text()')), "20")
-      
-      
-      # Testing username
-      expect_equal(grepl("toto",output$userName$html ,fixed = TRUE), TRUE)
-      r$cookies$user = "Divad"
-      session$flushReact()
-      expect_equal(grepl("toto",output$userName$html ,fixed = TRUE), FALSE)
-      expect_equal(grepl("Divad",output$userName$html ,fixed = TRUE), TRUE)
       
     }, r = reactiveValues(
       mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
