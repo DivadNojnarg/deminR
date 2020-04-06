@@ -75,14 +75,9 @@ mod_welcome_server <- function(input, output, session, r){
   # open the page if not already (in case of local authentication)
   observeEvent(fetch_cookies(), {
     r$cookies <- fetch_cookies()
-    shinyjs::delay(
-      10,
-      {
-        if (is.null(r$cookies$user)) {
-          if (!input$loginPage) updateF7Login(id = "loginPage")
-        }
-      }
-    )
+    if (is.null(r$cookies$user)) {
+      if (!input$loginPage) updateF7Login(id = "loginPage")
+    }
   }, once = TRUE, priority = 10000)
   
   

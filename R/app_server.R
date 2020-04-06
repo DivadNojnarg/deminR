@@ -70,6 +70,17 @@ app_server <- function(input, output, session) {
     })
   }, ignoreInit = TRUE)
   # set cookies based on authentication layer
+  
+  # once cookies are set up, the page content is not hidden
+  observeEvent(r$cookies$user, {
+    req(r$cookies$user)
+    shinyjs::runjs(
+      "$(function() {
+        $('.view.view-main .page').css('visibility', '');
+      });
+      "
+    )
+  })
  
   ### Help module
   callModule(mod_help_server, "help_ui_1")

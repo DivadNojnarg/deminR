@@ -25,6 +25,8 @@ app_ui <- function(request) {
         serviceWorker = NULL
       ),
       f7TabLayout(
+        # hide page content if not logged (see app_server.R)
+        style = "visibility: hidden;",
         navbar = f7Navbar(
           title = "deminR",
           hairline = FALSE,
