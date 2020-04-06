@@ -1,3 +1,6 @@
+context("Game info UI")
+
+
 gameInfoUI <- mod_game_info_ui("game_info")
 
 test_that("game info UI global", {

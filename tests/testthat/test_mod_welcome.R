@@ -5,6 +5,8 @@ arg <- reactiveValues(
   loginPage = reactiveValues(visible = TRUE)
 )
 
+context("Welcome server")
+
 
 # Test authentication
 tryCatch({

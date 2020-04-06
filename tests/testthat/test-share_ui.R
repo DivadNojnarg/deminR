@@ -1,3 +1,6 @@
+context("Share UI")
+
+
 shareUI <- mod_share_ui("share_ui")
 
 test_that("share UI global", {

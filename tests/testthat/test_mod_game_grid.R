@@ -1,5 +1,8 @@
 library(shiny)
 
+context("Game grid server")
+
+
 testModule(mod_game_grid_server, {
   # Simulate left click
   session$setInputs(map_grid_shape_click = list(id = "case-1"))

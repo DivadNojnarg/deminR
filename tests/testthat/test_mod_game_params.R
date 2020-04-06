@@ -8,6 +8,8 @@ difficulty <- data.frame(
   stringsAsFactors = FALSE
 )
 
+context("Game params server")
+
 
 testModule(mod_game_params_server, {
   session$setInputs(level = "Intermediate")

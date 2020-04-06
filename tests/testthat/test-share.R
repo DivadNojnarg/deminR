@@ -10,6 +10,8 @@ r <- reactiveValues(
   click = reactiveValues(counter = 0)
 )
 
+context("Share server")
+
 
 # If no click on the share button, we expect r$mod_scores$sendToChat to be NULL.
 # Moreover, initially r$mod_grid$playing is not equal to "won". Therefore, we expect
