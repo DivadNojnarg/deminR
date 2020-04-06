@@ -15,8 +15,9 @@ mod_about_me_ui <- function(id){
     div(id = ns("subnavGhost")),
     # sheet trigger
     a(
-      class = "float-right link action-button",
+      class = "margin float-right link action-button",
       id = ns("openProfile"),
+      uiOutput(ns("userName")),
       tags$img(src = generateAvatar(golem::get_golem_options("avatars")), width = "40px")
     ),
     f7Sheet(
@@ -48,7 +49,13 @@ mod_about_me_server <- function(input, output, session, r){
     updateF7Sheet(inputId = "aboutMeSheet", session)
   })
   
+  output$userName <- renderUI({
+    req(r$cookies$user)
+    p(class = "margin", r$cookies$user)
+  })
+  
   output$myDevice <- renderUI({
+    req(r$device$info$os)
     f7Block(
       h4("OS:", f7Badge(r$device$info$os))
     )

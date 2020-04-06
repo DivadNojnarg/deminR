@@ -19,7 +19,6 @@ mod_game_info_ui <- function(id){
   ns <- NS(id)
   tagList(
     f7Row(
-      uiOutput(ns("userName")),
       uiOutput(ns("difficultyBadge")) ,
       uiOutput(ns("timer")),
       uiOutput(ns("bombs"))
@@ -36,10 +35,6 @@ mod_game_info_ui <- function(id){
 
 mod_game_info_server <- function(input, output, session, r){
   ns <- session$ns
-  
-  output$userName <- renderUI({
-    f7Chip(label = paste("User:", r$cookies$user))
-  })
   
   output$difficultyBadge <- renderUI({
     f7Chip(
