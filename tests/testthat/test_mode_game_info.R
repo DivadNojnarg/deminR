@@ -9,6 +9,7 @@ difficulty <- data.frame(
     stringsAsFactors = FALSE
   )
 
+context("Game info server")
 
 tryCatch({
     testModule(mod_game_info_server,{
