@@ -11,19 +11,7 @@ app_ui <- function(request) {
       icon = "www/icons/apple-touch-icon.png",
       favicon = "www/icons/favicon.png",
       manifest = "www/manifest.json",
-      init = f7Init(
-        skin = "auto",
-        theme = "dark",
-        filled = FALSE,
-        color = "blue",
-        tapHold = TRUE,
-        iosTouchRipple = TRUE,
-        iosCenterTitle = TRUE,
-        iosTranslucentBars = TRUE,
-        hideNavOnPageScroll = FALSE,
-        hideTabsOnPageScroll = FALSE,
-        serviceWorker = NULL
-      ),
+      init = mod_init_ui("init"),
       f7TabLayout(
         # hide page content if not logged (see app_server.R)
         style = "visibility: hidden;",

@@ -101,7 +101,7 @@ mod_game_info_server <- function(input, output, session, r){
         } else if (r$mod_grid$playing == "won") {
           "Hey! You're a winner!"
         },
-        icon = f7Icon("bolt_fill", old = TRUE),
+        icon = f7Icon("bolt_fill", old = FALSE),
         title = "Woooop!"
       ) 
     }
