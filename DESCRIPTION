@@ -8,22 +8,17 @@ Authors@R: c(
 Description: Minesweeper game inside a Shiny app.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Imports: 
     shiny,
     golem,
     sp,
     purrr,
     leaflet,
-    pkgload,
-    processx,
     shinyMobile,
     emo,
-    lubridate,
     readr,
     shinyjs,
     dplyr,
-    DT,
     sever,
     magrittr,
     glue,
@@ -32,17 +27,18 @@ Imports:
     RPostgres,
     tibble,
     parallel,
-    mobileCharts
+    mobileCharts,
+    processx,
+    lubridate
 Remotes: 
     RinteRface/shinyMobile,
     hadley/emo,
     JohnCoene/sever,
     DivadNojnarg/glouton,
     RinteRface/mobileCharts
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.1
 Suggests: 
     DT,
-    lubridate,
     pkgload,
     rmarkdown,
     shinyValidator,

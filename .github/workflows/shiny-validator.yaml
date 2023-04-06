@@ -55,7 +55,7 @@ jobs:
 
       - name: Audit app 🏥
         shell: Rscript {0}
-        run: shinyValidator::audit_app()
+        run: shinyValidator::audit_app(usecase = "local")
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'

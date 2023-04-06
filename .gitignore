@@ -6,3 +6,4 @@ inst/doc
 rsconnect
 .DS_Store
 .Renviron
+.vscode
