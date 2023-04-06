@@ -2,7 +2,6 @@
 
 <img src="./man/figures/icon_package.png" height="250px" />
 
-[![Travis Build Status](https://travis-ci.org/DivadNojnarg/deminR.svg?branch=master)](https://travis-ci.org/DivadNojnarg/deminR)
 [![CRAN status](https://www.r-pkg.org/badges/version/deminR)](https://CRAN.R-project.org/package=deminR)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![shinyapps.io](https://img.shields.io/badge/shinyapps.io-on-purple.svg)](https://dgranjon.shinyapps.io/deminR)
