@@ -126,7 +126,6 @@ mod_display_scores_server <- function(input, output, session, r){
     if (r$mod_welcome$firstVisit & !r$loginPage$visible) {
       r$mod_scores$refresh <- TRUE 
       f7Toast(
-        session, 
         text = "Scores successfully loaded!",
         position = "center",
         closeButtonColor = NULL

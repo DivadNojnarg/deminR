@@ -19,8 +19,8 @@ mod_welcome_ui <- function(id){
   ns <- NS(id)
   
   submitBttn <- f7Button(inputId = ns("login"), label = "Submit")
-  submitBttn[[2]]$attribs$class <- "item-link list-button f7-action-button"
-  submitBttn[[2]]$name <- "a"
+  submitBttn$attribs$class <- "item-link list-button f7-action-button"
+  submitBttn$name <- "a"
   
   shiny::tags$div(
     id = ns("loginPage"),
