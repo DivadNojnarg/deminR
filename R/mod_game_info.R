@@ -57,7 +57,7 @@ mod_game_info_server <- function(input, output, session, r){
     res <- r$mod_grid$data
     n_b <- sum(res$value == -999)
     f7Chip(
-      icon = f7Icon("burst", old = FALSE),
+      icon = f7Icon("burst"),
       label = as.character(n_b - sum(res$flag & res$hide)) 
     )
   })
@@ -65,7 +65,7 @@ mod_game_info_server <- function(input, output, session, r){
   # timer UI
   output$timer <- renderUI({
     f7Chip(
-      icon = f7Icon("timer", old = FALSE),
+      icon = f7Icon("timer"),
       label = format(r$mod_timer$seconds/100, nsmall = 2)
     )
   })
@@ -104,7 +104,7 @@ mod_game_info_server <- function(input, output, session, r){
         } else if (r$mod_grid$playing == "won") {
           "Hey! You're a winner!"
         },
-        icon = f7Icon("bolt_fill", old = TRUE),
+        icon = f7Icon("bolt_fill"),
         title = "Woooop!"
       ) 
     }

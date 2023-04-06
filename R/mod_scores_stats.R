@@ -42,7 +42,7 @@ mod_scores_stats_ui <- function(id){
   
   f7Tab(
     tabName = "Stats",
-    icon = f7Icon("chart_bar_square", old = FALSE),
+    icon = f7Icon("chart_bar_square"),
     active = FALSE,
     lapply(cardItems, tagAppendAttributes, class = "swiper-no-swiping")
   )

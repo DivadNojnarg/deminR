@@ -71,7 +71,7 @@ mod_chat_server <- function(input, output, session, r){
       , mc.cores = parallel::detectCores() - 1 # comment this line on windows
       )
       
-      f7AddMessages(id = "mymessages", messages)
+      updateF7Messages(id = "mymessages", messages)
       
       firstConnect(FALSE)
       # Disconnect from database
@@ -107,7 +107,7 @@ mod_chat_server <- function(input, output, session, r){
          avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
        )
      })
-     f7AddMessages(id = "mymessages", new_messages)
+     updateF7Messages(id = "mymessages", new_messages)
      messages_table$table <- messages
    }
    DBI::dbDisconnect(con)
@@ -125,7 +125,7 @@ mod_chat_server <- function(input, output, session, r){
       avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
     )
     
-    f7AddMessages(id = "mymessages", list(message_to_send))
+    updateF7Messages(id = "mymessages", list(message_to_send))
     
     con <- createDBCon()
     

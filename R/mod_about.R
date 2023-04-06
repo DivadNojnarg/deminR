@@ -17,21 +17,20 @@ mod_about_ui <- function(id){
   ns <- NS(id)
   tagList(
     f7Panel(
-      inputId = ns("about_panel"),
+      id = ns("about_panel"),
       title = "About",
       side = "left",
       theme = "dark",
       effect = "cover",
       resizable = FALSE,
       f7Block(
-        f7Chip(img = "www/avatars/girl.svg", label = tags$a(href = "https://twitter.com/devauxgabrielle", target="_blank", "Gabrielle Devaux",  class = "external")),
-        f7Chip(img = "www/avatars/boy.svg", label = tags$a(href = "https://twitter.com/divadnojnarg", target="_blank", "David Granjon", class = "external"))
+        f7Chip(image = "www/avatars/girl.svg", label = tags$a(href = "https://twitter.com/devauxgabrielle", target="_blank", "Gabrielle Devaux",  class = "external")),
+        f7Chip(image = "www/avatars/boy.svg", label = tags$a(href = "https://twitter.com/divadnojnarg", target="_blank", "David Granjon", class = "external"))
       ),
       f7Link(
         label = "Github", 
-        src = "https://github.com/DivadNojnarg/deminR",
-        external = TRUE,
-        icon = f7Icon("ant", old = TRUE)
+        href = "https://github.com/DivadNojnarg/deminR",
+        icon = f7Icon("ant")
       )
     )
   )

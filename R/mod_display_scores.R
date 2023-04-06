@@ -26,7 +26,7 @@ mod_display_scores_ui <- function(id){
   tagList(
     f7Tab(
       tabName = "Scores",
-      icon = f7Icon("list_bullet", old = FALSE),
+      icon = f7Icon("list_bullet"),
       active = TRUE,
       f7Block(
         f7Button(
@@ -256,7 +256,7 @@ mod_display_scores_server <- function(input, output, session, r){
               side = "left",
               f7SwipeoutItem(
                 id = ns("sendToChat"),
-                f7Icon("envelope_badge", old = FALSE)
+                f7Icon("envelope_badge")
               )
             )
           } else {

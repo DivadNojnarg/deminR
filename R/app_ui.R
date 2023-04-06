@@ -8,21 +8,18 @@ app_ui <- function(request) {
     # List the first level UI elements here 
     f7Page(
       title = "deminR",
-      icon = "www/icons/apple-touch-icon.png",
-      favicon = "www/icons/favicon.png",
-      manifest = "www/manifest.json",
-      init = f7Init(
-        skin = "auto",
-        theme = "dark",
+      #icon = "www/icons/apple-touch-icon.png",
+      #favicon = "www/icons/favicon.png",
+      #manifest = "www/manifest.json",
+      options = list(
+        theme = "auto",
+        dark = TRUE,
+        allowPWA = TRUE,
         filled = FALSE,
         color = "blue",
-        tapHold = TRUE,
-        iosTouchRipple = TRUE,
-        iosCenterTitle = TRUE,
-        iosTranslucentBars = TRUE,
-        hideNavOnPageScroll = FALSE,
-        hideTabsOnPageScroll = FALSE,
-        serviceWorker = NULL
+        touch = list(tapHold = TRUE, iosTouchRipple = TRUE),
+        navbar = list(iosCenterTitle = TRUE, hideOnPageScroll = TRUE),
+        iosTranslucentBars = TRUE
       ),
       f7TabLayout(
         navbar = f7Navbar(
@@ -31,7 +28,7 @@ app_ui <- function(request) {
           shadow = TRUE,
           bigger = FALSE,
           transparent = TRUE,
-          left_panel = TRUE,
+          leftPanel = TRUE,
           subNavbar = f7SubNavbar(
             class = "align-items-stretch",
             mod_scores_ui("scores_ui_1")[[2]]
@@ -55,9 +52,10 @@ app_ui <- function(request) {
             mod_help_ui("help_ui_1")[[2]]
           ),
           f7Tab(
+            title = "main",
             tabName = "main",
             active = TRUE,
-            icon = f7Icon("gamecontroller", old = FALSE),
+            icon = f7Icon("gamecontroller"),
             # main content
             mod_welcome_ui("welcome_ui_1"),
             mod_game_info_ui("game_info_ui_1"),
@@ -65,14 +63,16 @@ app_ui <- function(request) {
             mod_share_ui("share_ui_1")[[2]]
           ),
           f7Tab(
+            title = "scores",
             tabName = "scores",
-            icon = f7Icon("list_number", old = FALSE), 
+            icon = f7Icon("list_number"), 
             mod_scores_ui("scores_ui_1")[[1]]
           ),
           # only display if database
           f7Tab(
+            title = "chat",
             tabName = "chat",
-            icon = f7Icon("chat_bubble_2", old = FALSE),
+            icon = f7Icon("chat_bubble_2"),
             mod_chat_ui("chat_ui_1")[[1]]
           ) 
         )
@@ -98,7 +98,7 @@ golem_add_external_resources <- function(){
     tags$link(rel = "stylesheet", type = "text/css", href = "www/css/colorThemeChooser.css"),
     shinyjs::inlineCSS(list(.darkleaflet = "background-color: #0000")),
     shinyjs::useShinyjs(),
-    use_sever(),
+    sever::useSever(),
     use_glouton()
   )
 }

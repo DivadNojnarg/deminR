@@ -52,7 +52,7 @@ mod_share_server <- function(input, output, session, r){
     # prepare the share button
     shareChatBttn <- f7Button(
       inputId = ns("shareChat"),
-      label = f7Icon("chat_bubble_2", old = FALSE)
+      label = f7Icon("chat_bubble_2")
     )
     shareChatBttn[[2]]$name <- "a"
     shareChatBttn[[2]]$attribs$type <- NULL
@@ -74,7 +74,7 @@ mod_share_server <- function(input, output, session, r){
           "https://twitter.com/intent/tweet?text=mineSweeper+score+for+{user}+in+{level}+level%3A+{score}+seconds+in+{clicks}+clicks%2C+yeay+%21+%23rstat+Try+at+https%3A%2F%2Fdgranjon.shinyapps.io%2FdeminR%2F"),
         `data-size` = "large",
         onclick = paste0("Shiny.setInputValue(", ns("shareTwitter"), ", true)"),
-        f7Icon("logo_twitter", old = TRUE)
+        f7Icon("logo_twitter")
       ) %>% f7FabClose()
     ) %>% f7FabMorphTarget()
   })

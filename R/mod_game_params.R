@@ -29,7 +29,7 @@ mod_game_params_ui <- function(id){
   reload_bttn[[2]]$children <- NULL
   reload_bttn[[2]] <- tagAppendChildren(
     reload_bttn[[2]], 
-    f7Icon("hammer", old = FALSE),
+    f7Icon("hammer"),
     span(class = "tabbar-label", "Options")
   )
   
@@ -60,11 +60,11 @@ mod_game_params_ui <- function(id){
           class = "row",
           tags$div(
             class = "col-50 bg-color-white demo-theme-picker",
-            f7checkBox(inputId = ns("globalThemeLight"), label = "")
+            f7Checkbox(inputId = ns("globalThemeLight"), label = "")
           ),
           tags$div(
             class = "col-50 bg-color-black demo-theme-picker",
-            f7checkBox(inputId = ns("globalThemeDark"), label = "", value = TRUE)
+            f7Checkbox(inputId = ns("globalThemeDark"), label = "", value = TRUE)
           )
         )
       ),
@@ -192,22 +192,22 @@ mod_game_params_server <- function(input, output, session, r){
       list(
         list(
           text = "Refresh Data",
-          icon = f7Icon("cloud_download", old = FALSE)
+          icon = f7Icon("cloud_download")
         ),
         list(
           text = "Parameters",
-          icon = f7Icon("hammer", old = FALSE)
+          icon = f7Icon("hammer")
         ),
         list(
           text = "Nickname",
-          icon = f7Icon("doc_person", old = FALSE)
+          icon = f7Icon("doc_person")
         )
       )
     } else {
       list(
         list(
           text = "Reset Game",
-          icon = f7Icon("refresh_outline", old = TRUE)
+          icon = f7Icon("refresh_outline")
         )
       )
     }
