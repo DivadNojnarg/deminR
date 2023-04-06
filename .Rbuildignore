@@ -13,3 +13,8 @@ $run_dev.*
 ^docs$
 ^pkgdown$
 ^rsconnect$
+^\.github$
+^\.Rprofile$
+^\.lintr$
+^public$
+^recording\.log$

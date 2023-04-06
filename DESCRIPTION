@@ -41,4 +41,11 @@ Remotes:
     RinteRface/mobileCharts
 RoxygenNote: 7.1.0
 Suggests: 
-    testthat
+    DT,
+    lubridate,
+    pkgload,
+    rmarkdown,
+    shinyValidator,
+    testthat,
+    vdiffr,
+    withr
