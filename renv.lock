@@ -150,6 +150,14 @@
       "Hash": "e749cae40fa9ef469b6050959517453c",
       "Requirements": []
     },
+    "XML": {
+      "Package": "XML",
+      "Version": "3.99-0.14",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e5c8af79df616c135b21eaeb1dc6bc5c",
+      "Requirements": []
+    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.1",
@@ -777,24 +785,17 @@
     },
     "golem": {
       "Package": "golem",
-      "Version": "0.3.5",
+      "Version": "0.4.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "c4fbd853653f38cccdd009d75abb344c",
+      "Repository": "CRAN",
+      "Hash": "4275a95781526a472cff3e39f957c8be",
       "Requirements": [
         "attempt",
-        "cli",
         "config",
-        "crayon",
-        "desc",
-        "fs",
         "here",
         "htmltools",
-        "pkgload",
-        "roxygen2",
-        "rstudioapi",
+        "rlang",
         "shiny",
-        "usethis",
         "yaml"
       ]
     },
@@ -2110,6 +2111,23 @@
         "glue",
         "lifecycle",
         "rlang"
+      ]
+    },
+    "vdiffr": {
+      "Package": "vdiffr",
+      "Version": "1.0.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a342911017b3dda92fe73596887a02a7",
+      "Requirements": [
+        "cpp11",
+        "diffobj",
+        "glue",
+        "htmltools",
+        "lifecycle",
+        "rlang",
+        "testthat",
+        "xml2"
       ]
     },
     "viridis": {

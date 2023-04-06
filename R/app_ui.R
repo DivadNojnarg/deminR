@@ -90,6 +90,7 @@ app_ui <- function(request) {
 
 #' @import shiny
 golem_add_external_resources <- function(){
+  addResourcePath("www", system.file("app/www", package = "deminR"))
   tags$head(
     golem::activate_js(),
     # Add here all the external resources
