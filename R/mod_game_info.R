@@ -16,7 +16,6 @@ mod_game_info_ui <- function(id){
   ns <- NS(id)
   tagList(
     f7Row(
-      uiOutput(ns("userName")),
       uiOutput(ns("difficultyBadge")) ,
       uiOutput(ns("timer")),
       uiOutput(ns("bombs"))
@@ -30,14 +29,9 @@ mod_game_info_ui <- function(id){
 #' @rdname mod_game_info
 #' @export
 #' @keywords internal
-
 mod_game_info_server <- function(id, r) {
   moduleServer(id, function(input, output, session){
     ns <- session$ns
-    
-    output$userName <- renderUI({
-      f7Chip(label = paste("User:", r$cookies$user))
-    })
     
     output$difficultyBadge <- renderUI({
       f7Chip(
@@ -64,7 +58,7 @@ mod_game_info_server <- function(id, r) {
     output$timer <- renderUI({
       f7Chip(
         icon = f7Icon("timer"),
-        label = format(r$mod_timer$seconds/100, nsmall = 2)
+        label = r$mod_timer$seconds
       )
     })
     
@@ -74,14 +68,16 @@ mod_game_info_server <- function(id, r) {
     
     # activate the timer
     observeEvent(r$mod_grid$start, {
-      if(r$mod_grid$start){active(TRUE)} else{
+      if (r$mod_grid$start) {
+        active(TRUE)
+      } else {
         active(FALSE)
       }
     })
     
     # observer that invalidates every 0.01 second. If timer is active, increase by one.
     observe({
-      invalidateLater(10, session)
+      invalidateLater(1000, session)
       isolate({
         if (active() & r$mod_grid$playing == "onload") {
           r$mod_timer$seconds <- r$mod_timer$seconds + 1
@@ -107,7 +103,6 @@ mod_game_info_server <- function(id, r) {
         ) 
       }
     })
-    
   })
 }
 

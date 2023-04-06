@@ -180,7 +180,7 @@ mod_game_grid_server <- function(id, r) {
     
     
     ### If all bomb cases are hidden and all other cases are revealed, end of the game (win)
-    observe({
+    observeEvent(r$mod_grid$data, {
       data <- r$mod_grid$data
       data_bombs <- data[data$value == -999,]
       data_not_bombs <- data[data$value != -999,]
@@ -191,7 +191,7 @@ mod_game_grid_server <- function(id, r) {
     })
     
     ### Start the timer when user first click on the grid
-    observe({
+    observeEvent(input$map_grid_shape_click, {
       if(any(!r$mod_grid$data$hide)){
         r$mod_grid$start  <- TRUE
       }
@@ -224,12 +224,11 @@ mod_game_grid_server <- function(id, r) {
     })
     
     
-    observeEvent(r$mod_welcome$firstVisit, {
+    observeEvent(r$loginPage$visible, {
       shinyjs::addCssClass(id = "map_grid", class = "darkleaflet")
-    })
+    }, once = TRUE)
     
     return(reactive(input$map_grid_shape_click))
-    
   })
 }
 

@@ -82,7 +82,7 @@ mod_game_params_ui <- function(id){
     sheetTag,
     tags$script(
       sprintf(
-      "Shiny.addCustomMessageHandler('global-theme-setup', function(message) {
+        "Shiny.addCustomMessageHandler('global-theme-setup', function(message) {
         app.methods.setLayoutTheme(message);
         if (message === 'light') {
           $('.panel').removeClass('theme-dark');
@@ -116,13 +116,12 @@ mod_game_params_ui <- function(id){
 #' @rdname mod_game_params
 #' @export
 #' @keywords internal
-
 mod_game_params_server <- function(id, r) {
   moduleServer(id, function(input, output, session){
     ns <- session$ns
     ### The user chooses a difficutlty and it determines several parameters :
     # size of the grid, number of mines, leaflet zoom level
-    observe({
+    observeEvent(input$level, {
       r$settings <- difficulty[difficulty$Level == input$level,]
     })
     
@@ -163,7 +162,7 @@ mod_game_params_server <- function(id, r) {
     observeEvent(input$action1_button, {
       req(r$mod_timer$seconds == 0)
       if (input$action1_button == 2) {
-        updateF7Sheet(id = "game_params_sheet")
+        updateF7Sheet("game_params_sheet")
       } else if (input$action1_button == 1) {
         r$mod_scores$refresh <- TRUE
       } else if (input$action1_button == 3) {
@@ -205,7 +204,7 @@ mod_game_params_server <- function(id, r) {
         list(
           list(
             text = "Reset Game",
-            icon = f7Icon("refresh_outline")
+            icon = f7Icon("gobackward")
           )
         )
       }
@@ -271,7 +270,6 @@ mod_game_params_server <- function(id, r) {
       req(input$globalTheme)
       r$theme$color <- input$globalTheme
     })
-    
   })
 }
 

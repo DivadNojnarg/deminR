@@ -11,7 +11,6 @@ app_server <- function(input, output, session) {
     mod_grid = reactiveValues(playing = "onload", start = FALSE),
     mod_timer = reactiveValues(),
     mod_bomb = reactiveValues(),
-    mod_welcome = reactiveValues(firstVisit = TRUE),
     mod_scores = reactiveValues(refresh = NULL, sendToChat = NULL, autoRefresh = NULL),
     click = reactiveValues(counter = 0),
     currentTab = reactiveValues(val = NULL),
@@ -71,6 +70,17 @@ app_server <- function(input, output, session) {
     })
   }, ignoreInit = TRUE)
   # set cookies based on authentication layer
+  
+  # once cookies are set up, the page content is not hidden
+  observeEvent(r$cookies$user, {
+    req(r$cookies$user)
+    shinyjs::runjs(
+      "$(function() {
+        $('.view.view-main .page').css('visibility', '');
+      });
+      "
+    )
+  })
  
   ### Help module
   mod_help_server("help_ui_1")
@@ -87,7 +97,8 @@ app_server <- function(input, output, session) {
   mod_scores_server(id = "scores_ui_1", r = r)
   # share module
   mod_share_server("share_ui_1", r = r)
-
+  # about me module
+  mod_about_me_server("about_me_ui_1", r = r)
   
   # activate chat module only on database mode
   if(golem::get_golem_options("usecase") == "database"){

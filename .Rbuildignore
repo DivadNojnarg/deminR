@@ -13,9 +13,10 @@ $run_dev.*
 ^docs$
 ^pkgdown$
 ^rsconnect$
+<<<<<<< HEAD
 ^\.github$
 ^\.Rprofile$
 ^\.lintr$
 ^public$
 ^recording\.log$
-^.vscode$
+^\.vscode$

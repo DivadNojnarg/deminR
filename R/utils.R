@@ -45,3 +45,36 @@ generateAvatar <- function(avatars) {
   randImgId <- sample(1:n, 1)
   paste0("www/avatars/", avatars[randImgId])
 }
+
+#' Custom framework7 subnavbar
+#'
+#' @param ... Subnavbar items.
+#' @export
+f7SubNavbar <- function(...) {
+  shiny::tags$div(
+    class = "subnavbar",
+    shiny::tags$div(
+      class = "subnavbar-inner",
+      ...
+    )
+  )
+}
+
+#' Validate a nickname provided by the user.
+#' 
+#' Used by the \link{mod_welcome_server} module
+#'
+#' @param char Nickname.
+#'
+#' @return Boolean
+#' @export
+validate_nickname <- function(char){
+  valid <- TRUE
+  cond <- c(
+    nchar(char) <= 20,
+    nchar(char) >=2,
+    grepl("^[a-zA-Z0-9]*$", char)
+  )
+  if (!all(cond)) valid <- FALSE
+  valid
+}

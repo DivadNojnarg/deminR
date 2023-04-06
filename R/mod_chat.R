@@ -13,7 +13,6 @@
 #' @import dplyr
 #' @importFrom tibble as_tibble
 #' @importFrom shiny NS tagList 
-#' @importFrom parallel mclapply detectCores
 #' @importFrom utils tail
 #' @importFrom lubridate as_datetime
 mod_chat_ui <- function(id){
@@ -50,7 +49,7 @@ mod_chat_server <- function(id, r) {
         
         # Get the messages
         messages_table$table <- DBI::dbReadTable(con, name = golem::get_golem_options("table_message")) 
-        messages <- parallel::mclapply(seq_len(nrow(messages_table$table)), function(i) {  # comment this line on windows
+        messages <- lapply(seq_len(nrow(messages_table$table)), function(i) {  # comment this line on windows
           # messages <- lapply(seq_len(nrow(messages_table$table)), function(i) { # comment this line on mac
           temp_message <- messages_table$table %>% slice(i)
           
@@ -65,9 +64,7 @@ mod_chat_server <- function(id, r) {
             },
             avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
           )
-        }
-        , mc.cores = parallel::detectCores() - 1 # comment this line on windows
-        )
+        })
         
         updateF7Messages(id = "mymessages", messages)
         
@@ -123,7 +120,7 @@ mod_chat_server <- function(id, r) {
         avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
       )
       
-      updateF7Messages(id = "mymessages", list(message_to_send))
+      f7AddMessages(id = "mymessages", list(message_to_send))
       
       con <- createDBCon()
       
@@ -152,7 +149,6 @@ mod_chat_server <- function(id, r) {
       req(r$mod_scores$sendToChat)
       updateF7MessageBar(inputId = "mymessagebar", value = r$mod_scores$sendToChat)
     })
-    
   })
 }
 

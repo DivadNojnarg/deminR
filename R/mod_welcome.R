@@ -62,9 +62,8 @@ mod_welcome_ui <- function(id){
 #' @rdname mod_welcome
 #' @export
 #' @keywords internal
-
 mod_welcome_server <- function(id, r) {
-  moduleServer(id, function(input, output, session){
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
     # This part only runs if there is no cookie containing her/his name. 
@@ -73,14 +72,9 @@ mod_welcome_server <- function(id, r) {
     # open the page if not already (in case of local authentication)
     observeEvent(fetch_cookies(), {
       r$cookies <- fetch_cookies()
-      shinyjs::delay(
-        10,
-        {
-          if (is.null(r$cookies$user)) {
-            if (!input$loginPage) updateF7Login(id = "loginPage")
-          }
-        }
-      )
+      if (is.null(r$cookies$user)) {
+        if (!input$loginPage) updateF7Login(id = "loginPage")
+      }
     }, once = TRUE, priority = 10000)
     
     
@@ -89,7 +83,7 @@ mod_welcome_server <- function(id, r) {
     observeEvent(input$login, {
       if (!authenticated()) {
         # validate the user login
-        if (valid_nickname(input$login_user)) {
+        if (validate_nickname(input$login_user)) {
           r$cookies$user <- input$login_user
           updateF7Login(
             id = "loginPage",
@@ -116,7 +110,6 @@ mod_welcome_server <- function(id, r) {
     
     
     return(reactive(input$loginPage))
-    
   })
 }
 

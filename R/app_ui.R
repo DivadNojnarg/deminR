@@ -15,6 +15,8 @@ app_ui <- function(request) {
     ),
     allowPWA = FALSE,
     f7TabLayout(
+      # hide page content if not logged (see app_server.R)
+      style = "visibility: hidden;",
       navbar = f7Navbar(
         title = "deminR",
         hairline = FALSE,
@@ -24,7 +26,9 @@ app_ui <- function(request) {
         leftPanel = TRUE,
         subNavbar = f7SubNavbar(
           class = "align-items-stretch",
-          mod_scores_ui("scores_ui_1")[[2]]
+          mod_about_me_ui("about_me_ui_1")[[1]],
+          mod_scores_ui("scores_ui_1")[[2]],
+          mod_about_me_ui("about_me_ui_1")[c(2, 3)]
         )
       ),
       messagebar = if (golem::get_golem_options("usecase") == "database") {

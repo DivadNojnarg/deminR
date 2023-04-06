@@ -27,7 +27,7 @@ mod_share_ui <- function(id){
 #' @keywords internal
 
 mod_share_server <- function(id, r) {
-  moduleServer(id, function(input, output, session){
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
     output$shareFabs <- renderUI({
@@ -50,7 +50,7 @@ mod_share_server <- function(id, r) {
       # prepare the share button
       shareChatBttn <- f7Button(
         inputId = ns("shareChat"),
-        label = f7Icon("chat_bubble_2")
+        label = f7Icon("chat_bubble_2", old = FALSE)
       )
       shareChatBttn$name <- "a"
       shareChatBttn$attribs$type <- NULL
@@ -65,28 +65,29 @@ mod_share_server <- function(id, r) {
         a(class = "link twitter-share-button external",
           href = glue(
             user = r$cookies$user, 
-            score = r$mod_timer$seconds/100, 
+            score = r$mod_timer$seconds, 
             level = r$settings$Level,
             deviceinfo = r$device$deviceType,
             clicks = r$click$counter,
-            "https://twitter.com/intent/tweet?text=mineSweeper+score+for+{user}+in+{level}+level%3A+{score}+seconds+in+{clicks}+clicks%2C+yeay+%21+%23rstat+Try+at+https%3A%2F%2Fdgranjon.shinyapps.io%2FdeminR%2F"),
+            "https://twitter.com/intent/tweet?text=mineSweeper+score+for+{user}+in+{level}+level%3A+{score}+seconds+in+{clicks}+clicks%2C+yeay+%21+%23rstats+Try+at+https%3A%2F%2Fdgranjon.shinyapps.io%2FdeminR%2F + pic.twitter.com/XkO6sq2zQK"),
           `data-size` = "large",
           onclick = paste0("Shiny.setInputValue(", ns("shareTwitter"), ", true)"),
-          f7Icon("logo_twitter")
+          f7Icon("logo_twitter", old = TRUE)
         ) %>% f7FabClose()
       ) %>% f7FabMorphTarget()
     })
     
     # send to chat signal
     observeEvent(input$shareChat, {
-      r$mod_scores$sendToChat <- paste("My score: ", r$mod_timer$seconds/100)
+      r$mod_scores$sendToChat <- paste("My score: ", r$mod_timer$seconds)
     })
   })
 }
-
-## To be copied in the UI
-# mod_share_ui("share_ui_1")
-
-## To be copied in the server
-# callModule(mod_share_server, "share_ui_1")
-
+  
+  ## To be copied in the UI
+  # mod_share_ui("share_ui_1")
+  
+  ## To be copied in the server
+  # callModule(mod_share_server, "share_ui_1")
+  
+  

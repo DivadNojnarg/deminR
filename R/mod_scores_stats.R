@@ -48,12 +48,12 @@ mod_scores_stats_ui <- function(id) {
     lapply(cardItems, tagAppendAttributes, class = "swiper-no-swiping")
   )
 }
-    
+
 #' scores_stats Server Function
 #'
 #' @noRd 
 mod_scores_stats_server <- function(id, r, scores) {
-  moduleServer(id, function(input, output, session){
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
     props <- reactive({
@@ -67,7 +67,7 @@ mod_scores_stats_server <- function(id, r, scores) {
     # difficulty level props
     output$propsChart <- render_mobile({
       req(props())
-      mobile(props(), aes(x, props, color = .data[[input$propsCol]], adjust = stack)) %>% 
+      mobile(props(), aes(x, props, color = .data[[input$propsCol]], adjust = 'stack')) %>% 
         mobile_bar() %>% 
         mobile_coord("polar", transposed = TRUE) %>% 
         mobile_hide_axis() %>%
@@ -121,14 +121,12 @@ mod_scores_stats_server <- function(id, r, scores) {
         mobile_tooltip(snap = TRUE) %>%
         mobile_coord("rect", transposed = TRUE)
     })
-    
-    # observe(print(scores()))
   })
 }
-    
+
 ## To be copied in the UI
 # mod_scores_stats_ui("scores_stats_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_scores_stats_server, "scores_stats_ui_1")
- 
+

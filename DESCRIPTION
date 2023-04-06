@@ -17,6 +17,7 @@ Imports:
     shinyMobile,
     emo,
     readr,
+    XML,
     shinyjs,
     dplyr,
     sever,
@@ -26,6 +27,7 @@ Imports:
     DBI,
     RPostgres,
     tibble,
+    stringr,
     parallel,
     mobileCharts,
     processx,
@@ -44,4 +46,5 @@ Suggests:
     shinyValidator,
     testthat,
     vdiffr,
-    withr
+    withr,
+    xml2
