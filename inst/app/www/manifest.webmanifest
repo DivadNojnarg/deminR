@@ -1,0 +1,31 @@
+{
+  "name": "deminR",
+  "short_name": "deminR",
+  "description": "A Shiny App for deminR",
+  "lang": "en-US",
+  "start_url": "https://dgranjon.shinyapps.io/deminR/",
+  "display": "standalone",
+  "background_color" : "#FFFFFF",
+  "theme_color" : "#FFFFFF",
+  "icons": [
+    {
+      "src": "icons/144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Shortcut",
+      "short_name": "Shortcut",
+      "description": "Do something",
+      "url": "/?foo=1",
+      "icons": [
+        {
+          "src": "icons/shortcut.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
