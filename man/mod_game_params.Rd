@@ -7,18 +7,12 @@
 \usage{
 mod_game_params_ui(id)
 
-mod_game_params_server(input, output, session, r)
+mod_game_params_server(id, r)
 }
 \arguments{
 \item{id}{shiny id}
 
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
-
-\item{r}{cross}
+\item{r}{cross module variable}
 }
 \description{
 A shiny Module.

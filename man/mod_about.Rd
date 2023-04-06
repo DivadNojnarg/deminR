@@ -7,16 +7,10 @@
 \usage{
 mod_about_ui(id)
 
-mod_about_server(input, output, session)
+mod_about_server(id)
 }
 \arguments{
 \item{id}{shiny id}
-
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
 }
 \description{
 A shiny Module.

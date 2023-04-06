@@ -7,16 +7,10 @@
 \usage{
 mod_display_scores_ui(id)
 
-mod_display_scores_server(input, output, session, r)
+mod_display_scores_server(id, r)
 }
 \arguments{
 \item{id}{shiny id}
-
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
 
 \item{r}{cross module variable}
 }

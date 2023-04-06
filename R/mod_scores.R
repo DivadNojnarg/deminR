@@ -2,7 +2,7 @@
 #'
 #' @description A shiny Module.
 #'
-#' @param id,input,output,session Internal parameters for {shiny}.
+#' @param id Module id.
 #' @param r cross module variable
 #'
 #' @noRd 
@@ -26,10 +26,12 @@ mod_scores_ui <- function(id){
 #' scores Server Function
 #'
 #' @noRd 
-mod_scores_server <- function(input, output, session, r){
-  ns <- session$ns
-  scores_data <- callModule(mod_display_scores_server, id = "display_scores_ui_1", r = r)
-  callModule(mod_scores_stats_server, id = "scores_stats_ui_1", r = r, scores_data)
+mod_scores_server <- function(id, r) {
+  moduleServer(id, function(input, output, session){
+    ns <- session$ns
+    scores_data <- mod_display_scores_server(id = "display_scores_ui_1", r = r)
+    mod_scores_stats_server(id = "scores_stats_ui_1", r = r, scores_data)
+  })
 }
     
 ## To be copied in the UI

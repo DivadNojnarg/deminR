@@ -12,7 +12,7 @@ difficulty <- data.frame(
 context("Game info server")
 
 tryCatch({
-    testModule(mod_game_info_server,{
+    testServer(mod_game_info_server,{
 
       # Testing timer
       active(TRUE)
@@ -34,11 +34,13 @@ tryCatch({
       session$flushReact()
       expect_equal(xml_text(xml_find_all(read_html(output$bombs$html), '//*[@class="chip-label"]/text()')), "20")
       
-    }, r = reactiveValues(
-      mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
-      mod_timer = reactiveValues(seconds = 0),
-      cookies = reactiveValues(user = "toto"), 
-      settings = reactiveValues(Level = "Beginner")
+    }, args = list(
+      r = reactiveValues(
+        mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
+        mod_timer = reactiveValues(seconds = 0),
+        cookies = reactiveValues(user = "toto"), 
+        settings = reactiveValues(Level = "Beginner")
+      )
     ))
   }, error = function(e){
     print("There was an error!")

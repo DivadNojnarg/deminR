@@ -10,7 +10,7 @@ context("Welcome server")
 
 # Test authentication
 tryCatch({
-  testModule(mod_welcome_server, {
+  testServer(mod_welcome_server, {
     # we start in a non authenticated state
     expect_equal(authenticated(), FALSE)
     session$setInputs(login_user = "Toto") # set nickname
@@ -18,7 +18,7 @@ tryCatch({
     expect_equal(r$cookies$user, "Toto") # check cookies
     # once logged, we expect to be authenticated
     expect_equal(authenticated(), TRUE)
-  }, r = arg)
+  }, args = list(r = arg))
 }, error = function(e){
   print("There was an error!")
   print(e)

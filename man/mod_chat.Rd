@@ -7,16 +7,10 @@
 \usage{
 mod_chat_ui(id)
 
-mod_chat_server(input, output, session, r)
+mod_chat_server(id, r)
 }
 \arguments{
 \item{id}{shiny id}
-
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
 
 \item{r}{cross module variable}
 }

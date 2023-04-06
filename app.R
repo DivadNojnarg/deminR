@@ -9,16 +9,16 @@ options( "golem.app.prod" = TRUE)
 # to connect to a database and are not shown here. Therefore, we specify the
 # usecase to local. If you have a Postgres database, you may provide your own
 # credentials for instance:
-# deminR::run_app(
-#   usecase = "database", 
-#   dbname = "whatever", 
-#   dbhost = "whatever", 
-#   dbport = "whatever", 
-#   dbuser = "whatever", 
-#   dbpwd = "whatever", 
-#   table_scores = "scores_table",
-#   table_message = "messages_table"
-# ) 
+deminR::run_app(
+  usecase = "database", 
+  dbname = Sys.getenv("DB_NAME"), 
+  dbhost = Sys.getenv("DB_HOST"), 
+  dbport = Sys.getenv("DB_PORT"), 
+  dbuser = Sys.getenv("DB_USER"), 
+  dbpwd = Sys.getenv("DB_PWD"), 
+  table_scores = "scores",
+  table_message = "messages"
+) 
 # Obviously, the chat feature is disabled in local mode.
-deminR::run_app(usecase = "local")
+#deminR::run_app(usecase = "local")
 

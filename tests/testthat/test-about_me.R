@@ -1,5 +1,5 @@
 context("About me server")
-testModule(mod_about_me_server, {
+testServer(mod_about_server, {
   
   # test userName
   expect_equal(grepl("toto", output$userName$html , fixed = TRUE), TRUE)
@@ -24,7 +24,9 @@ testModule(mod_about_me_server, {
   session$flushReact()
   expect_equal(html2R(output$workerId$html)$children[[1]]$children[[2]]$children[[1]], "?mocksearch=1")
   
-}, r = reactiveValues(
-  cookies = reactiveValues(user = "toto"),
-  currentTab = reactiveValues(val = "scores")
+}, args = list(
+  r = reactiveValues(
+    cookies = reactiveValues(user = "toto"),
+    currentTab = reactiveValues(val = "scores")
+  )
 ))

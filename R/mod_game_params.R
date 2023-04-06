@@ -4,10 +4,7 @@
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
-#' @param r cross 
+#' @param r cross module variable 
 #'
 #' @rdname mod_game_params
 #'
@@ -120,124 +117,125 @@ mod_game_params_ui <- function(id){
 #' @export
 #' @keywords internal
 
-mod_game_params_server <- function(input, output, session, r){
-  ns <- session$ns
-  ### The user chooses a difficutlty and it determines several parameters :
-  # size of the grid, number of mines, leaflet zoom level
-  observe({
-    r$settings <- difficulty[difficulty$Level == input$level,]
-  })
-  
-  ### Reset parameters when the user changes the difficulty or clicks on reload button
-  observeEvent({
-    r$settings
-    input$action1_button == 1
-    1
-  },{
-    r$click$counter <- 0 # reset click counter
-    r$mod_timer$seconds <- 0 # reset timer
-    r$mod_grid$playing <- "onload" # reset current playing status
-    r$mod_grid$start  <- FALSE # reset game started
-    # generate game grid
-    r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
-  })
-  
-  # handle the case where the user trigger a bomb on first click
-  observeEvent({
-    r$mod_grid$playing == "loose"
-  },{
-    if (r$mod_grid$playing == "loose" & r$click$counter == 1) {
-      shinyjs::delay(3000, {
-        r$click$counter <- 0 # reset click counter
-        r$mod_timer$seconds <- 0 # reset timer
-        r$mod_grid$playing <- "onload" # reset current playing status
-        r$mod_grid$start  <- FALSE # reset game started
-        # generate game grid
-        r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
-      }) 
-    }
-  })
-  
-  
-  # sheet trigger. Only works if the timer is 0 (meaning that the game is not running).
-  # Change refresh data reactiveValues status to send back to the 
-  # display score module. Only run when the game is not launched.
-  observeEvent(input$action1_button, {
-    req(r$mod_timer$seconds == 0)
-    if (input$action1_button == 2) {
-      updateF7Sheet(id = "game_params_sheet")
-    } else if (input$action1_button == 1) {
-      r$mod_scores$refresh <- TRUE
-    } else if (input$action1_button == 3) {
-      f7Dialog(
-        type = "prompt",
-        id = ns("newNickname"),
-        text = "Change nickname"
-      )
-    }
-  })
-  
-  
-  # Manually change user nickname during the game.
-  # This will overwrite the cookie...
-  observeEvent(input$newNickname, {
-    r$cookies$user <- input$newNickname
-  })
-  
-  
-  # trigger action sheet when click on options button
-  observeEvent(input$options, {
+mod_game_params_server <- function(id, r) {
+  moduleServer(id, function(input, output, session){
+    ns <- session$ns
+    ### The user chooses a difficutlty and it determines several parameters :
+    # size of the grid, number of mines, leaflet zoom level
+    observe({
+      r$settings <- difficulty[difficulty$Level == input$level,]
+    })
     
-    buttons <- if (r$mod_timer$seconds == 0) {
-      list(
-        list(
-          text = "Refresh Data",
-          icon = f7Icon("cloud_download")
-        ),
-        list(
-          text = "Parameters",
-          icon = f7Icon("hammer")
-        ),
-        list(
-          text = "Nickname",
-          icon = f7Icon("doc_person")
+    ### Reset parameters when the user changes the difficulty or clicks on reload button
+    observeEvent({
+      r$settings
+      input$action1_button == 1
+      1
+    },{
+      r$click$counter <- 0 # reset click counter
+      r$mod_timer$seconds <- 0 # reset timer
+      r$mod_grid$playing <- "onload" # reset current playing status
+      r$mod_grid$start  <- FALSE # reset game started
+      # generate game grid
+      r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
+    })
+    
+    # handle the case where the user trigger a bomb on first click
+    observeEvent({
+      r$mod_grid$playing == "loose"
+    },{
+      if (r$mod_grid$playing == "loose" & r$click$counter == 1) {
+        shinyjs::delay(3000, {
+          r$click$counter <- 0 # reset click counter
+          r$mod_timer$seconds <- 0 # reset timer
+          r$mod_grid$playing <- "onload" # reset current playing status
+          r$mod_grid$start  <- FALSE # reset game started
+          # generate game grid
+          r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
+        }) 
+      }
+    })
+    
+    
+    # sheet trigger. Only works if the timer is 0 (meaning that the game is not running).
+    # Change refresh data reactiveValues status to send back to the 
+    # display score module. Only run when the game is not launched.
+    observeEvent(input$action1_button, {
+      req(r$mod_timer$seconds == 0)
+      if (input$action1_button == 2) {
+        updateF7Sheet(id = "game_params_sheet")
+      } else if (input$action1_button == 1) {
+        r$mod_scores$refresh <- TRUE
+      } else if (input$action1_button == 3) {
+        f7Dialog(
+          type = "prompt",
+          id = ns("newNickname"),
+          text = "Change nickname"
         )
-      )
-    } else {
-      list(
+      }
+    })
+    
+    
+    # Manually change user nickname during the game.
+    # This will overwrite the cookie...
+    observeEvent(input$newNickname, {
+      r$cookies$user <- input$newNickname
+    })
+    
+    
+    # trigger action sheet when click on options button
+    observeEvent(input$options, {
+      
+      buttons <- if (r$mod_timer$seconds == 0) {
         list(
-          text = "Reset Game",
-          icon = f7Icon("refresh_outline")
+          list(
+            text = "Refresh Data",
+            icon = f7Icon("cloud_download")
+          ),
+          list(
+            text = "Parameters",
+            icon = f7Icon("hammer")
+          ),
+          list(
+            text = "Nickname",
+            icon = f7Icon("doc_person")
+          )
         )
-      )
-    }
+      } else {
+        list(
+          list(
+            text = "Reset Game",
+            icon = f7Icon("refresh_outline")
+          )
+        )
+      }
+      
+      # some list may be NULL and we don't want them!
+      buttons <- dropNulls(buttons)
+      
+      sheetProps <- list(grid = TRUE, id = ns("action1"), buttons = buttons)
+      do.call(f7ActionSheet, sheetProps)
+    })
     
-    # some list may be NULL and we don't want them!
-    buttons <- dropNulls(buttons)
     
-    sheetProps <- list(grid = TRUE, id = ns("action1"), buttons = buttons)
-    do.call(f7ActionSheet, sheetProps)
-  })
-  
-  
-  # warrior mode
-  observeEvent(
-    input$warrior
-  , {
-    r$warrior$mode <- input$warrior
-  })
-  
-  
-  # scores auto refresh
-  observeEvent(input$scoresAutorefresh, {
-    r$mod_scores$autoRefresh <- input$scoresAutorefresh
-  })
-  
-  # global theme (transform checkboxes in radio like)
-  observe({
-    shinyjs::runjs(
-      paste0(
-        "$(function(){
+    # warrior mode
+    observeEvent(
+      input$warrior
+      , {
+        r$warrior$mode <- input$warrior
+      })
+    
+    
+    # scores auto refresh
+    observeEvent(input$scoresAutorefresh, {
+      r$mod_scores$autoRefresh <- input$scoresAutorefresh
+    })
+    
+    # global theme (transform checkboxes in radio like)
+    observe({
+      shinyjs::runjs(
+        paste0(
+          "$(function(){
         $('.bg-color-white').on('click', function() {
           $('#", ns("globalThemeLight"), "').prop('checked', true);
           if ($('#", ns("globalThemeDark"), "').prop('checked')) {
@@ -257,23 +255,24 @@ mod_game_params_server <- function(input, output, session, r){
         });
       });
       "
+        )
       )
-    )
-  })
-
-  
-  # send R values to JS for global theme setting
-  # and expose theme color to other modules
-  observe({
-    session$sendCustomMessage(
-      type = "global-theme-setup",
-      message = input$globalTheme
-    )
+    })
     
-    req(input$globalTheme)
-    r$theme$color <- input$globalTheme
+    
+    # send R values to JS for global theme setting
+    # and expose theme color to other modules
+    observe({
+      session$sendCustomMessage(
+        type = "global-theme-setup",
+        message = input$globalTheme
+      )
+      
+      req(input$globalTheme)
+      r$theme$color <- input$globalTheme
+    })
+    
   })
-  
 }
 
 ## To be copied in the UI

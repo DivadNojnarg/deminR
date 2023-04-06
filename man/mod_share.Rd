@@ -7,16 +7,10 @@
 \usage{
 mod_share_ui(id)
 
-mod_share_server(input, output, session, r)
+mod_share_server(id, r)
 }
 \arguments{
 \item{id}{shiny id}
-
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
 
 \item{r}{cross module variable}
 }

@@ -11,7 +11,7 @@ difficulty <- data.frame(
 context("Game params server")
 
 
-testModule(mod_game_params_server, {
+testServer(mod_game_params_server, {
   session$setInputs(level = "Intermediate")
   # Test data dimension ; if level is intermediate, data should have NxN rows
   expect_equal(nrow(r$mod_grid$data), difficulty$Size[difficulty$Level=='Intermediate']^2)
@@ -45,23 +45,26 @@ testModule(mod_game_params_server, {
   expect_equal(r$mod_grid$playing , "onload")
   expect_equal(r$mod_grid$start , FALSE)
     
-  }, r = reactiveValues(
-    mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
-    mod_timer = reactiveValues(),
-    mod_bomb = reactiveValues(),
-    mod_scores = reactiveValues(refresh = NULL, sendToChat = NULL, autoRefresh = NULL),
-    click = reactiveValues(counter = 0),
-    currentTab = reactiveValues(val = NULL),
-    warrior = reactiveValues(mode = FALSE),
-    cookies = reactiveValues(),
-    device = reactiveValues(info = NULL),
-    settings = reactiveValues(
-      Level = "Beginner",
-      Size = 6,
-      Mines = 5,
-      Zoom = 5.8
-    )
-))
+  }, args = list(
+    r = reactiveValues(
+      mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
+      mod_timer = reactiveValues(),
+      mod_bomb = reactiveValues(),
+      mod_scores = reactiveValues(refresh = NULL, sendToChat = NULL, autoRefresh = NULL),
+      click = reactiveValues(counter = 0),
+      currentTab = reactiveValues(val = NULL),
+      warrior = reactiveValues(mode = FALSE),
+      cookies = reactiveValues(),
+      device = reactiveValues(info = NULL),
+      settings = reactiveValues(
+        Level = "Beginner",
+        Size = 6,
+        Mines = 5,
+        Zoom = 5.8
+      )
+    )    
+  )
+)
 
 
 

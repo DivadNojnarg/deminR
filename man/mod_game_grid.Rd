@@ -7,16 +7,10 @@
 \usage{
 mod_game_grid_ui(id)
 
-mod_game_grid_server(input, output, session, r)
+mod_game_grid_server(id, r)
 }
 \arguments{
 \item{id}{shiny id}
-
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
 
 \item{r}{cross module variable}
 }

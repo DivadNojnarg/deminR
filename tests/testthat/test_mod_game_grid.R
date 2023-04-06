@@ -3,12 +3,12 @@ library(shiny)
 context("Game grid server")
 
 
-testModule(mod_game_grid_server, {
+testServer(mod_game_grid_server, {
   # Simulate left click
   session$setInputs(map_grid_shape_click = list(id = "case-1"))
   # we expect at least one case to be revealed
   expect_equal(sum(!r$mod_grid$data$hide) > 0, TRUE)
-
+  
   # Reset the grid
   r$mod_grid$data = generate_spatial_grid(N = 6, n_mines= 5)
   session$flushReact()
@@ -17,7 +17,7 @@ testModule(mod_game_grid_server, {
   session$setInputs(right_click = list(id = "case-1"))
   # # We expect the case to be flagged
   expect_equal(r$mod_grid$data$flag[r$mod_grid$data$ID == "case-1"], TRUE)
-
+  
   # Reset the grid
   r$mod_grid$data = generate_spatial_grid(N = 6, n_mines= 5)
   session$flushReact()
@@ -39,20 +39,21 @@ testModule(mod_game_grid_server, {
   session$setInputs(map_grid_shape_click = list(id = bomb_id))
   # Expect game status to be loose
   expect_equal(r$mod_grid$playing, "loose")
-  
   },
-  r = reactiveValues(
-    mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines= 5)),
-    mod_timer = reactiveValues(),
-    mod_bomb = reactiveValues(),
-    mod_scores = reactiveValues(refresh = NULL, sendToChat = NULL, autoRefresh = NULL),
-    click = reactiveValues(counter = 0),
-    currentTab = reactiveValues(val = NULL),
-    warrior = reactiveValues(mode = FALSE),
-    cookies = reactiveValues(),
-    device = reactiveValues(info = NULL),
-    loginPage = reactiveValues(visible = TRUE),
-    settings = reactiveValues()
+  args = list(
+    r = reactiveValues(
+      mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines= 5)),
+      mod_timer = reactiveValues(),
+      mod_bomb = reactiveValues(),
+      mod_scores = reactiveValues(refresh = NULL, sendToChat = NULL, autoRefresh = NULL),
+      click = reactiveValues(counter = 0),
+      currentTab = reactiveValues(val = NULL),
+      warrior = reactiveValues(mode = FALSE),
+      cookies = reactiveValues(),
+      device = reactiveValues(info = NULL),
+      loginPage = reactiveValues(visible = TRUE),
+      settings = reactiveValues()
+    )
   )
 )
 

@@ -4,9 +4,6 @@
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
 #'
 #' @rdname mod_about
 #'
@@ -42,8 +39,10 @@ mod_about_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_about_server <- function(input, output, session){
-  ns <- session$ns
+mod_about_server <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+  })
 }
     
 ## To be copied in the UI

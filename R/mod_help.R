@@ -4,9 +4,6 @@
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
-#' @param input internal
-#' @param output internal
-#' @param session internal
 #'
 #' @rdname mod_help
 #'
@@ -116,12 +113,14 @@ mod_help_ui <- function(id){
 #' @export
 #' @keywords internal
     
-mod_help_server <- function(input, output, session){
-  ns <- session$ns
-  # Help is located in the left panel
-  observeEvent(input$toggle_help,{
-    updateF7Panel(id = "help_panel")
-    updateF7Accordion(id = "helpAccordion", selected = 1)
+mod_help_server <- function(id) {
+  moduleServer(id, function(input, output, session){
+    ns <- session$ns
+    # Help is located in the left panel
+    observeEvent(input$toggle_help,{
+      updateF7Panel(id = "help_panel")
+      updateF7Accordion(id = "helpAccordion", selected = 1)
+    })
   })
 }
     
