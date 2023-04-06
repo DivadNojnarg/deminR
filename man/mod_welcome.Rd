@@ -7,16 +7,10 @@
 \usage{
 mod_welcome_ui(id)
 
-mod_welcome_server(input, output, session, r)
+mod_welcome_server(id, r)
 }
 \arguments{
 \item{id}{shiny id}
-
-\item{input}{internal}
-
-\item{output}{internal}
-
-\item{session}{internal}
 
 \item{r}{cross module variable}
 }

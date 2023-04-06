@@ -60,7 +60,7 @@ app_server <- function(input, output, session) {
   })
   
   # welcome module
-  login <- callModule(mod_welcome_server, "welcome_ui_1", r = r)
+  login <- mod_welcome_server("welcome_ui_1", r = r)
   observeEvent({
     login()
   },{
