@@ -45,26 +45,3 @@ generateAvatar <- function(avatars) {
   randImgId <- sample(1:n, 1)
   paste0("www/avatars/", avatars[randImgId])
 }
-
-
-#' Create a Framework7 page with tab layout
-#'
-#' Build a Framework7 page with tab layout
-#'
-#' @param ... Slot for \link{f7Tabs}.
-#' @param navbar Slot for \link{f7Navbar}.
-#' @param messagebar Slot for \link{f7MessageBar}.
-#' @param panels Slot for \link{f7Panel}.
-#' Wrap in \link[shiny]{tagList} if multiple panels.
-#' @param appbar Slot for \link{f7Appbar}.
-f7TabLayout <- function (..., navbar, messagebar = NULL, panels = NULL, appbar = NULL) {
-  shiny::tagList(
-    appbar, 
-    panels, 
-    shiny::tags$div(
-      class = "view view-main", 
-      messagebar,
-      shiny::tags$div(class = "page", navbar, ...)
-    )
-  )
-}

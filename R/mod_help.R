@@ -24,12 +24,12 @@ mod_help_ui <- function(id){
     label = "Help"
   )
   
-  help_bttn[[2]]$name <- "a"
-  help_bttn[[2]]$attribs$type <- NULL
-  help_bttn[[2]]$attribs$class <- "tab-link sheet-open f7-action-button"
-  help_bttn[[2]]$children <- NULL
-  help_bttn[[2]] <- tagAppendChildren(
-    help_bttn[[2]], 
+  help_bttn$name <- "a"
+  help_bttn$attribs$type <- NULL
+  help_bttn$attribs$class <- "tab-link sheet-open f7-action-button"
+  help_bttn$children <- NULL
+  help_bttn <- tagAppendChildren(
+    help_bttn, 
     f7Icon("question_circle"),
     span(class = "tabbar-label", "Help")
   )
@@ -40,7 +40,7 @@ mod_help_ui <- function(id){
   # respectively
   tagList(
     f7Panel(
-      inputId = ns("help_panel"),
+      id = ns("help_panel"),
       title = "Help",
       side = "right",
       theme = "dark",
@@ -108,8 +108,8 @@ mod_help_server <- function(input, output, session){
   ns <- session$ns
   # Help is located in the left panel
   observeEvent(input$toggle_help,{
-    updateF7Panel(inputId = "help_panel", session = session)
-    updateF7Accordion(inputId = "helpAccordion", selected = 1, session = session)
+    updateF7Panel(id = "help_panel")
+    updateF7Accordion(id = "helpAccordion", selected = 1)
   })
 }
     

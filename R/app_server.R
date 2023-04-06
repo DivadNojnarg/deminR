@@ -36,7 +36,7 @@ app_server <- function(input, output, session) {
   },{
     req(r$mod_scores$sendToChat)
     f7Dialog(
-      inputId = "goToChat",
+      id = "goToChat",
       type = "confirm",
       text = "Do you want to go to the 
       chat tab to share your score?"

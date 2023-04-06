@@ -25,6 +25,7 @@ mod_display_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
     f7Tab(
+      title = "Scores",
       tabName = "Scores",
       icon = f7Icon("list_bullet"),
       active = TRUE,
@@ -89,7 +90,7 @@ mod_display_scores_server <- function(input, output, session, r){
   
   # Open scores options when click on filter
   observeEvent(input$scoresOpts, {
-    updateF7Sheet(inputId = "scoresSheetOpts", session)
+    updateF7Sheet(id = "scoresSheetOpts")
   })
   
   # numeric input to filter by number of clicks

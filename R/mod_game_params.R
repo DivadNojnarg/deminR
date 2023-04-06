@@ -23,13 +23,13 @@ mod_game_params_ui <- function(id){
     fill = FALSE
   )
   
-  reload_bttn[[2]]$name <- "a"
-  reload_bttn[[2]]$attribs$type <- NULL
-  reload_bttn[[2]]$attribs$class <- "tab-link f7-action-button"
-  reload_bttn[[2]]$children <- NULL
-  reload_bttn[[2]] <- tagAppendChildren(
-    reload_bttn[[2]], 
-    f7Icon("hammer"),
+  reload_bttn$name <- "a"
+  reload_bttn$attribs$type <- NULL
+  reload_bttn$attribs$class <- "tab-link f7-action-button"
+  reload_bttn$children <- NULL
+  reload_bttn <- tagAppendChildren(
+    reload_bttn, 
+    f7Icon("hammer_fill"),
     span(class = "tabbar-label", "Options")
   )
   
@@ -165,13 +165,13 @@ mod_game_params_server <- function(input, output, session, r){
   observeEvent(input$action1_button, {
     req(r$mod_timer$seconds == 0)
     if (input$action1_button == 2) {
-      updateF7Sheet(inputId = "game_params_sheet", session = session)
+      updateF7Sheet(id = "game_params_sheet")
     } else if (input$action1_button == 1) {
       r$mod_scores$refresh <- TRUE
     } else if (input$action1_button == 3) {
       f7Dialog(
         type = "prompt",
-        inputId = ns("newNickname"),
+        id = ns("newNickname"),
         text = "Change nickname"
       )
     }

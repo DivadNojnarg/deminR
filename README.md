@@ -99,7 +99,8 @@ CREATE TABLE scores (
   difficulty varchar (25) check (difficulty in ('Beginner', 'Intermediate', 'Advanced')),
   score float (2) NOT NULL,
   date varchar NOT NULL,
-  device varchar NOT NULL
+  device varchar NOT NULL,
+  clicks float(2) NOT NULL
 );
 ```
 

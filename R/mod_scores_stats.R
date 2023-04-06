@@ -41,6 +41,7 @@ mod_scores_stats_ui <- function(id){
   )
   
   f7Tab(
+    title = "Stats",
     tabName = "Stats",
     icon = f7Icon("chart_bar_square"),
     active = FALSE,
