@@ -96,6 +96,7 @@ golem_add_external_resources <- function(){
     
     tags$script(src = "www/js/loginInputBinding.js"),
     tags$link(rel = "stylesheet", type = "text/css", href = "www/css/colorThemeChooser.css"),
+    tags$link(rel = "stylesheet", type = "text/css", href = "www/css/custom.css"),
     shinyjs::inlineCSS(list(.darkleaflet = "background-color: #0000")),
     shinyjs::useShinyjs(),
     sever::useSever(),
