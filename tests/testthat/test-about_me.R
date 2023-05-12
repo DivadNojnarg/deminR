@@ -1,5 +1,5 @@
 context("About me server")
-testServer(mod_about_server, {
+testServer(mod_about_me_server, {
   
   # test userName
   expect_equal(grepl("toto", output$userName$html , fixed = TRUE), TRUE)
@@ -20,7 +20,7 @@ testServer(mod_about_server, {
   expect_error(output$myDevice)
   
   # workerId output
-  session$clientData$url_hostname <- "127.0.0.1"
+  #session$clientData$url_hostname <- "127.0.0.1"
   session$flushReact()
   expect_equal(html2R(output$workerId$html)$children[[1]]$children[[2]]$children[[1]], "?mocksearch=1")
   

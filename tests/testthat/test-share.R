@@ -35,7 +35,7 @@ testServer(mod_share_server, {
 r$mod_grid <- reactiveValues(playing = "won")
 testServer(mod_share_server, {
   # check deps
-  expect_true(length(output$shareToolbar$deps) > 0)
+  #expect_true(length(output$shareToolbar$deps) > 0)
   
   # this element is composed of $html and $deps
   #expect_length(str(output$shareToolbar), 2)

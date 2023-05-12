@@ -12,7 +12,7 @@ difficulty <- data.frame(
 context("Game info server")
 
 tryCatch({
-    testServer(mod_game_info_server,{
+    testServer(mod_game_info_server, {
 
       # Testing timer
       active(TRUE)
