@@ -62,7 +62,7 @@ app_ui <- function(request) {
         f7Tab(
           title = "scores",
           tabName = "scores",
-          icon = f7Icon("list_number"), 
+          icon = f7Icon("list_number"),
           mod_scores_ui("scores_ui_1")[[1]]
         ),
         # only display if database
@@ -72,24 +72,24 @@ app_ui <- function(request) {
           icon = f7Icon("chat_bubble_2"),
           mod_chat_ui("chat_ui_1")[[1]],
           htmltools::suppressDependencies("pwa-utils")
-        ) 
+        )
       )
     )
   )
-  
+
   # remove shinyMobile PWA deps (except pwa compat)
-  
-  
+
+
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-    # List the first level UI elements here 
+    # List the first level UI elements here
     add_pwa_deps(tmp_ui)
   )
 }
 
 #' @import shiny
-golem_add_external_resources <- function(){
+golem_add_external_resources <- function() {
   addResourcePath("www", system.file("app/www", package = "deminR"))
   tags$head(
     golem::activate_js(),

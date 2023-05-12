@@ -4,32 +4,32 @@
 #' @description  A shiny Module.
 #'
 #' @param id shiny id
-#' @param r cross module variable 
+#' @param r cross module variable
 #'
 #' @rdname mod_game_params
 #'
 #' @keywords internal
-#' @export 
-#' @importFrom shiny NS tagList 
-mod_game_params_ui <- function(id){
+#' @export
+#' @importFrom shiny NS tagList
+mod_game_params_ui <- function(id) {
   ns <- NS(id)
-  
+
   # custom reload button
   reload_bttn <- f7Button(
-    inputId = ns("options"), 
+    inputId = ns("options"),
     fill = FALSE
   )
-  
+
   reload_bttn$name <- "a"
   reload_bttn$attribs$type <- NULL
   reload_bttn$attribs$class <- "tab-link f7-action-button"
   reload_bttn$children <- NULL
   reload_bttn <- tagAppendChildren(
-    reload_bttn, 
+    reload_bttn,
     f7Icon("hammer_fill"),
     span(class = "tabbar-label", "Options")
   )
-  
+
   sheetTag <- f7Sheet(
     id = ns("game_params_sheet"),
     orientation = "bottom",
@@ -76,7 +76,7 @@ mod_game_params_ui <- function(id){
       tags$div(" ", style = "margin-bottom: 1cm;")
     )
   )
-  
+
   tagList(
     reload_bttn,
     sheetTag,
@@ -103,12 +103,11 @@ mod_game_params_ui <- function(id){
         }
       });
       ",
-      ns("game_params_sheet"),
-      ns("game_params_sheet")
+        ns("game_params_sheet"),
+        ns("game_params_sheet")
       )
     )
   )
-  
 }
 
 # Module Server
@@ -117,47 +116,53 @@ mod_game_params_ui <- function(id){
 #' @export
 #' @keywords internal
 mod_game_params_server <- function(id, r) {
-  moduleServer(id, function(input, output, session){
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
     ### The user chooses a difficutlty and it determines several parameters :
     # size of the grid, number of mines, leaflet zoom level
     observeEvent(input$level, {
-      r$settings <- difficulty[difficulty$Level == input$level,]
+      r$settings <- difficulty[difficulty$Level == input$level, ]
     })
-    
+
     ### Reset parameters when the user changes the difficulty or clicks on reload button
-    observeEvent({
-      r$settings
-      input$action1_button == 1
-      1
-    },{
-      r$click$counter <- 0 # reset click counter
-      r$mod_timer$seconds <- 0 # reset timer
-      r$mod_grid$playing <- "onload" # reset current playing status
-      r$mod_grid$start  <- FALSE # reset game started
-      # generate game grid
-      r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
-    })
-    
-    # handle the case where the user trigger a bomb on first click
-    observeEvent({
-      r$mod_grid$playing == "loose"
-    },{
-      if (r$mod_grid$playing == "loose" & r$click$counter == 1) {
-        shinyjs::delay(3000, {
-          r$click$counter <- 0 # reset click counter
-          r$mod_timer$seconds <- 0 # reset timer
-          r$mod_grid$playing <- "onload" # reset current playing status
-          r$mod_grid$start  <- FALSE # reset game started
-          # generate game grid
-          r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
-        }) 
+    observeEvent(
+      {
+        r$settings
+        input$action1_button == 1
+        1
+      },
+      {
+        r$click$counter <- 0 # reset click counter
+        r$mod_timer$seconds <- 0 # reset timer
+        r$mod_grid$playing <- "onload" # reset current playing status
+        r$mod_grid$start <- FALSE # reset game started
+        # generate game grid
+        r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
       }
-    })
-    
-    
+    )
+
+    # handle the case where the user trigger a bomb on first click
+    observeEvent(
+      {
+        r$mod_grid$playing == "loose"
+      },
+      {
+        if (r$mod_grid$playing == "loose" & r$click$counter == 1) {
+          shinyjs::delay(3000, {
+            r$click$counter <- 0 # reset click counter
+            r$mod_timer$seconds <- 0 # reset timer
+            r$mod_grid$playing <- "onload" # reset current playing status
+            r$mod_grid$start <- FALSE # reset game started
+            # generate game grid
+            r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
+          })
+        }
+      }
+    )
+
+
     # sheet trigger. Only works if the timer is 0 (meaning that the game is not running).
-    # Change refresh data reactiveValues status to send back to the 
+    # Change refresh data reactiveValues status to send back to the
     # display score module. Only run when the game is not launched.
     observeEvent(input$action1_button, {
       req(r$mod_timer$seconds == 0)
@@ -173,18 +178,17 @@ mod_game_params_server <- function(id, r) {
         )
       }
     })
-    
-    
+
+
     # Manually change user nickname during the game.
     # This will overwrite the cookie...
     observeEvent(input$newNickname, {
       r$cookies$user <- input$newNickname
     })
-    
-    
+
+
     # trigger action sheet when click on options button
     observeEvent(input$options, {
-      
       buttons <- if (r$mod_timer$seconds == 0) {
         list(
           list(
@@ -208,28 +212,29 @@ mod_game_params_server <- function(id, r) {
           )
         )
       }
-      
+
       # some list may be NULL and we don't want them!
       buttons <- dropNulls(buttons)
-      
+
       sheetProps <- list(grid = TRUE, id = ns("action1"), buttons = buttons)
       do.call(f7ActionSheet, sheetProps)
     })
-    
-    
+
+
     # warrior mode
     observeEvent(
-      input$warrior
-      , {
+      input$warrior,
+      {
         r$warrior$mode <- input$warrior
-      })
-    
-    
+      }
+    )
+
+
     # scores auto refresh
     observeEvent(input$scoresAutorefresh, {
       r$mod_scores$autoRefresh <- input$scoresAutorefresh
     })
-    
+
     # global theme (transform checkboxes in radio like)
     observe({
       shinyjs::runjs(
@@ -243,7 +248,7 @@ mod_game_params_server <- function(id, r) {
           $('#", ns("globalThemeDark"), "').addClass('disabled');
           Shiny.setInputValue('", ns("globalTheme"), "', 'light');
         });
-        
+
         $('.bg-color-black').on('click', function() {
           $('#", ns("globalThemeDark"), "').prop('checked', true);
           if ($('#", ns("globalThemeLight"), "').prop('checked')) {
@@ -257,8 +262,8 @@ mod_game_params_server <- function(id, r) {
         )
       )
     })
-    
-    
+
+
     # send R values to JS for global theme setting
     # and expose theme color to other modules
     observe({
@@ -266,7 +271,7 @@ mod_game_params_server <- function(id, r) {
         type = "global-theme-setup",
         message = input$globalTheme
       )
-      
+
       req(input$globalTheme)
       r$theme$color <- input$globalTheme
     })
@@ -278,4 +283,3 @@ mod_game_params_server <- function(id, r) {
 
 ## To be copied in the server
 # callModule(mod_game_params_server, "game_params_ui_1")
-

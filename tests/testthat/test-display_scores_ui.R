@@ -32,7 +32,7 @@ test_that("scores UI Tab sheet", {
   # sheet trigger
   expect_equal(sheetUI[[1]]$name, "button")
   expect_equal(sheetUI[[1]]$attribs$id, "scores_ui-scoresOpts")
-  
+
   # sheet content
   sheetTag <- sheetUI[[2]]
   # [[1]] is ths JS binding, [[2]] is the CSS, [[3]] is the HTML content
@@ -49,7 +49,7 @@ test_that("scores UI searchbar", {
   expect_length(searchBarUI$children, 2)
   searchBarTriggerUI <- searchBarUI$children[[1]]
   expect_equal(searchBarTriggerUI$attribs$`data-searchbar`, "#scores_ui-searchScore")
-  
+
   # the searchbar tag is composed of a JavaScript part and the HTML part
   searchBarTag <- searchBarUI$children[[2]]
   expect_length(searchBarTag, 2)

@@ -19,17 +19,17 @@ updateF7Login <- function(id, user = NULL, session = shiny::getDefaultReactiveDo
 
 
 #' Create connection to a Postgres database.
-#' 
+#'
 #' Parameters are extracted from Golem options
 #' which is convenient to keep credentials secrets
 #' @export
 createDBCon <- function() {
   DBI::dbConnect(
-    RPostgres::Postgres(), 
-    dbname = golem::get_golem_options("dbname"), 
-    host = golem::get_golem_options("dbhost"), 
-    port = golem::get_golem_options("dbport"), 
-    user = golem::get_golem_options("dbuser"), 
+    RPostgres::Postgres(),
+    dbname = golem::get_golem_options("dbname"),
+    host = golem::get_golem_options("dbhost"),
+    port = golem::get_golem_options("dbport"),
+    user = golem::get_golem_options("dbuser"),
     password = golem::get_golem_options("dbpwd")
   )
 }
@@ -61,18 +61,18 @@ f7SubNavbar <- function(...) {
 }
 
 #' Validate a nickname provided by the user.
-#' 
+#'
 #' Used by the \link{mod_welcome_server} module
 #'
 #' @param char Nickname.
 #'
 #' @return Boolean
 #' @export
-validate_nickname <- function(char){
+validate_nickname <- function(char) {
   valid <- TRUE
   cond <- c(
     nchar(char) <= 20,
-    nchar(char) >=2,
+    nchar(char) >= 2,
     grepl("^[a-zA-Z0-9]*$", char)
   )
   if (!all(cond)) valid <- FALSE

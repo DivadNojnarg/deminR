@@ -2,50 +2,54 @@ library(xml2)
 library(shiny)
 
 difficulty <- data.frame(
-    Level = c("Beginner", "Intermediate", "Advanced"),
-    Size = c(6,9,12),
-    Mines = c(5,10,20),
-    Zoom = c(5.8,5.8,5.4),
-    stringsAsFactors = FALSE
-  )
+  Level = c("Beginner", "Intermediate", "Advanced"),
+  Size = c(6, 9, 12),
+  Mines = c(5, 10, 20),
+  Zoom = c(5.8, 5.8, 5.4),
+  stringsAsFactors = FALSE
+)
 
 context("Game info server")
 
-tryCatch({
-    testServer(mod_game_info_server, {
+tryCatch(
+  {
+    testServer(mod_game_info_server,
+      {
+        # Testing timer
+        active(TRUE)
+        session$elapse(1000)
+        expect_equal(r$mod_timer$seconds > 0, TRUE)
 
-      # Testing timer
-      active(TRUE)
-      session$elapse(1000)
-      expect_equal(r$mod_timer$seconds > 0, TRUE)
+        # Testing difficulty badge
+        r$settings <- difficulty[difficulty$Level == "Intermediate", ]
+        r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
+        session$flushReact()
+        expect_equal(grepl("Intermediate", output$difficultyBadge$html, fixed = TRUE), TRUE)
+        expect_equal(grepl("deeporange", output$difficultyBadge$html, fixed = TRUE), TRUE)
+        expect_equal(grepl("Beginner", output$difficultyBadge$html, fixed = TRUE), FALSE)
 
-      # Testing difficulty badge
-      r$settings = difficulty[difficulty$Level == "Intermediate",]
-      r$mod_grid$data = generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
-      session$flushReact()
-      expect_equal(grepl("Intermediate",output$difficultyBadge$html ,fixed = TRUE), TRUE)
-      expect_equal(grepl("deeporange",output$difficultyBadge$html ,fixed = TRUE), TRUE)
-      expect_equal(grepl("Beginner",output$difficultyBadge$html ,fixed = TRUE), FALSE)
-      
-      # Testing remaining bombs
-      expect_equal(xml_text(xml_find_all(read_html(output$bombs$html), '//*[@class="chip-label"]/text()')), "10")
-      r$settings = difficulty[difficulty$Level == "Advanced",]
-      r$mod_grid$data = generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
-      session$flushReact()
-      expect_equal(xml_text(xml_find_all(read_html(output$bombs$html), '//*[@class="chip-label"]/text()')), "20")
-      
-    }, args = list(
-      r = reactiveValues(
-        mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
-        mod_timer = reactiveValues(seconds = 0),
-        cookies = reactiveValues(user = "toto"), 
-        settings = reactiveValues(Level = "Beginner")
+        # Testing remaining bombs
+        expect_equal(xml_text(xml_find_all(read_html(output$bombs$html), '//*[@class="chip-label"]/text()')), "10")
+        r$settings <- difficulty[difficulty$Level == "Advanced", ]
+        r$mod_grid$data <- generate_spatial_grid(N = r$settings$Size, n_mines = r$settings$Mines)
+        session$flushReact()
+        expect_equal(xml_text(xml_find_all(read_html(output$bombs$html), '//*[@class="chip-label"]/text()')), "20")
+      },
+      args = list(
+        r = reactiveValues(
+          mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
+          mod_timer = reactiveValues(seconds = 0),
+          cookies = reactiveValues(user = "toto"),
+          settings = reactiveValues(Level = "Beginner")
+        )
       )
-    ))
-  }, error = function(e){
+    )
+  },
+  error = function(e) {
     print("There was an error!")
     print(e)
-})
+  }
+)
 
 
 # Running example of module alone
@@ -65,9 +69,8 @@ tryCatch({
 #     callModule(mod_game_info_server, "test", r = reactiveValues(
 #       mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
 #       mod_timer = reactiveValues(),
-#       cookies = reactiveValues(user = "toto"), 
+#       cookies = reactiveValues(user = "toto"),
 #       settings = reactiveValues(Level = "Beginner")
 #     ))
 #   }
 # )
-

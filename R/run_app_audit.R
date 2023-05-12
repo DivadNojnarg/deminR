@@ -9,10 +9,10 @@
 #' @import shiny
 #' @importFrom golem with_golem_options
 run_app_audit <- function(onStart = NULL, # nolint
-                    options = list(),
-                    enableBookmarking = NULL, # nolint
-                    uiPattern = "/", # nolint
-                    ...) {
+                          options = list(),
+                          enableBookmarking = NULL, # nolint
+                          uiPattern = "/", # nolint
+                          ...) {
   # serve js tools for Monkey test (in case proxy blocks external scripts)
   addResourcePath("gremlins", "inst/shinyValidator-js")
   # DON'T CHANGE (INTERNAL TO SHINYVALIDATOR)

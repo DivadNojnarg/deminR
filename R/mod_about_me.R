@@ -5,10 +5,10 @@
 #' @param id Module id.
 #' @param r cross module variable
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_about_me_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_about_me_ui <- function(id) {
   ns <- NS(id)
   tagList(
     # ghost div to ensure proper float-right alignement of the link
@@ -34,38 +34,38 @@ mod_about_me_ui <- function(id){
     )
   )
 }
-    
+
 #' about_me Server Function
 #'
-#' @noRd 
+#' @noRd
 mod_about_me_server <- function(id, r) {
-  moduleServer(id, function(input, output, session){
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
     observeEvent(r$currentTab$val, {
       shinyjs::toggle(id = "openProfile", condition = r$currentTab$val != "scores")
       shinyjs::toggle(id = "subnavGhost", condition = r$currentTab$val != "scores")
     })
-    
+
     observeEvent(input$openProfile, {
       updateF7Sheet("aboutMeSheet")
     })
-    
+
     output$userName <- renderUI({
       req(r$cookies$user)
       p(class = "margin", r$cookies$user)
     })
-    
+
     output$myDevice <- renderUI({
       req(r$device$info$os)
       f7Block(
         h4("OS:", f7Badge(r$device$info$os))
       )
     })
-    
+
     output$workerId <- renderUI({
       f7Block(
         h4(
-          "Worker Id:", 
+          "Worker Id:",
           if (session$clientData$url_hostname == "127.0.0.1") {
             f7Badge("Local")
           } else {
@@ -80,10 +80,9 @@ mod_about_me_server <- function(id, r) {
     })
   })
 }
-    
+
 ## To be copied in the UI
 # mod_about_me_ui("about_me_ui_1")
-    
+
 ## To be copied in the server
 # callModule(mod_about_me_server, "about_me_ui_1")
- 

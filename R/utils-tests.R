@@ -3,12 +3,12 @@
 makeAttrs <- function(node) {
   attrs <- xmlAttrs(node)
   names(attrs) %>%
-    Map(function (name) {
+    Map(function(name) {
       val <- attrs[[name]]
       if (str_detect(string = name, pattern = "-")) {
         name <- paste0("`", name, "`")
       }
-      paste0(name, ' = ', if (val == "") "NA" else paste0('"', val, '"'))
+      paste0(name, " = ", if (val == "") "NA" else paste0('"', val, '"'))
     }, .)
 }
 
@@ -51,10 +51,10 @@ renderNode <- function(node, indent = 0, prefix = FALSE) {
 #' @importFrom XML htmlParse getNodeSet
 html2R <- function(htmlStr, prefix = FALSE) {
   htmlStr %>%
-    htmlParse %>%
+    htmlParse() %>%
     getNodeSet("/html/body/*") %>%
     `[[`(1) %>%
     renderNode(prefix = prefix) %>%
-    parse(text = .) %>% 
+    parse(text = .) %>%
     eval()
 }

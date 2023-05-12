@@ -2,10 +2,10 @@ context("golem tests")
 
 library(golem)
 
-#test_that("app ui", {
+# test_that("app ui", {
 #  ui <- app_ui()
 #  expect_shinytaglist(ui)
-#})
+# })
 
 test_that("app server", {
   server <- app_server
@@ -13,15 +13,15 @@ test_that("app server", {
 })
 
 # Configure this test to fit your need
-#test_that(
+# test_that(
 #  "app launches",{
 #    skip_on_cran()
 #    skip_on_travis()
 #    skip_on_appveyor()
 #    x <- processx::process$new(
-#      "R", 
+#      "R",
 #      c(
-#        "-e", 
+#        "-e",
 #        "setwd('../../'); pkgload::load_all();run_app()"
 #      )
 #    )
@@ -29,12 +29,4 @@ test_that("app server", {
 #    expect_true(x$is_alive())
 #    x$kill()
 #  }
-#)
-
-
-
-
-
-
-
-
+# )

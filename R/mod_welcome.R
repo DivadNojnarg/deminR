@@ -9,16 +9,16 @@
 #' @rdname mod_welcome
 #'
 #' @keywords internal
-#' @export 
-#' @importFrom shiny NS tagList 
+#' @export
+#' @importFrom shiny NS tagList
 #' @importFrom glouton add_cookie fetch_cookies
-mod_welcome_ui <- function(id){
+mod_welcome_ui <- function(id) {
   ns <- NS(id)
-  
+
   submitBttn <- f7Button(inputId = ns("login"), label = "Submit")
   submitBttn$attribs$class <- "item-link list-button f7-action-button"
   submitBttn$name <- "a"
-  
+
   shiny::tags$div(
     id = ns("loginPage"),
     `data-start-open` = "true",
@@ -30,7 +30,7 @@ mod_welcome_ui <- function(id){
         shiny::tags$div(
           class = "page-content login-screen-content",
           shiny::tags$div(class = "login-screen-title", "Welcome to deminR"),
-          
+
           # inputs
           shiny::tags$form(
             shiny::tags$div(
@@ -46,9 +46,10 @@ mod_welcome_ui <- function(id){
               class = "list",
               shiny::tags$ul(shiny::tags$li(submitBttn)),
               shiny::tags$div(
-                class = "block-footer", 
+                class = "block-footer",
                 "Made with love :). Disclaimer: we are not responsible if you become
-                addicted!")
+                addicted!"
+              )
             )
           )
         )
@@ -65,19 +66,23 @@ mod_welcome_ui <- function(id){
 mod_welcome_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
-    # This part only runs if there is no cookie containing her/his name. 
-    # I used a modified version of glouton by Colin Fay (the original 
+
+    # This part only runs if there is no cookie containing her/his name.
+    # I used a modified version of glouton by Colin Fay (the original
     # does not work with modules).
     # open the page if not already (in case of local authentication)
-    observeEvent(fetch_cookies(), {
-      r$cookies <- fetch_cookies()
-      if (is.null(r$cookies$user)) {
-        if (!input$loginPage) updateF7Login(id = "loginPage")
-      }
-    }, once = TRUE, priority = 10000)
-    
-    
+    observeEvent(fetch_cookies(),
+      {
+        r$cookies <- fetch_cookies()
+        if (is.null(r$cookies$user)) {
+          if (!input$loginPage) updateF7Login(id = "loginPage")
+        }
+      },
+      once = TRUE,
+      priority = 10000
+    )
+
+
     # toggle the login only if not authenticated
     authenticated <- reactiveVal(FALSE)
     observeEvent(input$login, {
@@ -89,7 +94,7 @@ mod_welcome_server <- function(id, r) {
             id = "loginPage",
             user = input$login_user
           )
-          authenticated(TRUE) 
+          authenticated(TRUE)
         } else {
           # if invalid nickname, display a message saying to enter a valid nickname
           f7Dialog(
@@ -100,15 +105,15 @@ mod_welcome_server <- function(id, r) {
         }
       }
     })
-    
-    
+
+
     # add user to the cookies list
     observeEvent(input$login_user, {
       req(input$login_user)
       add_cookie("user", input$login_user)
     })
-    
-    
+
+
     return(reactive(input$loginPage))
   })
 }
@@ -118,4 +123,3 @@ mod_welcome_server <- function(id, r) {
 
 ## To be copied in the server
 # callModule(mod_welcome_server, "welcome_ui_1")
-

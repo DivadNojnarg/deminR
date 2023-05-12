@@ -9,19 +9,18 @@
 #' @rdname mod_game_info
 #'
 #' @keywords internal
-#' @export 
-#' @importFrom shiny NS tagList 
+#' @export
+#' @importFrom shiny NS tagList
 #' @importFrom lubridate today
-mod_game_info_ui <- function(id){
+mod_game_info_ui <- function(id) {
   ns <- NS(id)
   tagList(
     f7Row(
-      uiOutput(ns("difficultyBadge")) ,
+      uiOutput(ns("difficultyBadge")),
       uiOutput(ns("timer")),
       uiOutput(ns("bombs"))
     ) %>% f7Margin()
   )
-  
 }
 
 # Module Server
@@ -30,30 +29,30 @@ mod_game_info_ui <- function(id){
 #' @export
 #' @keywords internal
 mod_game_info_server <- function(id, r) {
-  moduleServer(id, function(input, output, session){
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
+
     output$difficultyBadge <- renderUI({
       f7Chip(
         label = r$settings$Level,
-        status = switch (r$settings$Level,
-                         "Beginner" = "teal",
-                         "Intermediate" = "deeporange",
-                         "Advanced" = "red"
+        status = switch(r$settings$Level,
+          "Beginner" = "teal",
+          "Intermediate" = "deeporange",
+          "Advanced" = "red"
         )
       )
     })
-    
+
     # bombs counter UI
     output$bombs <- renderUI({
       res <- r$mod_grid$data
       n_b <- sum(res$value == -999)
       f7Chip(
         icon = f7Icon("burst"),
-        label = as.character(n_b - sum(res$flag & res$hide)) 
+        label = as.character(n_b - sum(res$flag & res$hide))
       )
     })
-    
+
     # timer UI
     output$timer <- renderUI({
       f7Chip(
@@ -61,11 +60,11 @@ mod_game_info_server <- function(id, r) {
         label = r$mod_timer$seconds
       )
     })
-    
+
     # initialize timer activation
     active <- reactiveVal(FALSE)
-    
-    
+
+
     # activate the timer
     observeEvent(r$mod_grid$start, {
       if (r$mod_grid$start) {
@@ -74,7 +73,7 @@ mod_game_info_server <- function(id, r) {
         active(FALSE)
       }
     })
-    
+
     # observer that invalidates every 0.01 second. If timer is active, increase by one.
     observe({
       invalidateLater(1000, session)
@@ -84,7 +83,7 @@ mod_game_info_server <- function(id, r) {
         }
       })
     })
-    
+
     # Feedback on game status. We wait for the timer to be ok.
     observeEvent(r$mod_grid$playing, {
       if (r$mod_grid$playing != "onload") {
@@ -100,7 +99,7 @@ mod_game_info_server <- function(id, r) {
           },
           icon = f7Icon("bolt_fill"),
           title = "Woooop!"
-        ) 
+        )
       }
     })
   })
@@ -111,4 +110,3 @@ mod_game_info_server <- function(id, r) {
 
 ## To be copied in the server
 # callModule(mod_game_info_server, "game_info_ui_1")
-

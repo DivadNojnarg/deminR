@@ -3,46 +3,47 @@ library(shiny)
 context("Game grid server")
 
 
-testServer(mod_game_grid_server, {
-  # Simulate left click
-  session$setInputs(map_grid_shape_click = list(id = "case-1"))
-  # we expect at least one case to be revealed
-  expect_equal(sum(!r$mod_grid$data$hide) > 0, TRUE)
-  
-  # Reset the grid
-  r$mod_grid$data = generate_spatial_grid(N = 6, n_mines= 5)
-  session$flushReact()
-  
-  # # Simulate right click
-  session$setInputs(right_click = list(id = "case-1"))
-  # # We expect the case to be flagged
-  expect_equal(r$mod_grid$data$flag[r$mod_grid$data$ID == "case-1"], TRUE)
-  
-  # Reset the grid
-  r$mod_grid$data = generate_spatial_grid(N = 6, n_mines= 5)
-  session$flushReact()
-  
-  # Simulate win of game (all bombs flagged and all non bombs revealed)
-  r$mod_grid$data$hide[r$mod_grid$data$value == -999] <- TRUE
-  r$mod_grid$data$hide[r$mod_grid$data$value != -999] <- FALSE
-  session$flushReact()
-  # Expect game status to be won
-  expect_equal(r$mod_grid$playing, "won")
-  
-  # Reset the grid
-  r$mod_grid$data <- generate_spatial_grid(N = 6, n_mines= 5)
-  r$mod_grid$playing <- "onload"
-  session$flushReact()
-  
-  # Simulate loose of game
-  bomb_id <- r$mod_grid$data$ID[r$mod_grid$data$value ==-999][1]
-  session$setInputs(map_grid_shape_click = list(id = bomb_id))
-  # Expect game status to be loose
-  expect_equal(r$mod_grid$playing, "loose")
+testServer(mod_game_grid_server,
+  {
+    # Simulate left click
+    session$setInputs(map_grid_shape_click = list(id = "case-1"))
+    # we expect at least one case to be revealed
+    expect_equal(sum(!r$mod_grid$data$hide) > 0, TRUE)
+
+    # Reset the grid
+    r$mod_grid$data <- generate_spatial_grid(N = 6, n_mines = 5)
+    session$flushReact()
+
+    # # Simulate right click
+    session$setInputs(right_click = list(id = "case-1"))
+    # # We expect the case to be flagged
+    expect_equal(r$mod_grid$data$flag[r$mod_grid$data$ID == "case-1"], TRUE)
+
+    # Reset the grid
+    r$mod_grid$data <- generate_spatial_grid(N = 6, n_mines = 5)
+    session$flushReact()
+
+    # Simulate win of game (all bombs flagged and all non bombs revealed)
+    r$mod_grid$data$hide[r$mod_grid$data$value == -999] <- TRUE
+    r$mod_grid$data$hide[r$mod_grid$data$value != -999] <- FALSE
+    session$flushReact()
+    # Expect game status to be won
+    expect_equal(r$mod_grid$playing, "won")
+
+    # Reset the grid
+    r$mod_grid$data <- generate_spatial_grid(N = 6, n_mines = 5)
+    r$mod_grid$playing <- "onload"
+    session$flushReact()
+
+    # Simulate loose of game
+    bomb_id <- r$mod_grid$data$ID[r$mod_grid$data$value == -999][1]
+    session$setInputs(map_grid_shape_click = list(id = bomb_id))
+    # Expect game status to be loose
+    expect_equal(r$mod_grid$playing, "loose")
   },
   args = list(
     r = reactiveValues(
-      mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines= 5)),
+      mod_grid = reactiveValues(playing = "onload", start = FALSE, data = generate_spatial_grid(N = 6, n_mines = 5)),
       mod_timer = reactiveValues(),
       mod_bomb = reactiveValues(),
       mod_scores = reactiveValues(refresh = NULL, sendToChat = NULL, autoRefresh = NULL),
@@ -79,7 +80,7 @@ testServer(mod_game_grid_server, {
 #   ),
 #   server = function(input, output, session) {
 #     callModule(mod_game_grid_server, "test", r = reactiveValues(
-#       mod_grid = reactiveValues(playing = "onload", start = FALSE, 
+#       mod_grid = reactiveValues(playing = "onload", start = FALSE,
 #                                 data = generate_spatial_grid(N = 6, n_mines = 5)),
 #       mod_timer = reactiveValues(seconds = 0),
 #       mod_bomb = reactiveValues(),

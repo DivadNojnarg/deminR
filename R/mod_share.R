@@ -10,9 +10,9 @@
 #' @importFrom glue glue
 #'
 #' @keywords internal
-#' @export 
-#' @importFrom shiny NS tagList 
-mod_share_ui <- function(id){
+#' @export
+#' @importFrom shiny NS tagList
+mod_share_ui <- function(id) {
   ns <- NS(id)
   tagList(
     uiOutput(ns("shareToolbar")),
@@ -29,7 +29,7 @@ mod_share_ui <- function(id){
 mod_share_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
+
     output$shareFabs <- renderUI({
       req(r$mod_grid$playing == "won")
       f7Fabs(
@@ -42,11 +42,11 @@ mod_share_server <- function(id, r) {
         morphTarget = ".toolbar"
       )
     })
-    
+
     output$shareToolbar <- renderUI({
       # only displayed after a victory
       req(r$mod_grid$playing == "won")
-      
+
       # prepare the share button
       shareChatBttn <- f7Button(
         inputId = ns("shareChat"),
@@ -55,39 +55,39 @@ mod_share_server <- function(id, r) {
       shareChatBttn$name <- "a"
       shareChatBttn$attribs$type <- NULL
       shareChatBttn$attribs$class <- "link fab-close f7-action-button"
-      
+
       f7Toolbar(
         position = "top",
-        style = if(r$device$info$os %in% c("ios", "macos")) {
+        style = if (r$device$info$os %in% c("ios", "macos")) {
           "margin-top: 44px;"
         },
         shareChatBttn,
-        a(class = "link twitter-share-button external",
+        a(
+          class = "link twitter-share-button external",
           href = glue(
-            user = r$cookies$user, 
-            score = r$mod_timer$seconds, 
+            user = r$cookies$user,
+            score = r$mod_timer$seconds,
             level = r$settings$Level,
             deviceinfo = r$device$deviceType,
             clicks = r$click$counter,
-            "https://twitter.com/intent/tweet?text=mineSweeper+score+for+{user}+in+{level}+level%3A+{score}+seconds+in+{clicks}+clicks%2C+yeay+%21+%23rstats+Try+at+https%3A%2F%2Fdgranjon.shinyapps.io%2FdeminR%2F + pic.twitter.com/XkO6sq2zQK"),
+            "https://twitter.com/intent/tweet?text=mineSweeper+score+for+{user}+in+{level}+level%3A+{score}+seconds+in+{clicks}+clicks%2C+yeay+%21+%23rstats+Try+at+https%3A%2F%2Fdgranjon.shinyapps.io%2FdeminR%2F + pic.twitter.com/XkO6sq2zQK"
+          ),
           `data-size` = "large",
           onclick = paste0("Shiny.setInputValue(", ns("shareTwitter"), ", true)"),
           f7Icon("logo_twitter", old = TRUE)
         ) %>% f7FabClose()
       ) %>% f7FabMorphTarget()
     })
-    
+
     # send to chat signal
     observeEvent(input$shareChat, {
       r$mod_scores$sendToChat <- paste("My score: ", r$mod_timer$seconds)
     })
   })
 }
-  
-  ## To be copied in the UI
-  # mod_share_ui("share_ui_1")
-  
-  ## To be copied in the server
-  # callModule(mod_share_server, "share_ui_1")
-  
-  
+
+## To be copied in the UI
+# mod_share_ui("share_ui_1")
+
+## To be copied in the server
+# callModule(mod_share_server, "share_ui_1")
