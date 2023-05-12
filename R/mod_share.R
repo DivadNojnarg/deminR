@@ -50,7 +50,7 @@ mod_share_server <- function(id, r) {
       # prepare the share button
       shareChatBttn <- f7Button(
         inputId = ns("shareChat"),
-        label = f7Icon("chat_bubble_2", old = FALSE)
+        label = f7Icon("chat_bubble_2")
       )
       shareChatBttn$name <- "a"
       shareChatBttn$attribs$type <- NULL
@@ -74,7 +74,7 @@ mod_share_server <- function(id, r) {
           ),
           `data-size` = "large",
           onclick = paste0("Shiny.setInputValue(", ns("shareTwitter"), ", true)"),
-          f7Icon("logo_twitter", old = TRUE)
+          f7Icon("logo_twitter")
         ) %>% f7FabClose()
       ) %>% f7FabMorphTarget()
     })

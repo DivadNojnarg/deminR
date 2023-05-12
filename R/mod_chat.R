@@ -123,7 +123,7 @@ mod_chat_server <- function(id, r) {
         avatar = "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
       )
 
-      f7AddMessages(id = "mymessages", list(message_to_send))
+      updateF7Messages(id = "mymessages", list(message_to_send))
 
       con <- createDBCon()
 
